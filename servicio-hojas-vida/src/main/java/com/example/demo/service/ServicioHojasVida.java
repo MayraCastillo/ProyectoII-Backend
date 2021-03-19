@@ -24,6 +24,15 @@ public interface ServicioHojasVida {
 	
 	
 	/**
+	 * Retorna una hoja de vida por su id, osea por su numero de identificacion
+	 * 	
+	 * @param pHojaVidaId numero de identificacion de la persona dueña de la hoja de vida
+	 * @return Hoja de vida, en caso de ser encontrada
+	 */
+	public HojaVida buscarHojaVidaPorId(Long pHojaVidaId);
+	
+	
+	/**
 	 * Nueva hoja de vida del sistema
 	 * 
 	 * @param pHojaVida Hoja de vida que se va a registrar

@@ -69,6 +69,14 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 		
 		return hojasVidaEncontradas;
 	}
+	
+	@Override
+	public HojaVida buscarHojaVidaPorId(Long pHojaVidaId) {
+		if(pHojaVidaId != null) {
+			return this.miRepositorioHojasVida.findById(pHojaVidaId).orElse(null);
+		}
+		return null;
+	}
 
 	@Override
 	public HojaVida registrarHojaVida(HojaVida pHojaVida) {		
