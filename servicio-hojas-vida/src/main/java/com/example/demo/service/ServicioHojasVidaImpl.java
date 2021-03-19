@@ -6,14 +6,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.RequiredArgsConstructor;
 
 import com.example.demo.entity.Estudio;
 import com.example.demo.entity.ExperienciaLaboral;
 import com.example.demo.entity.HojaVida;
-import com.example.demo.entity.InstitucionEducativa;
 import com.example.demo.entity.ReferenciaFamiliar;
 import com.example.demo.entity.ReferenciaPersonal;
 import com.example.demo.repository.EstudiosDAO;
