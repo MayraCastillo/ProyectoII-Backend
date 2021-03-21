@@ -90,7 +90,9 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 			hvEncontrada = this.miRepositorioHojasVida.findById(pHojaVidaId).orElse(null);
 			
 			// Agregar informacion de la ubicacion
-			hvEncontrada.setMunicipio(this.consultarMunicipio(hvEncontrada.getMunicipioId()));
+			if(hvEncontrada != null) {
+				hvEncontrada.setMunicipio(this.consultarMunicipio(hvEncontrada.getMunicipioId()));
+			}
 		}
 		return hvEncontrada;
 	}
