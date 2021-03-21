@@ -95,5 +95,10 @@ public class IubicacionServiceIml implements IubicacionService {
 		return municipioDAO.listarMunicipiosPorDepartamento(pDepartamento);
 	}
 
+	@Override
+	public Municipio buscarMunicipioPorId(Long pMunicipioId) {
+		return municipioDAO.findById(pMunicipioId).orElse(null);
+	}
+
 
 }

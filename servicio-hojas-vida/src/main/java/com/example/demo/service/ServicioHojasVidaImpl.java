@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,6 +15,8 @@ import com.example.demo.entity.ExperienciaLaboral;
 import com.example.demo.entity.HojaVida;
 import com.example.demo.entity.ReferenciaFamiliar;
 import com.example.demo.entity.ReferenciaPersonal;
+import com.example.demo.feign_client.EmpresaClient;
+import com.example.demo.model.Municipio;
 import com.example.demo.repository.EstudiosDAO;
 import com.example.demo.repository.ExperienciasLaboralesDAO;
 import com.example.demo.repository.HojasVidaDAO;
@@ -47,6 +50,13 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 	@Autowired
     private ServicioInstitucionesEducativas miServicioInstitucionesEducativas;	
 	
+	/**
+	 * Referencia al servicio de la empresa, utilizando inyeccion de dependencias
+	 * automatizado por el framework 
+	 */
+	@Autowired	
+	EmpresaClient clienteEmpresa;
+	
 	
 	
 	
@@ -67,19 +77,26 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 		// Busca todas las hojas de vida del sistema
 		List<HojaVida> hojasVidaEncontradas = miRepositorioHojasVida.findAll();
 		
+		// Agrega la in formacion de los municipios, proveniente del microservicio de la empresa
+		this.agregarUbicacion(hojasVidaEncontradas);
+		
 		return hojasVidaEncontradas;
 	}
 	
 	@Override
 	public HojaVida buscarHojaVidaPorId(Long pHojaVidaId) {
+		HojaVida hvEncontrada = null;
 		if(pHojaVidaId != null) {
-			return this.miRepositorioHojasVida.findById(pHojaVidaId).orElse(null);
+			hvEncontrada = this.miRepositorioHojasVida.findById(pHojaVidaId).orElse(null);
+			
+			// Agregar informacion de la ubicacion
+			hvEncontrada.setMunicipio(this.consultarMunicipio(hvEncontrada.getMunicipioId()));
 		}
-		return null;
+		return hvEncontrada;
 	}
 
 	@Override
-	public HojaVida registrarHojaVida(HojaVida pHojaVida) {		
+	public HojaVida registrarHojaVida(HojaVida pHojaVida) {			
 		HojaVida nuevaHojaVida = this.guardarHojaVida(pHojaVida);
 		
 		if(nuevaHojaVida != null) {
@@ -99,25 +116,27 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 	 
 	
 	private HojaVida guardarHojaVida(HojaVida pHojaVida) {		
-		// validamos si existe en la base de datos
-		HojaVida nuevaHojaVida = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
-		
-		if(nuevaHojaVida == null) {		
-			nuevaHojaVida= HojaVida.builder()
-					.numeroDocumento(pHojaVida.getNumeroDocumento())
-					.tipoDocumento(pHojaVida.getTipoDocumento())
-					.nombres(pHojaVida.getNombres())
-					.apellidos(pHojaVida.getApellidos())
-					.telefono(pHojaVida.getTelefono())
-					.ciudad(pHojaVida.getCiudad())
-					.departamento(pHojaVida.getDepartamento())
-					.pais(pHojaVida.getPais())
-					.direccion(pHojaVida.getDireccion())
-					.calificacion(pHojaVida.getCalificacion())
-					.build();
+		// El id del municipio es valido?
+		if(this.validarUbicacion(pHojaVida.getMunicipioId())) {		
 			
-			// Guardar la hoja de vida con sus atributos basicos en la BD
-			return miRepositorioHojasVida.save(nuevaHojaVida);	
+			// validamos si existe en la base de datos
+			HojaVida nuevaHojaVida = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
+			
+			if(nuevaHojaVida == null) {		
+				nuevaHojaVida= HojaVida.builder()
+						.numeroDocumento(pHojaVida.getNumeroDocumento())
+						.tipoDocumento(pHojaVida.getTipoDocumento())
+						.nombres(pHojaVida.getNombres())
+						.apellidos(pHojaVida.getApellidos())
+						.telefono(pHojaVida.getTelefono())
+						.municipioId(pHojaVida.getMunicipioId())
+						.direccion(pHojaVida.getDireccion())
+						.calificacion(pHojaVida.getCalificacion())
+						.build();
+				
+				// Guardar la hoja de vida con sus atributos basicos en la BD
+				return miRepositorioHojasVida.save(nuevaHojaVida);	
+			}
 		}
 		
 		return null;				
@@ -212,6 +231,58 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 				}
 			}
 		}
+	}
+		
+	private boolean validarUbicacion(Long pIdMunicipio) {
+		boolean esValido = false;
+		
+		if(pIdMunicipio != null) {
+			Municipio municipioEncontrado = this.consultarMunicipio(pIdMunicipio);
+			if(municipioEncontrado != null) {
+				esValido = true;
+			}
+		}
+		
+		return esValido;
+	}
+	private Municipio consultarMunicipio(Long pIdMunicipio) {
+		if(pIdMunicipio != null) {
+			
+			Municipio municipioEncontrado = null;			
+			try {
+				municipioEncontrado = this.clienteEmpresa.buscarMunPorId(pIdMunicipio);
+				return municipioEncontrado;
+			}catch(Exception e){
+				System.out.println("Error al buscar el municipio");
+			}			
+		}
+		return null;
+	}	
+	private void agregarUbicacion(List<HojaVida> pHojasVida){
+		// Almacena los municipios diferentes encontrados en cada hoja de vida
+		// TODO ¿como variable global?
+		ArrayList<Municipio> cacheMunicipios = new ArrayList<Municipio>();
+				
+		for(HojaVida hv: pHojasVida) {
+			//Si el municipio ya se encontro para otra hoja de vida, no se tiene que pedir de nuevo			 			
+			for(Municipio mun: cacheMunicipios) {
+				if(hv.getMunicipioId().equals(mun.getMunicipio_id())) {
+					hv.setMunicipio(mun);
+					break;
+				}
+			}
+			// no se ha encontrado ese municipio
+			if(hv.getMunicipio() == null){
+				Municipio munEncontrado = this.consultarMunicipio(hv.getMunicipioId());
+				
+				// Lo agrego a la lista de municipios encontrados
+				if(munEncontrado != null) {
+					cacheMunicipios.add(munEncontrado);
+					hv.setMunicipio(munEncontrado);
+				}
+			}
+		}
+		
 	}
 
 }

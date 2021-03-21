@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import com.example.demo.model.Municipio;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -55,14 +57,9 @@ public class HojaVida {
 	@NotNull(message = "El telefono no puede ser nulo")
 	private String telefono;
 	
-	@Column(name = "ciudad")
-	private String ciudad;	
-	
-	@Column(name = "departamento")
-	private String departamento;
-	
-	@Column(name = "pais")
-	private String pais;
+	@Column(name = "municipio_id")
+	@NotNull(message = "El id del municipio no puede ser Nulo") 
+	private Long municipioId;
 	
 	@Column(name = "direccion")
 	private String direccion;
@@ -110,6 +107,10 @@ public class HojaVida {
 	@Valid
 	private List<Estudio> estudios;
 	
-	
+	/**
+	 * Ubicacion de residencia de la persona, municipio, departamento y pais
+	 */
+	@Transient
+	private Municipio municipio;	
 	
 }

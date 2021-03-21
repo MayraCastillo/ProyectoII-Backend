@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 //@RequestMapping
-@RequestMapping (value = "/empresa")
+@RequestMapping (value = "/tercero")
 public class TerceroController {
 
 	

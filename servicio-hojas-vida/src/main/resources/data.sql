@@ -12,14 +12,14 @@ VALUES
 (4, 'Hotel San Martín', '123456789', '123456789'),
 (5, 'Juan Valdez', '123456789', '123456789');
 
-INSERT INTO hojas_vida (numero_documento, tipo_documento, nombres, apellidos, telefono, ciudad, departamento, pais, direccion, calificacion)
+INSERT INTO hojas_vida (numero_documento, tipo_documento, nombres, apellidos, telefono, municipio_id, direccion, calificacion)
 VALUES
-(6, 'CEDULA', 'Jeison', 'Ortiz', '123456789', 'Popayan', 'Cauca', 'Colombia', 'calle 5', 8.0),
-(2, 'CEDULA', 'Mayra', 'Castillo', '123456789', 'Pitalito', 'Huila', 'Colombia', 'calle 5', 8.0),
-(3, 'CEDULA', 'Cristian', 'Lopez', '123456789', 'Popayan', 'Cauca', 'Colombia', 'calle 5', 8.0),
-(5, 'CEDULA', 'Hector', 'Fabio', '123456789', 'Popayan', 'Cauca', 'Colombia', 'calle 5', 8.0),
-(4, 'CEDULA', 'Isabella', 'Peña', '123456789', 'Popayan', 'Cauca', 'Colombia', 'calle 5', 8.0),
-(1, 'CEDULA', 'Ruben', 'Dorado', '123456789', 'La Sierra', 'Cauca', 'Colombia', 'calle 5', 8.0);
+(6, 'CEDULA', 'Jeison', 'Ortiz', '123456789', 1, 'calle 5', 8.0),
+(2, 'CEDULA', 'Mayra', 'Castillo', '123456789', 640, 'calle 5', 8.0),
+(3, 'CEDULA', 'Cristian', 'Lopez', '123456789', 1, 'calle 5', 8.0),
+(5, 'CEDULA', 'Hector', 'Fabio', '123456789', 1, 'calle 5', 8.0),
+(4, 'CEDULA', 'Isabella', 'Peña', '123456789', 1, 'calle 5', 8.0),
+(1, 'CEDULA', 'Ruben', 'Dorado', '123456789', 396, 'calle 5', 8.0);
 
 INSERT INTO referencias_familiares (ref_id, numero_documento, nombres, apellidos, telefono, parentesco)
 VALUES

@@ -165,4 +165,9 @@ public class EmpresaController {
 	public List<Municipio> listarMunPorDepartamento(@PathVariable Long pDepartamentoId){
 		return ubicacionService.listarMunicipiosPorDepartamento(pDepartamentoId);
 	}
+	
+	@GetMapping("/buscarMunicipioPorId/{pMunicipioId}")
+	public Municipio buscarMunPorId(@PathVariable Long pMunicipioId){
+		return ubicacionService.buscarMunicipioPorId(pMunicipioId);
+	}
 }

@@ -16,5 +16,6 @@ public interface IubicacionService {
 	public List<Departamento> listarDepartamentosPorPais(Long pPais);
 	public List<Municipio> listarMunicipiosPorDepartamento(Long pDepartamento);
 	public Departamento buscarDepartamento(Long PIdDepartamento);
+	public Municipio buscarMunicipioPorId(Long pMunicipioId);
 
 }
