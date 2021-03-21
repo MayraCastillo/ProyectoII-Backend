@@ -156,4 +156,13 @@ public class EmpresaController {
 		return contratoService.listarEmpresas();
 	}
 
+	@GetMapping("/listarDepartamentosPorPais/{pPaisId}")
+	public List<Departamento> listarDepPorPais(@PathVariable Long pPaisId) {
+		return ubicacionService.listarDepartamentosPorPais(pPaisId);
+	}
+	
+	@GetMapping("/listarMunicipiosPorDepartamento/{pDepartamentoId}")
+	public List<Municipio> listarMunPorDepartamento(@PathVariable Long pDepartamentoId){
+		return ubicacionService.listarMunicipiosPorDepartamento(pDepartamentoId);
+	}
 }

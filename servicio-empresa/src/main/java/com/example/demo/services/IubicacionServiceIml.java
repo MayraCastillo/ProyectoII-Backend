@@ -84,5 +84,16 @@ public class IubicacionServiceIml implements IubicacionService {
 		return departamentoDAO.findById(PIdTercero).orElse(null);
 	}
 
+	@Override
+	public List<Departamento> listarDepartamentosPorPais(Long pais) {
+		
+		return departamentoDAO.listarDepartamentosPorPais(pais);
+	}
+
+	@Override
+	public List<Municipio> listarMunicipiosPorDepartamento(Long pDepartamento) {
+		return municipioDAO.listarMunicipiosPorDepartamento(pDepartamento);
+	}
+
 
 }

@@ -13,6 +13,8 @@ public interface IubicacionService {
 	public List<Pais> listarPaises();
 	public List<Departamento> listarDepartamentos();
 	public List<Municipio> listarMunicipios();
+	public List<Departamento> listarDepartamentosPorPais(Long pPais);
+	public List<Municipio> listarMunicipiosPorDepartamento(Long pDepartamento);
 	public Departamento buscarDepartamento(Long PIdDepartamento);
 
 }

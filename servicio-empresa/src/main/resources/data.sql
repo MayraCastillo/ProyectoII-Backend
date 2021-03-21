@@ -1,7 +1,20 @@
 INSERT INTO paises (nombre) VALUES ('Colombia');
-INSERT INTO departamentos (pais_id, nombre, codigo) VALUES (1, 'CAUCA', 123);
-INSERT INTO municipios (dep_id, codigo, nombre) VALUES (1, 124, 'popayan');
-INSERT INTO municipios (dep_id, codigo, nombre) VALUES (1, 124, 'cali');
+INSERT INTO departamentos (pais_id, nombre, codigo) VALUES (1, 'Antioquia', 123);
+INSERT INTO departamentos (pais_id, nombre, codigo) VALUES (1, 'Amazonas', 124);
+INSERT INTO departamentos (pais_id, nombre, codigo) VALUES (1, 'Cauca', 125);
+
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (1, 123, 'Caceres');
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (1, 124, 'Caucasia');
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (1, 125, 'El bagre');
+
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (2, 126, 'Leticia');
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (2, 127, 'El encanto');
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (2, 128, 'La chorrera');
+
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (3, 129, 'popayan');
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (3, 130, 'El bordo');
+INSERT INTO municipios (dep_id, codigo, nombre) VALUES (3, 131, 'Santander de quilichao');
+
 INSERT INTO tipo_terceros (nombre, abrevicion) VALUES ('Caja de compesacion familiar', 'CCF');
 INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero', 'Carrera 21A', 'tecero@hotmail.com', '1234', 1);
 INSERT INTO bancos (nombre) VALUES ('BBC');
