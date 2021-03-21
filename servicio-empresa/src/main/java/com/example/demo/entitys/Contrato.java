@@ -17,13 +17,13 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.example.demo.models.ContratoPk;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import models.ContratoPk;
 
 @Entity
 @Table(name = "contratos")
@@ -34,8 +34,8 @@ import models.ContratoPk;
 public class Contrato implements Serializable {
 
 	@EmbeddedId
-	private ContratoPk contratoPk;	
-	@Column(name = "fecha_inicio_contrato",insertable = false, updatable = false)
+	private ContratoPk contratoPk;
+	@Column(name = "fecha_inicio_contrato", insertable = false, updatable = false)
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(iso = ISO.DATE)
 	private Date fechaInicioContrato;
@@ -72,8 +72,11 @@ public class Contrato implements Serializable {
 	@NotEmpty
 	private String estado;
 
-	// private Integer comisiones;
-	// private Integer auxilioExtra;
+	@Column(name = "comisiones")
+	private Integer comisiones;
+	
+	@Column(name = "auxilio_extra")
+	private Integer auxilioExtra;
 
 	private static final long serialVersionUID = -6439404648221250056L;
 
