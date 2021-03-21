@@ -6,8 +6,7 @@ import org.springframework.stereotype.Repository;
 
 
 import com.example.demo.entitys.Contrato;
-
-import models.ContratoPk;
+import com.example.demo.models.ContratoPk;
 
 @Repository
 public interface IcontratoDAO extends JpaRepository<Contrato,ContratoPk> {

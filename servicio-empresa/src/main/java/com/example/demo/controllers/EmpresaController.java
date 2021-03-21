@@ -15,6 +15,7 @@ import com.example.demo.entitys.Banco;
 import com.example.demo.entitys.Contrato;
 import com.example.demo.entitys.Departamento;
 import com.example.demo.entitys.Empleado;
+import com.example.demo.entitys.Empleado_banco;
 import com.example.demo.entitys.Empresa;
 import com.example.demo.entitys.Municipio;
 import com.example.demo.entitys.Pais;
@@ -66,23 +67,29 @@ public class EmpresaController {
 	public Empleado crearMunicipio(@RequestBody Empleado pEmpleado) {
 		return contratoService.crearEmpleado(pEmpleado);
 	}
-	
+
 	@PostMapping(value = "/crearBanco")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Banco crearBanco(@RequestBody Banco pBanco) {
 		return contratoService.crearBanco(pBanco);
 	}
-	
+
 	@PostMapping(value = "/crearEmpresa")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empresa crearEmpresa(@RequestBody Empresa pEmpresa) {
 		return contratoService.crearEmpresa(pEmpresa);
 	}
-	
+
 	@PostMapping(value = "/crearContrato")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Contrato crearBanco(@RequestBody Contrato pContrato) {
 		return contratoService.crearContrato(pContrato);
+	}
+
+	@PostMapping(value = "/crearRelacionEmpleadosBancos")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Empleado_banco crearRelacionEmpBanco(@RequestBody Empleado_banco pEmpleadoBanco) {
+		return contratoService.crearRelacionEmpBanco(pEmpleadoBanco);
 	}
 
 	@GetMapping("/listarTerceros")
@@ -104,53 +111,53 @@ public class EmpresaController {
 	public List<Municipio> listarMunicipios() {
 		return ubicacionService.listarMunicipios();
 	}
-	
+
 	@GetMapping("/listarEmpleados")
 	public List<Empleado> listarEmpleados() {
 		return contratoService.listarEmpleados();
 	}
+
 	@GetMapping("/listarEmpleadosPorEstadoQuery/{pNit}/{pEstado}")
 	public List<Empleado> listarEmpleadosPorEstado(@PathVariable Long pNit, @PathVariable String pEstado) {
-		return contratoService.listarEmpleadosQuery(pNit,pEstado);
+		return contratoService.listarEmpleadosQuery(pNit, pEstado);
 	}
-	
-	
+
 	@GetMapping("/listarEmpleadosPorEstado/{pEstado}")
 	public List<Empleado> listarEmpleadosPorEstado(@PathVariable String pEstado) {
 		return contratoService.listarEmpleadosPorEstado(pEstado);
 	}
-	
+
 	@GetMapping("/listarBancos")
 	public List<Banco> listarBancos() {
 		return contratoService.listarBancos();
 	}
-	
+
 	@PostMapping(value = "/editarEmpleado")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empleado editarEmpleado(@RequestBody Empleado pEmpleado) {
 		return contratoService.editarEmpleado(pEmpleado);
-	}	
+	}
 
 	@GetMapping(value = "/buscarDepartamentos/{pId}")
 	public Departamento buscarDepartemanto(@PathVariable Long pId) {
 		return ubicacionService.buscarDepartamento(pId);
 	}
-	
+
 	@GetMapping("/listarContratos")
 	public List<Contrato> listarContratos() {
 		return contratoService.listarContratos();
 	}
-	
+
 	@GetMapping("/listarTipoTerceros")
 	public List<TipoTercero> listarTipoTerceros() {
 		return contratoService.listarTipoTeceros();
 	}
-	
+
 	@GetMapping("/listarTarifasArl")
 	public List<TarifaArl> listarTarifasArl() {
 		return contratoService.listarTarifasArl();
 	}
-	
+
 	@GetMapping("/listarEmpresas")
 	public List<Empresa> listarEmpresas() {
 		return contratoService.listarEmpresas();
@@ -160,14 +167,20 @@ public class EmpresaController {
 	public List<Departamento> listarDepPorPais(@PathVariable Long pPaisId) {
 		return ubicacionService.listarDepartamentosPorPais(pPaisId);
 	}
-	
+
 	@GetMapping("/listarMunicipiosPorDepartamento/{pDepartamentoId}")
-	public List<Municipio> listarMunPorDepartamento(@PathVariable Long pDepartamentoId){
+	public List<Municipio> listarMunPorDepartamento(@PathVariable Long pDepartamentoId) {
 		return ubicacionService.listarMunicipiosPorDepartamento(pDepartamentoId);
 	}
-	
+
 	@GetMapping("/buscarMunicipioPorId/{pMunicipioId}")
-	public Municipio buscarMunPorId(@PathVariable Long pMunicipioId){
+	public Municipio buscarMunPorId(@PathVariable Long pMunicipioId) {
 		return ubicacionService.buscarMunicipioPorId(pMunicipioId);
+	}
+
+	@GetMapping("/listarRelacionesEmpleados_bancos")
+	public List<Empleado_banco> listarRelacionEmpBancos() {
+		return contratoService.listarRelacionEmpBanco();
+
 	}
 }

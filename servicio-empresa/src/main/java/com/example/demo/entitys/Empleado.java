@@ -88,14 +88,6 @@ public class Empleado implements Serializable {
 	@NotEmpty
 	private String estado;
 	
-	@Column(name = "cuenta_bancaria")
-	@NotEmpty
-	private String cuentaBancaria;
-	
-	@Column(name = "tipo_cuenta_bancaria")
-	@NotEmpty
-	private String tipoCuentaBancaria;
-	
 	@Column(name = "correo",unique = true)
 	@Email
 	@NotEmpty

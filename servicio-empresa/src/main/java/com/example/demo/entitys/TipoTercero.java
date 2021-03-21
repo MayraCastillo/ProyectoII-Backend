@@ -31,7 +31,6 @@ public class TipoTercero implements Serializable {
 	private Long tipoTerceroId;
 	
 	@Column(name = "nombre")
-	@NotEmpty
 	private String nombre;
 	
 	@Column(name = "abrevicion")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.DAO.IbancoDAO;
 import com.example.demo.DAO.IcontratoDAO;
 import com.example.demo.DAO.IempleadoDAO;
+import com.example.demo.DAO.Iempleado_banco;
 import com.example.demo.DAO.IempresaDAO;
 import com.example.demo.DAO.ImunicipioDAO;
 import com.example.demo.DAO.ItarifaArlDAO;
@@ -15,6 +16,7 @@ import com.example.demo.DAO.ItipoTerceroDAO;
 import com.example.demo.entitys.Banco;
 import com.example.demo.entitys.Contrato;
 import com.example.demo.entitys.Empleado;
+import com.example.demo.entitys.Empleado_banco;
 import com.example.demo.entitys.Empresa;
 import com.example.demo.entitys.Municipio;
 import com.example.demo.entitys.TarifaArl;
@@ -43,6 +45,9 @@ public class IcontratoServiceImpl implements IcontratoService {
 	
 	@Autowired
 	private IempresaDAO empresaDAO;
+	
+	@Autowired
+	private Iempleado_banco empleado_bancoDAO;
 
 	@Override
 	public Empleado crearEmpleado(Empleado pEmpleado) {
@@ -78,13 +83,11 @@ public class IcontratoServiceImpl implements IcontratoService {
 		empleado.setApellidos(empleado.getApellidos());
 		empleado.setBanco(empleado.getBanco());
 		empleado.setCorreo(empleado.getCorreo());
-		empleado.setCuentaBancaria(empleado.getCuentaBancaria());
 		empleado.setDireccion(empleado.getDireccion());
 		empleado.setEstado(empleado.getEstado());
 		empleado.setMunicipio(empleado.getMunicipio());
 		empleado.setNombres(empleado.getNombres());
 		empleado.setTelefono(empleado.getTelefono());
-		empleado.setTipoCuentaBancaria(empleado.getTipoCuentaBancaria());
 		empleado.setTipoDocumento(empleado.getTipoDocumento());
 		return empleadoDAO.save(empleado);
 	}
@@ -152,6 +155,17 @@ public class IcontratoServiceImpl implements IcontratoService {
 	@Override
 	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado) {
 		return empleadoDAO.listarEmpleadosPorEstado(pNit, pEstado);
+	}
+
+	@Override
+	public List<Empleado_banco> listarRelacionEmpBanco() {
+		return empleado_bancoDAO.findAll();
+	}
+
+	@Override
+	public Empleado_banco crearRelacionEmpBanco(Empleado_banco pEmpleadoBanco) {
+		
+		return empleado_bancoDAO.save(pEmpleadoBanco);
 	}
 
 }
