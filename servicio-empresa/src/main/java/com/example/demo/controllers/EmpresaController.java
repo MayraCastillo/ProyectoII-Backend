@@ -16,6 +16,7 @@ import com.example.demo.entitys.Contrato;
 import com.example.demo.entitys.Departamento;
 import com.example.demo.entitys.Empleado;
 import com.example.demo.entitys.Empleado_banco;
+import com.example.demo.entitys.Empleado_tercero;
 import com.example.demo.entitys.Empresa;
 import com.example.demo.entitys.Municipio;
 import com.example.demo.entitys.Pais;
@@ -90,6 +91,12 @@ public class EmpresaController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Empleado_banco crearRelacionEmpBanco(@RequestBody Empleado_banco pEmpleadoBanco) {
 		return contratoService.crearRelacionEmpBanco(pEmpleadoBanco);
+	}
+	
+	@PostMapping(value = "/crearRelacionEmpleadosTerceros")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Empleado_tercero crearRelacionEmpTerceros(@RequestBody Empleado_tercero pEmpleadoTercero) {
+		return contratoService.crearRelacionEmpTercero(pEmpleadoTercero);
 	}
 
 	@GetMapping("/listarTerceros")
@@ -183,4 +190,11 @@ public class EmpresaController {
 		return contratoService.listarRelacionEmpBanco();
 
 	}
+	
+	@GetMapping("/listarRelacionesEmpleados_terceros")
+	public List<Empleado_tercero> listarRelacionEmpleadosTerceros() {
+		return contratoService.listarRelacionEmpTercero();
+
+	}
+
 }

@@ -6,6 +6,7 @@ import com.example.demo.entitys.Banco;
 import com.example.demo.entitys.Contrato;
 import com.example.demo.entitys.Empleado;
 import com.example.demo.entitys.Empleado_banco;
+import com.example.demo.entitys.Empleado_tercero;
 import com.example.demo.entitys.Empresa;
 import com.example.demo.entitys.TarifaArl;
 import com.example.demo.entitys.TipoTercero;
@@ -16,6 +17,7 @@ public interface IcontratoService {
 	public Contrato crearContrato(Contrato pContrato);
 	public Empresa crearEmpresa(Empresa pEmpresa);
 	public Empleado_banco crearRelacionEmpBanco(Empleado_banco pEmpleadoBanco);
+	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero);
 	public Empleado editarEmpleado(Empleado pEmpleado);
 	public List<Empleado> listarEmpleados();
 	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado);
@@ -26,5 +28,6 @@ public interface IcontratoService {
 	public List<TarifaArl> listarTarifasArl();
 	public List<Empresa> listarEmpresas();
 	public List<Empleado_banco> listarRelacionEmpBanco();
+	public List<Empleado_tercero> listarRelacionEmpTercero();
 
 }
