@@ -1,6 +1,8 @@
 spring:
   application:
     name: servicio-empresa
+  profiles:
+    active: desarrollo
   cloud:
     config:
       uri: http://localhost:8081
