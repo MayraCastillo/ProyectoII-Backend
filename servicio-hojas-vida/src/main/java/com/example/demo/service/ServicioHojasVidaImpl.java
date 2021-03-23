@@ -131,6 +131,7 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 						.nombres(pHojaVida.getNombres())
 						.apellidos(pHojaVida.getApellidos())
 						.telefono(pHojaVida.getTelefono())
+						.correo(pHojaVida.getCorreo())
 						.municipioId(pHojaVida.getMunicipioId())
 						.direccion(pHojaVida.getDireccion())
 						.calificacion(pHojaVida.getCalificacion())
