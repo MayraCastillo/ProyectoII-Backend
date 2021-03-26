@@ -6,7 +6,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/bd_hojas_vida?serverTimezone=America/Bogota&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://microservicios-mysql8:3306/bd_hojas_vida?serverTimezone=America/Bogota&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: sasa2121
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,7 +16,7 @@ spring:
       ddl-auto: update
 
 logging:
-  lavel:
+  level:
     org:
       hibernate:
         SQL: debug
@@ -24,4 +24,4 @@ logging:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8099/eureka/
+      defaultZone: http://registry-service:8099/eureka
