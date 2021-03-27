@@ -1,13 +1,21 @@
 spring:
   application:
     name: registry-service
-  profiles:
-    active: desarrollo
+#  DOCKER:
+#  profiles:
+#    active: desarrollo
+
   cloud:
-    config:      
-      uri: http://config-service:8081
+    config:
+      # DOCKER:         
+      #uri: http://config-service:8081
+      
+      # LOCAL:
+      uri: http://localhost:8081
+      
       username: root
       password: s3cr3t
+
 #      fail-fast: true
 #      retry:
 #        maxAttempts: 2000
