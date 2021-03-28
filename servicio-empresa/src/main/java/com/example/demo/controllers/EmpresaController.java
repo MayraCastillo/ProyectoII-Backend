@@ -44,6 +44,12 @@ public class EmpresaController {
 	public Tercero crearTercero(@RequestBody Tercero pTercero) {
 		return terceroSevice.crearTercero(pTercero);
 	}
+	
+	@PostMapping("/crearTipoTercero")
+	@ResponseStatus(HttpStatus.CREATED)
+	public TipoTercero crearTipoTercero(@RequestBody TipoTercero pTipoTercero) {
+		return terceroSevice.crearTipoTercero(pTipoTercero);
+	}
 
 	@PostMapping(value = "/crearPais")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -103,6 +109,16 @@ public class EmpresaController {
 	public List<Tercero> listarTerceros() {
 		return terceroSevice.listarTerceros();
 	}
+	
+	@GetMapping("/listarTercerosPorTipo/{pTipoId}")
+	public List<Tercero> listarTercerosPorTipo(@PathVariable Long pTipoId) {
+		return terceroSevice.listarTercerosPorTipo(pTipoId);
+	}
+	
+	@GetMapping("/listarTercerosPorEmpleado/{pNumDocumento}")
+	public List<Tercero> listarTercerosPorEmpleado(@PathVariable Long pNumDocumento) {
+		return terceroSevice.listarTercerosPorEmpleado(pNumDocumento);
+	}
 
 	@GetMapping(value = "/listarPaises")
 	public List<Pais> listar() {
@@ -118,10 +134,15 @@ public class EmpresaController {
 	public List<Municipio> listarMunicipios() {
 		return ubicacionService.listarMunicipios();
 	}
-
+	
 	@GetMapping("/listarEmpleados")
 	public List<Empleado> listarEmpleados() {
 		return contratoService.listarEmpleados();
+	}
+
+	@GetMapping("/listarEmpleadosPorEmpresa/{pNitEmpresa}")
+	public List<Empleado> listarEmpleadosPorEmpresa(@PathVariable Long pNitEmpresa ) {
+		return contratoService.listarEmpleadosPorEmpresa(pNitEmpresa);
 	}
 
 	@GetMapping("/listarEmpleadosPorEstadoQuery/{pNit}/{pEstado}")
@@ -145,14 +166,24 @@ public class EmpresaController {
 		return contratoService.editarEmpleado(pEmpleado);
 	}
 
-	@GetMapping(value = "/buscarDepartamentos/{pId}")
-	public Departamento buscarDepartemanto(@PathVariable Long pId) {
-		return ubicacionService.buscarDepartamento(pId);
+	@GetMapping(value = "/buscarDepartamentos/{pIdDepartamento}")
+	public Departamento buscarDepartemanto(@PathVariable Long pIdDepartamento) {
+		return ubicacionService.buscarDepartamento(pIdDepartamento);
 	}
 
 	@GetMapping("/listarContratos")
 	public List<Contrato> listarContratos() {
 		return contratoService.listarContratos();
+	}
+	
+	@GetMapping("/listarContratosPorEmpresa/{pNitEmpresa}")
+	public List<Contrato> listarContratosPorEmpresa(@PathVariable Long pNitEmpresa) {
+		return contratoService.listarContratosPorEmpresa(pNitEmpresa);
+	}
+	
+	@GetMapping("/listarContratosPorEstado/{pEstado}/{pNitEmpresa}")
+	public List<Contrato> listarContratosPorEstado(@PathVariable String pEstado,@PathVariable Long pNitEmpresa ) {
+		return contratoService.listarContratosPorEstado(pEstado, pNitEmpresa);
 	}
 
 	@GetMapping("/listarTipoTerceros")
@@ -170,19 +201,19 @@ public class EmpresaController {
 		return contratoService.listarEmpresas();
 	}
 
-	@GetMapping("/listarDepartamentosPorPais/{pPaisId}")
-	public List<Departamento> listarDepPorPais(@PathVariable Long pPaisId) {
-		return ubicacionService.listarDepartamentosPorPais(pPaisId);
+	@GetMapping("/listarDepartamentosPorPais/{pIdPais}")
+	public List<Departamento> listarDepPorPais(@PathVariable Long pIdPais) {
+		return ubicacionService.listarDepartamentosPorPais(pIdPais);
 	}
 
-	@GetMapping("/listarMunicipiosPorDepartamento/{pDepartamentoId}")
-	public List<Municipio> listarMunPorDepartamento(@PathVariable Long pDepartamentoId) {
-		return ubicacionService.listarMunicipiosPorDepartamento(pDepartamentoId);
+	@GetMapping("/listarMunicipiosPorDepartamento/{pIdDepartamento}")
+	public List<Municipio> listarMunPorDepartamento(@PathVariable Long pIdDepartamento) {
+		return ubicacionService.listarMunicipiosPorDepartamento(pIdDepartamento);
 	}
 
-	@GetMapping("/buscarMunicipioPorId/{pMunicipioId}")
-	public Municipio buscarMunPorId(@PathVariable Long pMunicipioId) {
-		return ubicacionService.buscarMunicipioPorId(pMunicipioId);
+	@GetMapping("/buscarMunicipioPorId/{pIdMunicipio}")
+	public Municipio buscarMunPorId(@PathVariable Long pIdMunicipio) {
+		return ubicacionService.buscarMunicipioPorId(pIdMunicipio);
 	}
 
 	@GetMapping("/listarRelacionesEmpleados_bancos")

@@ -10,7 +10,7 @@ import com.example.demo.entitys.Departamento;
 
 @Repository
 public interface IdepartamentoDAO extends JpaRepository<Departamento, Long> {
-	public Departamento findByNombre(String pNombre);
+	public Departamento findByNombreIgnoreCase(String pNombre);
 	@Query("SELECT d FROM Departamento d WHERE d.pais.paisId = (?1)")
 	public List<Departamento>listarDepartamentosPorPais(Long pPaid);
 }

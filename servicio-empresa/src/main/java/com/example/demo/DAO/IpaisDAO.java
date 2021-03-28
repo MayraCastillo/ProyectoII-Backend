@@ -7,6 +7,6 @@ import com.example.demo.entitys.Pais;
 
 @Repository
 public interface IpaisDAO extends JpaRepository<Pais, Long> {
-	public Pais findByNombre(String pNombre);
+	public Pais findByNombreIgnoreCase(String pNombre);
 
 }

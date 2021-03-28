@@ -39,11 +39,11 @@ public class Departamento implements Serializable {
 	@JoinColumn(name = "pais_id")
 	private Pais pais;
 
-	@Column(name = "nombre")
+	@Column(name = "nombre",unique = true)
 	@NotEmpty
 	private String nombre;
 
-	@Column(name = "codigo", unique = true)
+	@Column(name = "codigo",unique = true)
 	private Integer codigo;
 	
 	private static final long serialVersionUID = -926757130904575015L;

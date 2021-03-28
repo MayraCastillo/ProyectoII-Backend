@@ -32,12 +32,12 @@ public class ContratoPk implements Serializable {
 	private static final long serialVersionUID = 3087859331724741572L;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="numero_documento",insertable = false, updatable = false)
+	@JoinColumn(name ="numero_documento")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Empleado empleado;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "nit", insertable = false, updatable = false)
+	@JoinColumn(name = "nit")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Empresa empresa;
 	

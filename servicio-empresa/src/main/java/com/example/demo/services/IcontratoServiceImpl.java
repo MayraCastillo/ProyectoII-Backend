@@ -13,6 +13,7 @@ import com.example.demo.DAO.Iempleado_banco;
 import com.example.demo.DAO.IempresaDAO;
 import com.example.demo.DAO.ImunicipioDAO;
 import com.example.demo.DAO.ItarifaArlDAO;
+import com.example.demo.DAO.IterceroDAO;
 import com.example.demo.DAO.ItipoTerceroDAO;
 import com.example.demo.entitys.Banco;
 import com.example.demo.entitys.Contrato;
@@ -22,6 +23,7 @@ import com.example.demo.entitys.Empleado_tercero;
 import com.example.demo.entitys.Empresa;
 import com.example.demo.entitys.Municipio;
 import com.example.demo.entitys.TarifaArl;
+import com.example.demo.entitys.Tercero;
 import com.example.demo.entitys.TipoTercero;
 
 @Service
@@ -53,24 +55,25 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Autowired
 	private IempleadoTerceroDAO empleado_terceroDAO;
+	
+	@Autowired
+	private IterceroDAO terceroDAO;
 
 	@Override
 	public Empleado crearEmpleado(Empleado pEmpleado) {
-		Empleado empleado = empleadoDAO.findByNombres(pEmpleado.getNombres());
+		Empleado empleado = empleadoDAO.findById(pEmpleado.getNumeroDocumento()).orElse(null);
 		if (empleado != null) {
 			return empleado;
 		}
-		Banco banco = bancoDAO.findById(pEmpleado.getBanco().getBancoId()).orElse(null);
 		Municipio municipio = municipioDAO.findById(pEmpleado.getMunicipio().getMunicipio_id()).orElse(null);
 		pEmpleado.setMunicipio(municipio);
-		pEmpleado.setBanco(banco);
 		pEmpleado.setEstado("ACTIVO");
 		return empleadoDAO.save(pEmpleado);
 	}
 
 	@Override
 	public Banco crearBanco(Banco pBanco) {
-		Banco banco = bancoDAO.findByNombre(pBanco.getNombre());
+		Banco banco = bancoDAO.findByNombreIgnoreCase(pBanco.getNombre());
 		if (banco != null) {
 			return banco;
 		}
@@ -80,12 +83,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero) {
-		Long documentoId = pEmpleadoTercero.getEmpleadoTeceroPk().getEmpleado().getNumeroDocumento();
-		Long TerceroId = pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getTerceroId();
-		Empleado_tercero empleadoTercero = empleado_terceroDAO.buscarEmpleadoTercero(documentoId, TerceroId);
+		Tercero tercero =terceroDAO.findById(pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getTerceroId()).orElse(null);
+		Empleado_tercero empleadoTercero = empleado_terceroDAO.validacionEmpleadoTercero(tercero.getTipoTercero().getAbreviacion());
 		if (empleadoTercero != null) {
 			return empleadoTercero;
 		}
+		pEmpleadoTercero.setEstado("ACTIVO");
 		return empleado_terceroDAO.save(pEmpleadoTercero);
 	}
 
@@ -104,7 +107,7 @@ public class IcontratoServiceImpl implements IcontratoService {
 	
 	@Override
 	public Empresa crearEmpresa(Empresa pEmpresa) {
-		Empresa empresa = empresaDAO.findByNombre(pEmpresa.getNombre());
+		Empresa empresa = empresaDAO.findById(pEmpresa.getNit()).orElse(null);
 		if (empresa != null) {
 			return empresa;
 		}
@@ -113,7 +116,7 @@ public class IcontratoServiceImpl implements IcontratoService {
 	
 	@Override
 	public Empleado_banco crearRelacionEmpBanco(Empleado_banco pEmpleadoBanco) {
-
+		pEmpleadoBanco.setEstado("ACTIVO");
 		return empleado_bancoDAO.save(pEmpleadoBanco);
 	}
 
@@ -125,7 +128,6 @@ public class IcontratoServiceImpl implements IcontratoService {
 			return null;
 		}
 		empleado.setApellidos(empleado.getApellidos());
-		empleado.setBanco(empleado.getBanco());
 		empleado.setCorreo(empleado.getCorreo());
 		empleado.setDireccion(empleado.getDireccion());
 		empleado.setEstado(empleado.getEstado());
@@ -137,8 +139,8 @@ public class IcontratoServiceImpl implements IcontratoService {
 	}
 
 	@Override
-	public List<Empleado> listarEmpleados() {
-		return empleadoDAO.findAll();
+	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa){
+		return empleadoDAO.listarEmpleadosPorEmpresa(pNitEmpresa);
 	}
 
 	@Override
@@ -154,6 +156,16 @@ public class IcontratoServiceImpl implements IcontratoService {
 	@Override
 	public List<Contrato> listarContratos() {
 		return contratoDAO.findAll();
+	}
+	
+	@Override
+	public List<Contrato> listarContratosPorEmpresa(Long pNitEmpresa) {
+		return contratoDAO.listarContratosPorEmpresa(pNitEmpresa);
+	}
+	
+	@Override
+	public List<Contrato> listarContratosPorEstado(String pEstado, Long pNitEmpresa) {
+		return contratoDAO.listarContratosPorEstado(pEstado, pNitEmpresa);
 	}
 
 	@Override
@@ -186,6 +198,11 @@ public class IcontratoServiceImpl implements IcontratoService {
 	@Override
 	public List<Empleado_tercero> listarRelacionEmpTercero() {
 		return empleado_terceroDAO.findAll();
+	}
+
+	@Override
+	public List<Empleado> listarEmpleados() {
+		return empleadoDAO.findAll();
 	}
 
 }

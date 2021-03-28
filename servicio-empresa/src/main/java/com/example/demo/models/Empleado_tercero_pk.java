@@ -36,7 +36,6 @@ public class Empleado_tercero_pk implements Serializable {
 	@JoinColumn(name = "numero_documento",insertable = false,updatable = false)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Empleado empleado;
-
 	@Override
 	public String toString() {
 		return "Empleado_tercero_pk [tercero=" + tercero + ", empleado=" + empleado + "]";

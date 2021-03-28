@@ -49,15 +49,9 @@ public class Empleado implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Municipio municipio;
 	
-	@NotNull(message = "El campo banco no puede ser vacio")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "banco_id")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private Banco banco;
-	
 	@OneToMany(mappedBy = "contratoPk.empleado",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonIgnore
-	private List<Contrato> listaCotratos;
+	private List<Contrato> listaContratos;
 	
 	@Column(name = "nombres")
 	@NotEmpty

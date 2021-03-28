@@ -28,10 +28,13 @@ public class Banco implements Serializable{
 	@Column(name = "banco_id")
 	private Long bancoId;
 	
-	@Column(name = "nombre")
+	@Column(name = "nombre", unique = true)
 	@NotEmpty
 	private String nombre;
 	
+	@Column(name = "telefono")
+	@NotEmpty
+	private String telefono;
 	private static final long serialVersionUID = -8383539374255988440L;
 
 }
