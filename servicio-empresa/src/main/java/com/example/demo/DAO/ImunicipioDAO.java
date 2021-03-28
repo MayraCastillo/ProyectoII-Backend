@@ -9,7 +9,9 @@ import com.example.demo.entitys.Municipio;
 
 @Repository
 public interface ImunicipioDAO extends JpaRepository<Municipio, Long> {
-	public Municipio findByNombre(String pNombre);
+	public Municipio findByNombreIgnoreCase(String pNombre);
 	@Query("SELECT m FROM Municipio m WHERE m.departamento.departamentoId = (?1)")
 	public List<Municipio>listarMunicipiosPorDepartamento(Long pDepartamentoId);
+	@Query("SELECT m FROM Municipio m WHERE m.codigo = (?1) AND m.departamento.departamentoId = (?2)")
+	public Municipio validarExistenciaMunicipio(Integer pCodigoId, Long pDepartamentoId);
 }

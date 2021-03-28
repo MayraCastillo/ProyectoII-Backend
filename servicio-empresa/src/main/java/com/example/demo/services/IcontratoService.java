@@ -20,10 +20,13 @@ public interface IcontratoService {
 	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero);
 	public Empleado editarEmpleado(Empleado pEmpleado);
 	public List<Empleado> listarEmpleados();
+	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa);
 	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado);
 	public List<Empleado> listarEmpleadosPorEstado(String pEstado);
 	public List<Banco> listarBancos();
 	public List<Contrato> listarContratos();
+	public List<Contrato> listarContratosPorEmpresa(Long pNitEmpresa);
+	public List<Contrato> listarContratosPorEstado(String pEstado, Long PNitEmpresa);
 	public List<TipoTercero> listarTipoTeceros();
 	public List<TarifaArl> listarTarifasArl();
 	public List<Empresa> listarEmpresas();

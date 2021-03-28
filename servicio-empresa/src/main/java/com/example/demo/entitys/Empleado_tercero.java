@@ -30,6 +30,9 @@ public class Empleado_tercero implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(iso = ISO.DATE)
 	private  Date fechaVinculacion;
+	
+	@Column(name = "estado")
+	private String estado;
 	private static final long serialVersionUID = -3960898202856870021L;
 	
 

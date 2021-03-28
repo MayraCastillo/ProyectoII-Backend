@@ -37,6 +37,17 @@ public class IterceroServiceImpl implements IterceroService {
 	    pTercero.setTipoTercero(tipoTercero);
 		return terceroDAO.save(pTercero);
 	}
+	
+	@Override
+	public TipoTercero crearTipoTercero(TipoTercero pTipoTercero) {
+		TipoTercero tipoTercero = tipoTerceroDAO.findByAbreviacion(pTipoTercero.getAbreviacion());
+		if(tipoTercero != null) 
+		{
+			return tipoTercero;
+		}
+		return tipoTerceroDAO.save(pTipoTercero);
+	}
+
 
 	@Override
 	@Transactional(readOnly = true)
@@ -59,5 +70,16 @@ public class IterceroServiceImpl implements IterceroService {
 		tercero.setTipoTercero(pTercero.getTipoTercero());
 		return terceroDAO.save(tercero);
 	}
+
+	@Override
+	public List<Tercero> listarTercerosPorTipo(Long parTipoId) {
+		return terceroDAO.listarTercerosPorTipo(parTipoId);
+	}
+
+	@Override
+	public List<Tercero> listarTercerosPorEmpleado(Long pNumeroDocumento) {
+		return terceroDAO.listarTercerosPorEmpleado(pNumeroDocumento);
+	}
+
 
 }

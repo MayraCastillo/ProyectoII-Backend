@@ -2,11 +2,12 @@ package com.example.demo.entitys;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -32,14 +33,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Contrato implements Serializable {
-
-	@EmbeddedId
 	private ContratoPk contratoPk;
-	@Column(name = "fecha_inicio_contrato", insertable = false, updatable = false)
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date fechaInicioContrato;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "contrato_id")
+	private Long contratoId; 
+	
 	@NotNull(message = "El campo tarifa arl no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "arl_id")
@@ -65,18 +65,9 @@ public class Contrato implements Serializable {
 	@NotEmpty
 	private String tipo;
 
-	@Column(name = "salario_basico")
-	private Integer salarioBasico;
-
 	@Column(name = "estado")
 	@NotEmpty
 	private String estado;
-
-	@Column(name = "comisiones")
-	private Integer comisiones;
-	
-	@Column(name = "auxilio_extra")
-	private Integer auxilioExtra;
 
 	private static final long serialVersionUID = -6439404648221250056L;
 

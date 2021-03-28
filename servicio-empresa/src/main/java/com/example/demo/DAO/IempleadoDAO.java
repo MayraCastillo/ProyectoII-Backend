@@ -11,8 +11,9 @@ import com.example.demo.entitys.Empleado;
 public interface IempleadoDAO extends JpaRepository<Empleado, Long> {
 	public Empleado findByNombres(String pNombre);
 	public List<Empleado> findByEstado(String pNombre);
-
 	
-	@Query("SELECT e FROM Empleado e INNER JOIN e.listaCotratos c WHERE c.contratoPk.empresa.nit = (?1) AND c.estado = (?2)")
+	@Query("SELECT e FROM Empleado e INNER JOIN e.listaContratos c WHERE c.contratoPk.empresa.nit = (?1) AND c.estado = (?2)")
 	public List<Empleado> listarEmpleadosPorEstado(Long pNit, String pEstado);
+	@Query("SELECT e FROM Empleado e INNER JOIN e.listaContratos c WHERE c.contratoPk.empresa.nit = (?1)")
+	public List<Empleado> listarEmpleadosPorEmpresa(Long pNit);
 }

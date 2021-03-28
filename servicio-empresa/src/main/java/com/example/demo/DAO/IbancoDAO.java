@@ -7,6 +7,6 @@ import com.example.demo.entitys.Banco;
 
 @Repository
 public interface IbancoDAO extends JpaRepository<Banco, Long> {
-	public Banco findByNombre(String pNombre);
+	public Banco findByNombreIgnoreCase(String pNombre);
 
 }

@@ -37,11 +37,7 @@ public class Empresa implements Serializable{
 	@Column(name = "direccion")
 	@NotEmpty
 	private String direccion;
-	
-	@Column(name = "tipo")
-	@NotEmpty
-	private String tipo;
-	
+		
 	@Column(name = "frecuencia_pago")
 	@NotEmpty
 	private String frecuenciaPago;

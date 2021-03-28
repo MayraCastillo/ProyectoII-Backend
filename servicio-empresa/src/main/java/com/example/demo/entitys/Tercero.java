@@ -1,4 +1,7 @@
 package com.example.demo.entitys;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,10 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -39,7 +45,7 @@ public class Tercero {
 	@JoinColumn(name = "mun_id")
 	private Municipio municipio;
 	
-	@Column(name = "nombre")
+	@Column(name = "nombre",unique = true)
 	@NotEmpty
 	private String nombre;
 	
@@ -56,10 +62,14 @@ public class Tercero {
 	@Column(name = "telefono")	
 	private String telefono;
 	
-	//@NotNull(message = "El campo tipoTercero no puede ser vacio")
+	@NotNull(message = "El campo tipoTercero no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tipo_tercero_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private TipoTercero tipoTercero;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "empleadoTeceroPk.tercero",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<Empleado_tercero> listaEmp_terceros;
 
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.entitys.Empresa;
 
 public interface IempresaDAO extends JpaRepository<Empresa, Long> {
-	public Empresa findByNombre(String pNombre);
+	public Empresa findByNombreIgnoreCase(String pNombre);
 
 }

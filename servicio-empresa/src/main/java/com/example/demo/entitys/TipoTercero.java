@@ -30,11 +30,11 @@ public class TipoTercero implements Serializable {
 	@Column(name = "tipo_tercero_id")
 	private Long tipoTerceroId;
 	
-	@Column(name = "nombre")
+	@Column(name = "nombre",unique = true)
 	private String nombre;
 	
-	@Column(name = "abrevicion")
+	@Column(name = "abreviacion",unique = true)
 	@NotEmpty
-	private String abrevicion;
+	private String abreviacion;
 
 }

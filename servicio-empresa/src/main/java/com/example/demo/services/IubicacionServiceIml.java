@@ -26,7 +26,7 @@ public class IubicacionServiceIml implements IubicacionService {
 	@Override
 	@Transactional
 	public Pais crearPais(Pais pPais) {
-		Pais pais = paisDAO.findByNombre(pPais.getNombre());
+		Pais pais = paisDAO.findByNombreIgnoreCase(pPais.getNombre());
 		if (pais != null) {
 			return pais;
 		}
@@ -36,7 +36,7 @@ public class IubicacionServiceIml implements IubicacionService {
 	@Override
 	@Transactional
 	public Departamento crearDepartamento(Departamento pDepartamento) {
-		Departamento departamento = departamentoDAO.findByNombre(pDepartamento.getNombre());
+		Departamento departamento = departamentoDAO.findByNombreIgnoreCase(pDepartamento.getNombre());
 		if (departamento != null) {
 			return departamento;
 		}
@@ -48,7 +48,7 @@ public class IubicacionServiceIml implements IubicacionService {
 	@Override
 	@Transactional
 	public Municipio crearMunicipio(Municipio pMunicipio) {
-		Municipio municipio = municipioDAO.findByNombre(pMunicipio.getNombre());
+		Municipio municipio = municipioDAO.validarExistenciaMunicipio(pMunicipio.getCodigo(), pMunicipio.getDepartamento().getDepartamentoId());
 		if(municipio != null) {
 			return municipio;
 		}
@@ -79,20 +79,20 @@ public class IubicacionServiceIml implements IubicacionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Departamento buscarDepartamento(Long PIdTercero) {
+	public Departamento buscarDepartamento(Long pIdDepartamento) {
 
-		return departamentoDAO.findById(PIdTercero).orElse(null);
+		return departamentoDAO.findById(pIdDepartamento).orElse(null);
 	}
 
 	@Override
-	public List<Departamento> listarDepartamentosPorPais(Long pais) {
+	public List<Departamento> listarDepartamentosPorPais(Long pIdPais) {
 		
-		return departamentoDAO.listarDepartamentosPorPais(pais);
+		return departamentoDAO.listarDepartamentosPorPais(pIdPais);
 	}
 
 	@Override
-	public List<Municipio> listarMunicipiosPorDepartamento(Long pDepartamento) {
-		return municipioDAO.listarMunicipiosPorDepartamento(pDepartamento);
+	public List<Municipio> listarMunicipiosPorDepartamento(Long pIdDepartamento) {
+		return municipioDAO.listarMunicipiosPorDepartamento(pIdDepartamento);
 	}
 
 	@Override

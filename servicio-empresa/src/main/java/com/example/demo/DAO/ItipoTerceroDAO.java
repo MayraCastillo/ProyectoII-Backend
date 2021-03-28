@@ -7,5 +7,6 @@ import com.example.demo.entitys.TipoTercero;
 
 @Repository
 public interface ItipoTerceroDAO extends JpaRepository<TipoTercero, Long> {
+	public TipoTercero findByAbreviacion(String pAbreviacion);
 
 }
