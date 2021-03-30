@@ -74,6 +74,14 @@ public class HojaVida {
 	@Positive(message = "La calificacion debe ser positiva") 
 	private Double calificacion;
 	
+	@Column(name = "nit_empresa")
+	@NotNull(message = "El nit de la empresa no puede ser nulo") 
+	private String nitEmpresa;
+	
+	@Column(name = "estado_persona")
+	@NotNull(message = "El estado de la persona no puede ser nulo") 
+    private String estadoPersona;
+	
 	// RELACIONES CON OTRAS TABLAS
 	
 	/**

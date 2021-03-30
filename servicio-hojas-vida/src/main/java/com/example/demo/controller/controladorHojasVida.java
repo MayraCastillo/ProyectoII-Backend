@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.demo.entity.EmpresaExterna;
 import com.example.demo.entity.HojaVida;
 import com.example.demo.entity.InstitucionEducativa;
+import com.example.demo.model.DatosHojaVida;
 import com.example.demo.service.ServicioEmpresasExternas;
 import com.example.demo.service.ServicioHojasVida;
 import com.example.demo.service.ServicioInstitucionesEducativas;
@@ -84,7 +85,7 @@ public class controladorHojasVida {
     }
 	
 	@PostMapping
-	public ResponseEntity<HojaVida> crearHojaVida(@Valid @RequestBody HojaVida pHojaVida, BindingResult result){
+	public ResponseEntity<HojaVida> crearHojaVida(@Valid @RequestBody DatosHojaVida pHojaVida, BindingResult result){
 		
 		if (result.hasErrors()){ 			
 			System.out.println("\n\nTiene errores.\n\n");
@@ -95,10 +96,10 @@ public class controladorHojasVida {
         
         if (vHojaVidaEncontrada == null){
         	System.out.println("Error");
-        	return ResponseEntity.badRequest().body(vHojaVidaEncontrada);
+        	return ResponseEntity.notFound().build();
         }        
         
-        return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);        
+        return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);
     }    
 	
 	
