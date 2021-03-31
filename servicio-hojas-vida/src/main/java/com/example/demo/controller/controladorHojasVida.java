@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.demo.DTO.DTOHojaVida;
 import com.example.demo.entity.EmpresaExterna;
 import com.example.demo.entity.HojaVida;
 import com.example.demo.entity.InstitucionEducativa;
-import com.example.demo.model.DatosHojaVida;
 import com.example.demo.service.ServicioEmpresasExternas;
 import com.example.demo.service.ServicioHojasVida;
 import com.example.demo.service.ServicioInstitucionesEducativas;
@@ -85,7 +85,7 @@ public class controladorHojasVida {
     }
 	
 	@PostMapping
-	public ResponseEntity<HojaVida> crearHojaVida(@Valid @RequestBody DatosHojaVida pHojaVida, BindingResult result){
+	public ResponseEntity<HojaVida> crearHojaVida(@Valid @RequestBody DTOHojaVida pHojaVida, BindingResult result){
 		
 		if (result.hasErrors()){ 			
 			System.out.println("\n\nTiene errores.\n\n");

@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.DTO;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class DatosReferenciaFamiliar {
+public class DTOReferenciaFamiliar {
 	
 	@Column(name = "nombres")
 	@NotNull(message = "Los nombres de la referencia familiar no pueden ser nulos")

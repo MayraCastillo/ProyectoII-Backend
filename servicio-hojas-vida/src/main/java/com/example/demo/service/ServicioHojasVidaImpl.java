@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import com.example.demo.DTO.DTOHojaVida;
+import com.example.demo.DTO.DTOMunicipio;
 import com.example.demo.entity.Estudio;
 import com.example.demo.entity.ExperienciaLaboral;
 import com.example.demo.entity.HojaVida;
 import com.example.demo.entity.ReferenciaFamiliar;
 import com.example.demo.entity.ReferenciaPersonal;
 import com.example.demo.feign_client.EmpresaClient;
-import com.example.demo.model.DatosHojaVida;
-import com.example.demo.model.Municipio;
 import com.example.demo.repository.EstudiosDAO;
 import com.example.demo.repository.ExperienciasLaboralesDAO;
 import com.example.demo.repository.HojasVidaDAO;
@@ -99,7 +99,7 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 	}
 
 	@Override
-	public HojaVida registrarHojaVida(DatosHojaVida pHojaVida) {
+	public HojaVida registrarHojaVida(DTOHojaVida pHojaVida) {
 		
 		// Preparar datos al formato adecuado para mapear a la base de datos
 		HojaVida hojaVidaRecibida = pHojaVida.construirEntidadHojaVida();	
@@ -247,7 +247,7 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 		boolean esValido = false;
 		
 		if(pIdMunicipio != null) {
-			Municipio municipioEncontrado = this.consultarMunicipio(pIdMunicipio);
+			DTOMunicipio municipioEncontrado = this.consultarMunicipio(pIdMunicipio);
 			if(municipioEncontrado != null) {
 				esValido = true;
 			}
@@ -255,10 +255,10 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 		
 		return esValido;
 	}
-	private Municipio consultarMunicipio(Long pIdMunicipio) {
+	private DTOMunicipio consultarMunicipio(Long pIdMunicipio) {
 		if(pIdMunicipio != null) {
 			
-			Municipio municipioEncontrado = null;			
+			DTOMunicipio municipioEncontrado = null;			
 			try {
 				municipioEncontrado = this.clienteEmpresa.buscarMunPorId(pIdMunicipio);
 				return municipioEncontrado;
@@ -271,11 +271,11 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 	private void agregarUbicacion(List<HojaVida> pHojasVida){
 		// Almacena los municipios diferentes encontrados en cada hoja de vida
 		// TODO ¿como variable global?
-		ArrayList<Municipio> cacheMunicipios = new ArrayList<Municipio>();
+		ArrayList<DTOMunicipio> cacheMunicipios = new ArrayList<DTOMunicipio>();
 				
 		for(HojaVida hv: pHojasVida) {
 			//Si el municipio ya se encontro para otra hoja de vida, no se tiene que pedir de nuevo			 			
-			for(Municipio mun: cacheMunicipios) {
+			for(DTOMunicipio mun: cacheMunicipios) {
 				if(hv.getMunicipioId().equals(mun.getMunicipio_id())) {
 					hv.setMunicipio(mun);
 					break;
@@ -283,7 +283,7 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 			}
 			// no se ha encontrado ese municipio
 			if(hv.getMunicipio() == null){
-				Municipio munEncontrado = this.consultarMunicipio(hv.getMunicipioId());
+				DTOMunicipio munEncontrado = this.consultarMunicipio(hv.getMunicipioId());
 				
 				// Lo agrego a la lista de municipios encontrados
 				if(munEncontrado != null) {

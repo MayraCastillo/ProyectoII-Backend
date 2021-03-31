@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.DTO;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import lombok.Data;
 
 
 @Data
-public class DatosExperienciaLaboral {
+public class DTOExperienciaLaboral {
 	
 	@NotNull(message = "El cargo no puede ser nulo")
 	private String cargoEmpresa;	

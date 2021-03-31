@@ -1,16 +1,16 @@
-package com.example.demo.model;
+package com.example.demo.DTO;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class Departamento {
+public class DTODepartamento {
 	
 	private Long departamentoId;	
 	private String nombre;
 	
 	private Integer codigo;	
-	private Pais pais;	
+	private DTOPais pais;	
 
 }

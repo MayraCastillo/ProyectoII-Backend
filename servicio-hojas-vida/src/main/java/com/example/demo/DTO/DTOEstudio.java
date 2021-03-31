@@ -1,11 +1,11 @@
-package com.example.demo.model;
+package com.example.demo.DTO;
 
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
 @Data
-public class DatosEstudio {
+public class DTOEstudio {
 	
 	@NotNull(message = "El nombre del titulo no puede ser nulo")
 	private String nombreTitulo;

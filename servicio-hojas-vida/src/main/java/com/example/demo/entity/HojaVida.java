@@ -16,7 +16,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import com.example.demo.model.Municipio;
+import com.example.demo.DTO.DTOMunicipio;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -125,6 +125,6 @@ public class HojaVida {
 	 * Ubicacion de residencia de la persona, municipio, departamento y pais
 	 */
 	@Transient
-	private Municipio municipio;	
+	private DTOMunicipio municipio;	
 	
 }

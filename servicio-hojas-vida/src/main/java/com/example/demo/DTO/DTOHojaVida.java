@@ -1,16 +1,16 @@
-package com.example.demo.model;
+package com.example.demo.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+//import javax.validation.constraints.Max;
+//import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 //import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+//import javax.validation.constraints.Size;
 
 import com.example.demo.entity.EmpresaExterna;
 import com.example.demo.entity.Estudio;
@@ -23,7 +23,7 @@ import com.example.demo.entity.ReferenciaPersonal;
 import lombok.Data;
 
 @Data
-public class DatosHojaVida {
+public class DTOHojaVida {
 	
 	//@Min(1000000)
 	//@Max(99999999)
@@ -69,16 +69,16 @@ public class DatosHojaVida {
 	
 	
 	@Valid
-	private List<DatosReferenciaFamiliar> referenciasFamiliares;
+	private List<DTOReferenciaFamiliar> referenciasFamiliares;
 	
 	@Valid
-	private List<DatosReferenciaPersonal> referenciasPersonales;
+	private List<DTOReferenciaPersonal> referenciasPersonales;
 	
 	@Valid
-	private List<DatosExperienciaLaboral> experienciasLaborales;
+	private List<DTOExperienciaLaboral> experienciasLaborales;
 	
 	@Valid
-	private List<DatosEstudio> estudios;
+	private List<DTOEstudio> estudios;
 	
 	
 	public HojaVida construirEntidadHojaVida() {
@@ -108,14 +108,14 @@ public class DatosHojaVida {
 		List<ReferenciaFamiliar> referencias = new ArrayList<ReferenciaFamiliar>();
 		
 		if(this.referenciasFamiliares != null) {
-			for(DatosReferenciaFamiliar datosRef : this.referenciasFamiliares) {
+			for(DTOReferenciaFamiliar datosRef : this.referenciasFamiliares) {
 				referencias.add(this.crearReferenciaFamiliar(datosRef));
 			}			
 		}
 		
 		hv.setReferenciasFamiliares(referencias);
 	}
-	private ReferenciaFamiliar crearReferenciaFamiliar(DatosReferenciaFamiliar pReferencia) {
+	private ReferenciaFamiliar crearReferenciaFamiliar(DTOReferenciaFamiliar pReferencia) {
 		ReferenciaFamiliar referencia = new ReferenciaFamiliar();
 		
 		referencia.setNombres(pReferencia.getNombres());
@@ -130,14 +130,14 @@ public class DatosHojaVida {
 		List<ReferenciaPersonal> referencias = new ArrayList<ReferenciaPersonal>();
 		
 		if(this.referenciasPersonales != null) {
-			for(DatosReferenciaPersonal datosRef : this.referenciasPersonales) {
+			for(DTOReferenciaPersonal datosRef : this.referenciasPersonales) {
 				referencias.add(this.crearReferenciaPersonal(datosRef));
 			}			
 		}
 		
 		hv.setReferenciasPersonales(referencias);
 	}
-	private ReferenciaPersonal crearReferenciaPersonal(DatosReferenciaPersonal pReferencia) {
+	private ReferenciaPersonal crearReferenciaPersonal(DTOReferenciaPersonal pReferencia) {
 		ReferenciaPersonal referencia = new ReferenciaPersonal();
 		
 		referencia.setNombres(pReferencia.getNombres());
@@ -151,14 +151,14 @@ public class DatosHojaVida {
 		List<ExperienciaLaboral> experiencias = new ArrayList<ExperienciaLaboral>();
 		
 		if(this.experienciasLaborales != null) {
-			for(DatosExperienciaLaboral datos : this.experienciasLaborales) {
+			for(DTOExperienciaLaboral datos : this.experienciasLaborales) {
 				experiencias.add(this.crearExperienciaLaboral(datos));
 			}			
 		}
 		
 		hv.setExperienciasLaborales(experiencias);
 	}
-	private ExperienciaLaboral crearExperienciaLaboral(DatosExperienciaLaboral pExperiencia) {
+	private ExperienciaLaboral crearExperienciaLaboral(DTOExperienciaLaboral pExperiencia) {
 		ExperienciaLaboral exp = new ExperienciaLaboral();
 		
 		exp.setCargo(pExperiencia.getCargoEmpresa());
@@ -179,14 +179,14 @@ public class DatosHojaVida {
 		List<Estudio> estudios = new ArrayList<Estudio>();
 		
 		if(this.estudios != null) {
-			for(DatosEstudio datos : this.estudios) {
+			for(DTOEstudio datos : this.estudios) {
 				estudios.add(this.crearEstudio(datos));
 			}			
 		}
 		
 		hv.setEstudios(estudios);
 	}
-	private Estudio crearEstudio(DatosEstudio pEstudio) {
+	private Estudio crearEstudio(DTOEstudio pEstudio) {
 		Estudio estudio = new Estudio();
 		
 		estudio.setNombreTitulo(pEstudio.getNombreTitulo());
