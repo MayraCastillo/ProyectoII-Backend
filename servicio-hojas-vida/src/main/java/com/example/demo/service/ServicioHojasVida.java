@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.entity.HojaVida;
+import com.example.demo.model.DatosHojaVida;
 
 /**
  * Define los servicios que pueden ser usados por la API
@@ -38,7 +39,7 @@ public interface ServicioHojasVida {
 	 * @param pHojaVida Hoja de vida que se va a registrar
 	 * @return Retorna la misma hoja de vida, solo en caso de que se pueda agregar correctamente
 	 */
-	public HojaVida registrarHojaVida(HojaVida pHojaVida);
+	public HojaVida registrarHojaVida(DatosHojaVida pHojaVida);
 	
 	
 	

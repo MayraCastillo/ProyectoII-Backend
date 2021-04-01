@@ -16,6 +16,7 @@ import com.example.demo.entity.HojaVida;
 import com.example.demo.entity.ReferenciaFamiliar;
 import com.example.demo.entity.ReferenciaPersonal;
 import com.example.demo.feign_client.EmpresaClient;
+import com.example.demo.model.DatosHojaVida;
 import com.example.demo.model.Municipio;
 import com.example.demo.repository.EstudiosDAO;
 import com.example.demo.repository.ExperienciasLaboralesDAO;
@@ -90,22 +91,28 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 			hvEncontrada = this.miRepositorioHojasVida.findById(pHojaVidaId).orElse(null);
 			
 			// Agregar informacion de la ubicacion
-			hvEncontrada.setMunicipio(this.consultarMunicipio(hvEncontrada.getMunicipioId()));
+			if(hvEncontrada != null) {
+				hvEncontrada.setMunicipio(this.consultarMunicipio(hvEncontrada.getMunicipioId()));
+			}
 		}
 		return hvEncontrada;
 	}
 
 	@Override
-	public HojaVida registrarHojaVida(HojaVida pHojaVida) {			
-		HojaVida nuevaHojaVida = this.guardarHojaVida(pHojaVida);
+	public HojaVida registrarHojaVida(DatosHojaVida pHojaVida) {
+		
+		// Preparar datos al formato adecuado para mapear a la base de datos
+		HojaVida hojaVidaRecibida = pHojaVida.construirEntidadHojaVida();	
+		
+		HojaVida nuevaHojaVida = this.guardarHojaVida(hojaVidaRecibida);
 		
 		if(nuevaHojaVida != null) {
-			this.guardarReferenciasFamiliares(nuevaHojaVida, pHojaVida.getReferenciasFamiliares());
-			this.guardarReferenciasPersonales(nuevaHojaVida, pHojaVida.getReferenciasPersonales());
-			this.guardarExperienciasLaborales(nuevaHojaVida, pHojaVida.getExperienciasLaborales());
-			this.guardarEstudios(nuevaHojaVida, pHojaVida.getEstudios());
+			this.guardarReferenciasFamiliares(nuevaHojaVida, hojaVidaRecibida.getReferenciasFamiliares());
+			this.guardarReferenciasPersonales(nuevaHojaVida, hojaVidaRecibida.getReferenciasPersonales());
+			this.guardarExperienciasLaborales(nuevaHojaVida, hojaVidaRecibida.getExperienciasLaborales());
+			this.guardarEstudios(nuevaHojaVida, hojaVidaRecibida.getEstudios());
 			
-			return pHojaVida;
+			return hojaVidaRecibida;
 		}
 		return nuevaHojaVida;
 	}
@@ -129,9 +136,12 @@ public class ServicioHojasVidaImpl implements ServicioHojasVida{
 						.nombres(pHojaVida.getNombres())
 						.apellidos(pHojaVida.getApellidos())
 						.telefono(pHojaVida.getTelefono())
+						.correo(pHojaVida.getCorreo())
 						.municipioId(pHojaVida.getMunicipioId())
 						.direccion(pHojaVida.getDireccion())
 						.calificacion(pHojaVida.getCalificacion())
+						.nitEmpresa(pHojaVida.getNitEmpresa())
+						.estadoPersona(pHojaVida.getEstadoPersona())
 						.build();
 				
 				// Guardar la hoja de vida con sus atributos basicos en la BD

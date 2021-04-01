@@ -1,0 +1,25 @@
+#spring:
+#  application:
+#    name: registry-service
+#server:
+#  port: 8099
+#
+#eureka:
+#  instance:
+#    hostname: registry-service
+#  client:
+#    registerWithEureka: false
+#    fetchRegistry: false
+#    serviceUrl:
+#      defaultZone: http://registry-service:8099/eureka
+
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 60000
+#ribbon:
+#  ConnectTimeout: 9000
+#  ReadTimeout: 30000

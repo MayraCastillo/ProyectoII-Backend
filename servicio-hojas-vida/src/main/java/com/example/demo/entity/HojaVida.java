@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -57,6 +58,11 @@ public class HojaVida {
 	@NotNull(message = "El telefono no puede ser nulo")
 	private String telefono;
 	
+	@Column(name = "correo")
+	@NotNull(message = "El correo no puede ser nulo")
+	@Email
+	private String correo;
+	
 	@Column(name = "municipio_id")
 	@NotNull(message = "El id del municipio no puede ser Nulo") 
 	private Long municipioId;
@@ -67,6 +73,14 @@ public class HojaVida {
 	@Column(name = "calificacion")
 	@Positive(message = "La calificacion debe ser positiva") 
 	private Double calificacion;
+	
+	@Column(name = "nit_empresa")
+	@NotNull(message = "El nit de la empresa no puede ser nulo") 
+	private String nitEmpresa;
+	
+	@Column(name = "estado_persona")
+	@NotNull(message = "El estado de la persona no puede ser nulo") 
+    private String estadoPersona;
 	
 	// RELACIONES CON OTRAS TABLAS
 	
