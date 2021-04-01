@@ -58,7 +58,7 @@ public class IcontratoServiceImpl implements IcontratoService {
 	
 	@Autowired
 	private IterceroDAO terceroDAO;
-
+	
 	@Override
 	public Empleado crearEmpleado(Empleado pEmpleado) {
 		Empleado empleado = empleadoDAO.findById(pEmpleado.getNumeroDocumento()).orElse(null);
@@ -84,7 +84,7 @@ public class IcontratoServiceImpl implements IcontratoService {
 	@Override
 	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero) {
 		Tercero tercero =terceroDAO.findById(pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getTerceroId()).orElse(null);
-		Empleado_tercero empleadoTercero = empleado_terceroDAO.validacionEmpleadoTercero(tercero.getTipoTercero().getAbreviacion());
+		Empleado_tercero empleadoTercero = empleado_terceroDAO.validacionEmpleadoTercero(tercero.getTipoTercero().getAbreviacion(),pEmpleadoTercero.getEmpleadoTeceroPk().getEmpleado().getNumeroDocumento());
 		if (empleadoTercero != null) {
 			return empleadoTercero;
 		}
@@ -137,6 +137,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 		empleado.setTipoDocumento(empleado.getTipoDocumento());
 		return empleadoDAO.save(empleado);
 	}
+	
+	@Override
+	public Contrato buscarContratoPorId(Long idContrato) {
+		return contratoDAO.findById(idContrato).orElse(null);
+	}
+
 
 	@Override
 	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa){
@@ -204,5 +210,6 @@ public class IcontratoServiceImpl implements IcontratoService {
 	public List<Empleado> listarEmpleados() {
 		return empleadoDAO.findAll();
 	}
+
 
 }

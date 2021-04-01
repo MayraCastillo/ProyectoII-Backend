@@ -17,7 +17,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.example.demo.models.ContratoPk;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -68,7 +67,10 @@ public class Contrato implements Serializable {
 	@Column(name = "estado")
 	@NotEmpty
 	private String estado;
-
+	
+	@Column(name = "salario_base")
+	private Double salarioBase;
+	
 	private static final long serialVersionUID = -6439404648221250056L;
 
 }
