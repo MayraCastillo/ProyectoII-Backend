@@ -1,14 +1,18 @@
 package com.example.demo.DTO;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class DTOReferenciaFamiliar {
+@AllArgsConstructor @NoArgsConstructor @Builder
+public class ReferenciaFamiliarDTO {
 	
-	@Column(name = "nombres")
+	private Long referenciaId;
+	
 	@NotNull(message = "Los nombres de la referencia familiar no pueden ser nulos")
 	private String nombres;
 	

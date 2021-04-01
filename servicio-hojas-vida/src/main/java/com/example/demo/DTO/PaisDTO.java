@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DTOPais {
+public class PaisDTO {
 
 	private Long paisId;	
 	private String nombre;	

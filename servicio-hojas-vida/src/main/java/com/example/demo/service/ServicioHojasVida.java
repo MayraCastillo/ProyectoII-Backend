@@ -2,8 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.DTO.DTOHojaVida;
-import com.example.demo.entity.HojaVida;
+import com.example.demo.DTO.HojaVidaDTO;
 
 /**
  * Define los servicios que pueden ser usados por la API
@@ -21,7 +20,7 @@ public interface ServicioHojasVida {
 	 * 
 	 * @return Lista con todas las hojas de vida registradas en el sistema
 	 */
-	public List<HojaVida> listarHojasVida();	
+	public List<HojaVidaDTO> listarHojasVida();	
 	
 	
 	/**
@@ -30,7 +29,7 @@ public interface ServicioHojasVida {
 	 * @param pHojaVidaId numero de identificacion de la persona dueña de la hoja de vida
 	 * @return Hoja de vida, en caso de ser encontrada
 	 */
-	public HojaVida buscarHojaVidaPorId(Long pHojaVidaId);
+	public HojaVidaDTO buscarHojaVidaPorId(Long pHojaVidaId);
 	
 	
 	/**
@@ -39,7 +38,7 @@ public interface ServicioHojasVida {
 	 * @param pHojaVida Hoja de vida que se va a registrar
 	 * @return Retorna la misma hoja de vida, solo en caso de que se pueda agregar correctamente
 	 */
-	public HojaVida registrarHojaVida(DTOHojaVida pHojaVida);
+	public HojaVidaDTO registrarHojaVida(HojaVidaDTO pHojaVida);
 	
 	
 	

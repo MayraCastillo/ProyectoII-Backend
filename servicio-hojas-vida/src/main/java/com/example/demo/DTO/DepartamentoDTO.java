@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 @Builder
-public class DTOMunicipio {
-
-	private Long municipio_id;	
+public class DepartamentoDTO {
+	
+	private Long departamentoId;	
 	private String nombre;
 	
 	private Integer codigo;	
-	private DTODepartamento departamento;
-	
+	private PaisDTO pais;	
+
 }

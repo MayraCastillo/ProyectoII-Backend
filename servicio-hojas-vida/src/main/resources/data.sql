@@ -35,15 +35,15 @@ VALUES
 
 INSERT INTO estudios (est_id, numero_documento, nombre_titulo, calificacion, tipo, tiempo, inst_id)
 VALUES
-(1, 1, 'AUXILIAR DE COCINA', 5.0, 'TECNICO', 4, 2),
-(2, 2, 'AUXILIAR DE COCINA', 5.0, 'PROFESIONAL', 4, 1),
-(3, 3, 'AUXILIAR DE COCINA', 5.0, 'TECNICO', 4, 2),
-(4, 4, 'AUXILIAR DE COCINA', 5.0, 'PROFESIONAL', 4, 3),
-(5, 5, 'AUXILIAR DE COCINA', 5.0, 'TECNICO', 4, 2),
-(6, 6, 'AUXILIAR DE COCINA', 5.0, 'PROFESIONAL', 4, 1),
-(7, 1, 'TECNICO EN COCINA CHINA', 5.0, 'TECNICO', 4, 2),
-(8, 1, 'INGENIERO DE ALIMENTOS', 5.0, 'PROFESIONAL', 4, 3),
-(9, 4, 'TECNICO EN MANTENIMIENTO DE ESTUFAS', 5.0, 'TECNICO', 4, 2);
+(1, 1, 'AUXILIAR DE COCINA', 5.0, 'TECNICO', '4 años', 2),
+(2, 2, 'AUXILIAR DE COCINA', 5.0, 'PROFESIONAL', '4 años', 1),
+(3, 3, 'AUXILIAR DE COCINA', 5.0, 'TECNICO', '4 años', 2),
+(4, 4, 'AUXILIAR DE COCINA', 5.0, 'PROFESIONAL', '4 años', 3),
+(5, 5, 'AUXILIAR DE COCINA', 5.0, 'TECNICO', '4 años', 2),
+(6, 6, 'AUXILIAR DE COCINA', 5.0, 'PROFESIONAL', '4 años', 1),
+(7, 1, 'TECNICO EN COCINA CHINA', 5.0, 'TECNICO', '4 años', 2),
+(8, 1, 'INGENIERO DE ALIMENTOS', 5.0, 'PROFESIONAL', '4 años', 3),
+(9, 4, 'TECNICO EN MANTENIMIENTO DE ESTUFAS', 5.0, 'TECNICO', '4 años', 2);
 
 INSERT INTO experiencias_laborales (exp_id, numero_documento, cargo, tiempo, calificacion, ee_id)
 VALUES

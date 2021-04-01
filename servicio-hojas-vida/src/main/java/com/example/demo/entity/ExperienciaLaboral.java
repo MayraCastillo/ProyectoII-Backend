@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,17 +32,19 @@ public class ExperienciaLaboral {
 	private Long expId;
 	
 	@Column(name = "numero_documento")
+	@NotNull
 	private Long numeroDocumento;
 	
 	@Column(name = "cargo")
-	@NotNull(message = "El cargo no puede ser nulo")
+	@NotEmpty(message = "El cargo no puede ser nulo")
 	private String cargo;	
 	
 	@Column(name = "tiempo")
-	@NotNull(message = "El tiempo no puede ser nulo")
-	private Integer tiempo;
+	@NotEmpty(message = "El tiempo no puede ser nulo")
+	private String tiempo;
 	
 	@Column(name = "calificacion")
+	@NotNull
 	private Double calificacion;
 	
 	
