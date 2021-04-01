@@ -16,4 +16,5 @@ public interface IcontratoDAO extends JpaRepository<Contrato,Long> {
 	public List<Contrato> listarContratosPorEmpresa(Long pNitEmpresa);
 	@Query("SELECT c FROM Contrato c WHERE c.estado = ?1 AND c.contratoPk.empresa.nit = ?2")
 	public List<Contrato> listarContratosPorEstado(String pEstado, Long pNitEmpresa);
+
 }

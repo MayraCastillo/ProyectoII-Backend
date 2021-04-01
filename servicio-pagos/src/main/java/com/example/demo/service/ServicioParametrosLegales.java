@@ -1,16 +1,7 @@
 package com.example.demo.service;
-
 import java.util.List;
 
 import com.example.demo.entity.ParametroLegal;
-
-/**
- * Denine los servicios disponibles sobre los parametros legales
- * 
- * @author Ruben
- *
- */
-
 
 public interface ServicioParametrosLegales {
 	

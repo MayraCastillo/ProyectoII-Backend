@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 @RestController
-@RequestMapping (value = "/hojas-vida")
+@RequestMapping(value = "/hojas-vida")
 public class controladorHojasVida {
 	
 	

@@ -104,6 +104,11 @@ public class EmpresaController {
 	public Empleado_tercero crearRelacionEmpTerceros(@RequestBody Empleado_tercero pEmpleadoTercero) {
 		return contratoService.crearRelacionEmpTercero(pEmpleadoTercero);
 	}
+	
+	@GetMapping(value = "/buscarContratoPorId/{pIdContrato}")
+	public Contrato buscarContratoPorId(@PathVariable Long pIdContrato) {
+		return contratoService.buscarContratoPorId(pIdContrato);
+	}
 
 	@GetMapping("/listarTerceros")
 	public List<Tercero> listarTerceros() {
