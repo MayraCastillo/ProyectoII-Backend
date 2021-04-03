@@ -190,14 +190,9 @@ public class EmpresaController {
 		return contratoService.listarContratos();
 	}
 	
-	@GetMapping("/listarContratosPorEmpresa/{pNitEmpresa}")
-	public List<Contrato> listarContratosPorEmpresa(@PathVariable Long pNitEmpresa) {
-		return contratoService.listarContratosPorEmpresa(pNitEmpresa);
-	}
-	
-	@GetMapping("/listarContratosPorEstado/{pEstado}/{pNitEmpresa}")
-	public List<Contrato> listarContratosPorEstado(@PathVariable String pEstado,@PathVariable Long pNitEmpresa ) {
-		return contratoService.listarContratosPorEstado(pEstado, pNitEmpresa);
+	@GetMapping("/listarContratosPorEstado/{pNitEmpresa}")
+	public List<Contrato> listarContratosPorEstado(@PathVariable Long pNitEmpresa ) {
+		return contratoService.listarContratosPorEstados(pNitEmpresa);
 	}
 
 	@GetMapping("/listarTipoTerceros")

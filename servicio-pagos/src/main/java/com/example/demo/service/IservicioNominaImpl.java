@@ -100,7 +100,7 @@ public class IservicioNominaImpl implements IservicioNomina {
 		Double ingresoSalarial = redondeo(otrosIngresoSalarial(pEmpleadoNomina));
 		Double ingresoNoSalarial = redondeo(otrosIngresoNoSalarial(pEmpleadoNomina));
 		Double totalDevengado = redondeo(basicoDevengado + auxilioTransporte + horasExtras + recargos + comisiones
-				+ ingresoSalarial);
+				+ ingresoSalarial + ingresoNoSalarial);
 		Double devengadoMenosNoSalarial = redondeo(totalDevengado - ingresoNoSalarial);
 		Double devMenosNosalMenosAuxTrans = redondeo(devengadoMenosNoSalarial - auxilioTransporte);
 		Double saludEmpleado = redondeo(saludEmpleado(devMenosNosalMenosAuxTrans));

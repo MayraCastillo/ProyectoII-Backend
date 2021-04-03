@@ -26,8 +26,7 @@ public interface IcontratoService {
 	public List<Empleado> listarEmpleadosPorEstado(String pEstado);
 	public List<Banco> listarBancos();
 	public List<Contrato> listarContratos();
-	public List<Contrato> listarContratosPorEmpresa(Long pNitEmpresa);
-	public List<Contrato> listarContratosPorEstado(String pEstado, Long PNitEmpresa);
+	public List<Contrato> listarContratosPorEstados(Long PNitEmpresa);
 	public List<TipoTercero> listarTipoTeceros();
 	public List<TarifaArl> listarTarifasArl();
 	public List<Empresa> listarEmpresas();

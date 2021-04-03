@@ -1,23 +1,8 @@
 package com.example.demo.services;
-
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.Column;
-import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.DAO.IbancoDAO;
 import com.example.demo.DAO.IcontratoDAO;
 import com.example.demo.DAO.IempleadoDAO;
@@ -178,11 +163,6 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return contratoDAO.findAll();
 	}
 
-	@Override
-	public List<Contrato> listarContratosPorEmpresa(Long pNitEmpresa) {
-		return contratoDAO.listarContratosPorEmpresa(pNitEmpresa);
-	}
-
 	private Date validacionFecha() {
 		Date myDate = new Date();
 		return myDate;
@@ -201,9 +181,9 @@ public class IcontratoServiceImpl implements IcontratoService {
 	}
 
 	@Override
-	public List<Contrato> listarContratosPorEstado(String pEstado, Long pNitEmpresa) {
+	public List<Contrato> listarContratosPorEstados(Long pNitEmpresa) {
 		actualizarEstadoContratos();
-		return contratoDAO.listarContratosPorEstado(pEstado, pNitEmpresa);
+		return contratoDAO.listarContratosPorEstado(pNitEmpresa);
 	}
 
 	@Override
