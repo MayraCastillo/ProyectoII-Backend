@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.entitys.Banco;
 import com.example.demo.entitys.Contrato;
 import com.example.demo.entitys.Departamento;
@@ -70,9 +70,13 @@ public class EmpresaController {
 	}
 
 	@PostMapping(value = "/crearEmpleado")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado crearMunicipio(@RequestBody Empleado pEmpleado) {
-		return contratoService.crearEmpleado(pEmpleado);
+	public ResponseEntity<Empleado> crearEmpleado(@RequestBody Empleado pEmpleado) {
+        Empleado empleado =  contratoService.crearEmpleado(pEmpleado);        
+        if (empleado == null){
+        	System.out.println("Error");
+        	return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(empleado);
+        }
+		return ResponseEntity.status(HttpStatus.CREATED).body(empleado);
 	}
 
 	@PostMapping(value = "/crearBanco")
@@ -88,9 +92,14 @@ public class EmpresaController {
 	}
 
 	@PostMapping(value = "/crearContrato")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Contrato crearBanco(@RequestBody Contrato pContrato) {
-		return contratoService.crearContrato(pContrato);
+	public ResponseEntity<Contrato> crearContrato(@RequestBody Contrato pContrato) {
+        Contrato contrato =  contratoService.crearContrato(pContrato);        
+        
+        if (contrato == null){
+        	System.out.println("Error");
+        	return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(contrato);
+        }   
+		return ResponseEntity.status(HttpStatus.CREATED).body(contrato);
 	}
 
 	@PostMapping(value = "/crearRelacionEmpleadosBancos")

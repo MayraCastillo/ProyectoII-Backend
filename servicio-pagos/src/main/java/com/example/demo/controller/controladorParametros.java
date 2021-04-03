@@ -74,10 +74,14 @@ public class controladorParametros {
 	}
 	
 	@PostMapping(value = "/crearNomina")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Nomina crearNomina(@RequestBody EmpleadoNomina pEmpleadoNomina) 
+	public ResponseEntity<Nomina> crearNomina(@RequestBody EmpleadoNomina pEmpleadoNomina) 
 	{
-		return servicioNomina.CalcularNomina(pEmpleadoNomina);
+		Nomina nomina = servicioNomina.CalcularNomina(pEmpleadoNomina);
+		if(nomina == null) 
+		{
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(nomina);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(nomina);
 	}
 
 	

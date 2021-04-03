@@ -1196,9 +1196,9 @@ INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 2', 1.044);
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 3', 2.436);
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 4', 4.350);
  
-INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(1,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios','ACTIVO', 1000000);
+/*INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
+VALUES(1,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios','ACTIVO', 1000000);*/
 
  
-INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(2,123,124, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios', 'INACTIVO', 1000000);
+/*INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
+VALUES(2,123,124, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios', 'INACTIVO', 1000000);*/

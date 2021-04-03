@@ -72,7 +72,7 @@ public class IservicioNominaImpl implements IservicioNomina {
 		Nomina Vnomina = nominaDAO.validarNomina(pEmpleadoNomina.getContratoId(), pEmpleadoNomina.getPagoNomina().getFechaFin());
 		if(Vnomina != null) 
 		{
-			return Vnomina;
+			return null;
 		}
 		Pago_nomina pagoNomina = pagoNominaDAO.buscarPorPerido(pEmpleadoNomina.getPagoNomina().getFechaInicio(),
 				pEmpleadoNomina.getPagoNomina().getFechaFin());

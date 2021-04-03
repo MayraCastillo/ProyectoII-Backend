@@ -1,8 +1,21 @@
 package com.example.demo.services;
 
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.Column;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DAO.IbancoDAO;
@@ -55,15 +68,15 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Autowired
 	private IempleadoTerceroDAO empleado_terceroDAO;
-	
+
 	@Autowired
 	private IterceroDAO terceroDAO;
-	
+
 	@Override
 	public Empleado crearEmpleado(Empleado pEmpleado) {
 		Empleado empleado = empleadoDAO.findById(pEmpleado.getNumeroDocumento()).orElse(null);
 		if (empleado != null) {
-			return empleado;
+			return null;
 		}
 		Municipio municipio = municipioDAO.findById(pEmpleado.getMunicipio().getMunicipio_id()).orElse(null);
 		pEmpleado.setMunicipio(municipio);
@@ -83,8 +96,11 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero) {
-		Tercero tercero =terceroDAO.findById(pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getTerceroId()).orElse(null);
-		Empleado_tercero empleadoTercero = empleado_terceroDAO.validacionEmpleadoTercero(tercero.getTipoTercero().getAbreviacion(),pEmpleadoTercero.getEmpleadoTeceroPk().getEmpleado().getNumeroDocumento());
+		Tercero tercero = terceroDAO.findById(pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getTerceroId())
+				.orElse(null);
+		Empleado_tercero empleadoTercero = empleado_terceroDAO.validacionEmpleadoTercero(
+				tercero.getTipoTercero().getAbreviacion(),
+				pEmpleadoTercero.getEmpleadoTeceroPk().getEmpleado().getNumeroDocumento());
 		if (empleadoTercero != null) {
 			return empleadoTercero;
 		}
@@ -99,12 +115,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 		Contrato contrato = contratoDAO.VerificarContrato(numeroDocumento, nit);
 		if (contrato != null) {
 			System.out.println("\n\n El contrato ya existe en la base de datos \n\n");
-			return contrato;
+			return null;
 		}
 		pContrato.setEstado("ACTIVO");
 		return contratoDAO.save(pContrato);
 	}
-	
+
 	@Override
 	public Empresa crearEmpresa(Empresa pEmpresa) {
 		Empresa empresa = empresaDAO.findById(pEmpresa.getNit()).orElse(null);
@@ -113,13 +129,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 		}
 		return empresaDAO.save(pEmpresa);
 	}
-	
+
 	@Override
 	public Empleado_banco crearRelacionEmpBanco(Empleado_banco pEmpleadoBanco) {
 		pEmpleadoBanco.setEstado("ACTIVO");
 		return empleado_bancoDAO.save(pEmpleadoBanco);
 	}
-
 
 	@Override
 	public Empleado editarEmpleado(Empleado pEmpleado) {
@@ -137,15 +152,14 @@ public class IcontratoServiceImpl implements IcontratoService {
 		empleado.setTipoDocumento(empleado.getTipoDocumento());
 		return empleadoDAO.save(empleado);
 	}
-	
+
 	@Override
 	public Contrato buscarContratoPorId(Long idContrato) {
 		return contratoDAO.findById(idContrato).orElse(null);
 	}
 
-
 	@Override
-	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa){
+	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa) {
 		return empleadoDAO.listarEmpleadosPorEmpresa(pNitEmpresa);
 	}
 
@@ -163,14 +177,32 @@ public class IcontratoServiceImpl implements IcontratoService {
 	public List<Contrato> listarContratos() {
 		return contratoDAO.findAll();
 	}
-	
+
 	@Override
 	public List<Contrato> listarContratosPorEmpresa(Long pNitEmpresa) {
 		return contratoDAO.listarContratosPorEmpresa(pNitEmpresa);
 	}
+
+	private Date validacionFecha() {
+		Date myDate = new Date();
+		return myDate;
+	}
 	
+	private void actualizarEstadoContratos() 
+	{
+		contratoDAO.findAll().forEach (contrato ->{
+			if (contrato.getFechaFinContrato().before(validacionFecha())) {
+				System.out.println("\n\n si se puede calcular nomina");
+				contrato.setEstado("INACTIVO");
+				contratoDAO.save(contrato);
+			}
+        });
+		
+	}
+
 	@Override
 	public List<Contrato> listarContratosPorEstado(String pEstado, Long pNitEmpresa) {
+		actualizarEstadoContratos();
 		return contratoDAO.listarContratosPorEstado(pEstado, pNitEmpresa);
 	}
 
@@ -184,7 +216,6 @@ public class IcontratoServiceImpl implements IcontratoService {
 	public List<TarifaArl> listarTarifasArl() {
 		return tarifaArlDAO.findAll();
 	}
-
 
 	@Override
 	public List<Empresa> listarEmpresas() {
@@ -210,6 +241,5 @@ public class IcontratoServiceImpl implements IcontratoService {
 	public List<Empleado> listarEmpleados() {
 		return empleadoDAO.findAll();
 	}
-
 
 }
