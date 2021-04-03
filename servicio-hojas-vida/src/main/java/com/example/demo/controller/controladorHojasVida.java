@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.demo.DTO.HojaVidaDTO;
 import com.example.demo.entity.EmpresaExterna;
-import com.example.demo.entity.HojaVida;
 import com.example.demo.entity.InstitucionEducativa;
-import com.example.demo.model.DatosHojaVida;
 import com.example.demo.service.ServicioEmpresasExternas;
 import com.example.demo.service.ServicioHojasVida;
 import com.example.demo.service.ServicioInstitucionesEducativas;
@@ -63,8 +62,8 @@ public class controladorHojasVida {
 	
 	
 	@GetMapping
-	public ResponseEntity<List<HojaVida>> listarHojasVida(){		
-		List<HojaVida> HojasVidaEncontradas = miServicioHojasVida.listarHojasVida();
+	public ResponseEntity<List<HojaVidaDTO>> listarHojasVida(){		
+		List<HojaVidaDTO> HojasVidaEncontradas = miServicioHojasVida.listarHojasVida();
 		
 		// No hay hojas de vida
         if(HojasVidaEncontradas == null){
@@ -75,8 +74,8 @@ public class controladorHojasVida {
 	}
 			
 	@GetMapping(value = "buscar-por-id/{id}")
-    public ResponseEntity<HojaVida> buscarPlatoPorId(@PathVariable("id") Long hojaVidaId) {
-		HojaVida hojaVidaEncontrada = miServicioHojasVida.buscarHojaVidaPorId(hojaVidaId);
+    public ResponseEntity<HojaVidaDTO> buscarHojaVidaPorId(@PathVariable("id") Long hojaVidaId) {
+		HojaVidaDTO hojaVidaEncontrada = miServicioHojasVida.buscarHojaVidaPorId(hojaVidaId);
         
 		if (hojaVidaEncontrada == null){
             return ResponseEntity.notFound().build();
@@ -85,20 +84,20 @@ public class controladorHojasVida {
     }
 	
 	@PostMapping
-	public ResponseEntity<HojaVida> crearHojaVida(@Valid @RequestBody DatosHojaVida pHojaVida, BindingResult result){
+	public ResponseEntity<HojaVidaDTO> crearHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
 		
 		if (result.hasErrors()){ 			
-			System.out.println("\n\nTiene errores.\n\n");
+			System.out.println("\nErrores en la peticion\n");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
         }
 		
-        HojaVida vHojaVidaEncontrada =  miServicioHojasVida.registrarHojaVida(pHojaVida);        
-        
+        HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.registrarHojaVida(pHojaVida);       
+        /*
         if (vHojaVidaEncontrada == null){
         	System.out.println("Error");
         	return ResponseEntity.notFound().build();
-        }        
-        
+        } 
+        */               
         return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);
     }    
 	

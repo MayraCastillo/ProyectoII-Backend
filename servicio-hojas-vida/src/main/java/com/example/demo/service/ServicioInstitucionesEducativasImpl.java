@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DAO.InstitucionesEducativasDAO;
 import com.example.demo.entity.InstitucionEducativa;
-import com.example.demo.repository.InstitucionesEducativasDAO;
 
 import lombok.RequiredArgsConstructor;
 

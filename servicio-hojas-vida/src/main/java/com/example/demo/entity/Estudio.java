@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -39,22 +40,24 @@ public class Estudio {
 	private Long estudioId;
 	
 	@Column(name = "numero_documento")
+	@NotNull
 	private Long numeroDocumento;
 	
 	@Column(name = "nombre_titulo")
-	@NotNull(message = "El nombre del titulo no puede ser nulo")
+	@NotEmpty(message = "El nombre del titulo no puede ser nulo")
 	private String nombreTitulo;
 	
 	@Column(name = "calificacion")
+	@NotNull
 	private Double calificacion;
 	
 	@Column(name = "tipo")
-	@NotNull(message = "El tipo no puede ser nulo")
+	@NotEmpty(message = "El tipo no puede ser nulo")
 	private String tipo;
 	
 	@Column(name = "tiempo")
-	@NotNull(message = "El tiempo de estudio no puede ser nulo")
-	private Integer tiempo;
+	@NotEmpty(message = "El tiempo de estudio no puede ser nulo")
+	private String tiempo;
 	
 	
 	// RELACIONES CON OTRAS TABLAS

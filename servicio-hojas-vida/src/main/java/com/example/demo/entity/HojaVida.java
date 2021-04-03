@@ -10,13 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import com.example.demo.model.Municipio;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -42,24 +41,24 @@ public class HojaVida {
 	@NotNull(message = "el numero de documento no puede ser Nulo")
 	private Long numeroDocumento;
 	
-	@NotNull(message = "el tipo de documento no puede ser nulo")
+	@NotEmpty(message = "el tipo de documento no puede ser nulo")
 	@Column(name = "tipo_documento")
 	private String tipoDocumento;
 	
 	@Column(name = "nombres")
-	@NotNull(message = "Los nombres no pueden ser nulos")
+	@NotEmpty(message = "Los nombres no pueden ser nulos")
 	private String nombres;
 	
 	@Column(name = "apellidos")
-	@NotNull(message = "Los apellidos no pueden ser nulos")
+	@NotEmpty(message = "Los apellidos no pueden ser nulos")
 	private String apellidos;
 	
 	@Column(name = "telefono")
-	@NotNull(message = "El telefono no puede ser nulo")
+	@NotEmpty(message = "El telefono no puede ser nulo")
 	private String telefono;
 	
 	@Column(name = "correo")
-	@NotNull(message = "El correo no puede ser nulo")
+	@NotEmpty(message = "El correo no puede ser nulo")
 	@Email
 	private String correo;
 	
@@ -68,6 +67,7 @@ public class HojaVida {
 	private Long municipioId;
 	
 	@Column(name = "direccion")
+	@NotEmpty(message = "La direccion no puede ser nula")
 	private String direccion;
 	
 	@Column(name = "calificacion")
@@ -75,11 +75,11 @@ public class HojaVida {
 	private Double calificacion;
 	
 	@Column(name = "nit_empresa")
-	@NotNull(message = "El nit de la empresa no puede ser nulo") 
+	//@NotEmpty(message = "El nit de la empresa no puede ser nulo") 
 	private String nitEmpresa;
 	
 	@Column(name = "estado_persona")
-	@NotNull(message = "El estado de la persona no puede ser nulo") 
+	@NotEmpty(message = "El estado de la persona no puede ser nulo") 
     private String estadoPersona;
 	
 	// RELACIONES CON OTRAS TABLAS
@@ -119,12 +119,6 @@ public class HojaVida {
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "numero_documento")	
 	@Valid
-	private List<Estudio> estudios;
-	
-	/**
-	 * Ubicacion de residencia de la persona, municipio, departamento y pais
-	 */
-	@Transient
-	private Municipio municipio;	
+	private List<Estudio> estudios;	
 	
 }

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -33,17 +34,18 @@ public class ReferenciaPersonal {
 	private Long referenciaId;
 	
 	@Column(name = "numero_documento")
+	@NotNull
 	private Long numeroDocumento;
 	
 	@Column(name = "nombres")
-	@NotNull(message = "Los nombres de la referencia personal no pueden ser nulos")
+	@NotEmpty(message = "Los nombres de la referencia personal no pueden ser nulos")
 	private String nombres;
 	
 	@Column(name = "apellidos")
 	private String apellidos;
 	
 	@Column(name = "telefono")
-	@NotNull(message = "El telefono no puede ser nulo")
+	@NotEmpty(message = "El telefono no puede ser nulo")
 	private String telefono;
 	
 }
