@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ServicioInstitucionesEducativasImpl implements ServicioInstitucionesEducativas{
+public class ServicioInstitucionesEducativasImpl implements IntServicioInstitucionesEducativas{
 	
 	/**
 	 * Abstraccion del medio de almacenamiento de datos, de las entidades mapeadas en la base de datos

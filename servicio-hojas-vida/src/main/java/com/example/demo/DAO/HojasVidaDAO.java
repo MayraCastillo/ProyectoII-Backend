@@ -17,7 +17,11 @@ import com.example.demo.entity.HojaVida;
 public interface HojasVidaDAO extends JpaRepository<HojaVida, Long> {
 
 	/**
-	 * Buscar por Id (numero de documento), buscar todo, viene de forma implicita
+	 * Buscar hoja de vida por correo, el correo es validado con unique (unico)
+	 * 
+	 * @param correo cadena con el correo a buscar
+	 * @return Hoja de vida encontrada
 	 */
+	public HojaVida findByCorreo(String correo);
 	
 }

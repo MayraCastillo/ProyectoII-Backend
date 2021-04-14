@@ -57,7 +57,7 @@ public class HojaVida {
 	@NotEmpty(message = "El telefono no puede ser nulo")
 	private String telefono;
 	
-	@Column(name = "correo")
+	@Column(name = "correo", unique = true)
 	@NotEmpty(message = "El correo no puede ser nulo")
 	@Email
 	private String correo;

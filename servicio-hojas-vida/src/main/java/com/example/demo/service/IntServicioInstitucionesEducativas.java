@@ -12,7 +12,7 @@ import com.example.demo.entity.InstitucionEducativa;
  *
  */
 
-public interface ServicioInstitucionesEducativas {
+public interface IntServicioInstitucionesEducativas {
 
 	public List<InstitucionEducativa> listarInstitucionesEducativas();
 	
