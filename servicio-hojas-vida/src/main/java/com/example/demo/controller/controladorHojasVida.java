@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +23,9 @@ import org.springframework.web.server.ResponseStatusException;
 import com.example.demo.DTO.HojaVidaDTO;
 import com.example.demo.entity.EmpresaExterna;
 import com.example.demo.entity.InstitucionEducativa;
-import com.example.demo.service.ServicioEmpresasExternas;
-import com.example.demo.service.ServicioHojasVida;
-import com.example.demo.service.ServicioInstitucionesEducativas;
+import com.example.demo.service.IntServicioEmpresasExternas;
+import com.example.demo.service.IntServicioHojasVida;
+import com.example.demo.service.IntServicioInstitucionesEducativas;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,21 +44,21 @@ public class controladorHojasVida {
 	 * utilizando inyeccion de dependencias, automatizado por el framework con la decoracion @Autowired
 	 */
 	@Autowired
-    private ServicioHojasVida miServicioHojasVida;	
+    private IntServicioHojasVida miServicioHojasVida;	
 	
 	/**
 	 * Referencia a los servicios disponibles sobre las empresas externas, 
 	 * utilizando inyeccion de dependencias, automatizado por el framework con la decoracion @Autowired
 	 */
 	@Autowired
-    private ServicioEmpresasExternas miServicioEmpresasExternas;	
+    private IntServicioEmpresasExternas miServicioEmpresasExternas;	
 	
 	/**
 	 * Referencia a los servicios disponibles sobre las instituciones educativas, 
 	 * utilizando inyeccion de dependencias, automatizado por el framework con la decoracion @Autowired
 	 */
 	@Autowired
-    private ServicioInstitucionesEducativas miServicioInstitucionesEducativas;	
+    private IntServicioInstitucionesEducativas miServicioInstitucionesEducativas;	
 		
 	
 	
@@ -83,6 +84,16 @@ public class controladorHojasVida {
         return ResponseEntity.ok(hojaVidaEncontrada);
     }
 	
+	@GetMapping(value = "buscar-por-correo/{correo}")
+    public ResponseEntity<HojaVidaDTO> buscarHojaVidaPorCorreo(@PathVariable("correo") String correo) {
+		HojaVidaDTO hojaVidaEncontrada = miServicioHojasVida.buscarHojaVidaPorCorreo(correo);
+        
+		if (hojaVidaEncontrada == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(hojaVidaEncontrada);
+    }	
+	
 	@PostMapping
 	public ResponseEntity<HojaVidaDTO> crearHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
 		
@@ -92,14 +103,32 @@ public class controladorHojasVida {
         }
 		
         HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.registrarHojaVida(pHojaVida);       
-        /*
+        
         if (vHojaVidaEncontrada == null){
-        	System.out.println("Error");
+        	System.out.println("Error al crear hoja de vida");
+        	throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED, this.formatMessage(result));
+        } 
+                       
+        return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);
+    }  
+	
+	@PutMapping
+	public ResponseEntity<HojaVidaDTO> actualizarHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
+		
+		if (result.hasErrors()){ 			
+			System.out.println("\nErrores en la peticion\n");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
+        }
+		
+        HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.actualizarHojaVida(pHojaVida);       
+        
+        if (vHojaVidaEncontrada == null){
+        	System.out.println("Error, hoja de vida no encontrada");
         	return ResponseEntity.notFound().build();
         } 
-        */               
-        return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);
-    }    
+                       
+        return ResponseEntity.status(HttpStatus.OK).body(vHojaVidaEncontrada);
+    } 
 	
 	
 	

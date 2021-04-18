@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Component
 @Data
 @NoArgsConstructor
-public class ServicioUbicacion {
+public class ServicioUbicacionImpl implements IntServicioUbicacion{
 	
 	/**
 	 * Referencia al servicio de la empresa, utilizando inyeccion de dependencias
@@ -49,7 +49,7 @@ public class ServicioUbicacion {
 	
 	
 	
-	
+	@Override
 	public boolean validarUbicacion(Long pIdMunicipio) {
 		boolean esValido = false;
 		
@@ -63,6 +63,7 @@ public class ServicioUbicacion {
 		return esValido;
 	}
 	
+	@Override
 	public MunicipioDTO consultarMunicipio(Long pIdMunicipio) {
 		if(pIdMunicipio != null) {
 			
@@ -77,6 +78,7 @@ public class ServicioUbicacion {
 		return null;
 	}	
 	
+	@Override
 	public void agregarUbicacionAHojaVida(HojaVidaDTO pHojaVidaDTO) {
 		if(pHojaVidaDTO != null) {
 			MunicipioDTO munEncontrado = this.consultarMunicipio(pHojaVidaDTO.getMunicipioId());
@@ -86,6 +88,7 @@ public class ServicioUbicacion {
 		}
 	}
 	
+	@Override
 	public void agregarUbicacionAHojasVida(List<HojaVidaDTO> pHojasVidaDTO){
 		// Almacena los municipios diferentes encontrados en cada hoja de vida
 		// TODO ¿como variable global?

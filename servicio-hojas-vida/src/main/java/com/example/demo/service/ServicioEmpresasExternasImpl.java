@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ServicioEmpresasExternasImpl implements ServicioEmpresasExternas{
+public class ServicioEmpresasExternasImpl implements IntServicioEmpresasExternas{
 	
 	/**
 	 * Abstraccion del medio de almacenamiento de datos, de las entidades mapeadas en la base de datos

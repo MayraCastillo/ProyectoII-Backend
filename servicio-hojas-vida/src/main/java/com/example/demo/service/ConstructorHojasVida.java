@@ -67,7 +67,9 @@ public class ConstructorHojasVida {
 		
 		if(pHojaVidaDTO.getReferenciasFamiliares() != null) {
 			for(ReferenciaFamiliarDTO datosRef : pHojaVidaDTO.getReferenciasFamiliares()) {
-				referencias.add(this.crearReferenciaFamiliar(datosRef, pHojaVidaDTO));
+				if(this.validarReferenciaFamiliarDTO(datosRef)) {
+					referencias.add(this.crearReferenciaFamiliar(datosRef, pHojaVidaDTO));
+				}
 			}			
 		}
 		
@@ -76,6 +78,7 @@ public class ConstructorHojasVida {
 	private ReferenciaFamiliar crearReferenciaFamiliar(ReferenciaFamiliarDTO pReferencia, HojaVidaDTO pHojaVida) {
 		ReferenciaFamiliar referencia = new ReferenciaFamiliar();
 		
+		referencia.setReferenciaId(pReferencia.getReferenciaId());
 		referencia.setNombres(pReferencia.getNombres());
 		referencia.setApellidos(pReferencia.getApellidos());
 		referencia.setTelefono(pReferencia.getTelefono());
@@ -90,7 +93,9 @@ public class ConstructorHojasVida {
 		
 		if(pHojaVidaDTO.getReferenciasPersonales() != null) {
 			for(ReferenciaPersonalDTO datosRef : pHojaVidaDTO.getReferenciasPersonales()) {
-				referencias.add(this.crearReferenciaPersonal(datosRef, pHojaVidaDTO));
+				if(this.validarReferenciaPersonalDTO(datosRef)) {
+					referencias.add(this.crearReferenciaPersonal(datosRef, pHojaVidaDTO));
+				}
 			}			
 		}
 		
@@ -99,6 +104,7 @@ public class ConstructorHojasVida {
 	private ReferenciaPersonal crearReferenciaPersonal(ReferenciaPersonalDTO pReferencia, HojaVidaDTO pHojaVida) {
 		ReferenciaPersonal referencia = new ReferenciaPersonal();
 		
+		referencia.setReferenciaId(pReferencia.getReferenciaId());
 		referencia.setNombres(pReferencia.getNombres());
 		referencia.setApellidos(pReferencia.getApellidos());
 		referencia.setTelefono(pReferencia.getTelefono());
@@ -112,7 +118,9 @@ public class ConstructorHojasVida {
 		
 		if(pHojaVidaDTO.getExperienciasLaborales() != null) {
 			for(ExperienciaLaboralDTO datos : pHojaVidaDTO.getExperienciasLaborales()) {
-				experiencias.add(this.crearExperienciaLaboral(datos, pHojaVidaDTO));
+				if(this.validarExperienciaDTO(datos)) {
+					experiencias.add(this.crearExperienciaLaboral(datos, pHojaVidaDTO));
+				}
 			}			
 		}
 		
@@ -121,12 +129,14 @@ public class ConstructorHojasVida {
 	private ExperienciaLaboral crearExperienciaLaboral(ExperienciaLaboralDTO pExperiencia, HojaVidaDTO pHojaVida) {
 		ExperienciaLaboral exp = new ExperienciaLaboral();
 		
+		exp.setExpId(pExperiencia.getExpId());
 		exp.setCargo(pExperiencia.getCargoEmpresa());
 		exp.setCalificacion(pExperiencia.getCalificacion());
 		exp.setTiempo(pExperiencia.getTiempo());
 		exp.setNumeroDocumento(pHojaVida.getNumeroDocumento());
 		
 		EmpresaExterna ee = new EmpresaExterna();
+		
 		ee.setNombre(pExperiencia.getNombreEmpresa());
 		ee.setContacto(pExperiencia.getContacto());
 		ee.setTelefono(pExperiencia.getTelefonoEmpresa());
@@ -141,7 +151,9 @@ public class ConstructorHojasVida {
 		
 		if(pHojaVidaDTO.getEstudios() != null) {
 			for(EstudioDTO datos : pHojaVidaDTO.getEstudios()) {
-				estudios.add(this.crearEstudio(datos, pHojaVidaDTO));
+				if(this.validarEstudioDTO(datos)) {
+					estudios.add(this.crearEstudio(datos, pHojaVidaDTO));
+				}
 			}			
 		}
 		
@@ -150,13 +162,14 @@ public class ConstructorHojasVida {
 	private Estudio crearEstudio(EstudioDTO pEstudio, HojaVidaDTO pHojaVida) {
 		Estudio estudio = new Estudio();
 		
+		estudio.setEstudioId(pEstudio.getEstudioId());
 		estudio.setNombreTitulo(pEstudio.getNombreTitulo());
 		estudio.setCalificacion(pEstudio.getCalificacion());
 		estudio.setTipo(pEstudio.getTipo());
 		estudio.setTiempo(pEstudio.getTiempo());
 		estudio.setNumeroDocumento(pHojaVida.getNumeroDocumento());
 		
-		InstitucionEducativa inst = new InstitucionEducativa();
+		InstitucionEducativa inst = new InstitucionEducativa();				
 		inst.setNombre(pEstudio.getEntidad());
 		
 		estudio.setInstitucionEducativa(inst);
@@ -301,5 +314,37 @@ public class ConstructorHojasVida {
 	
 	// ------------------------------------------------------------------------------------
 	
+	// Validaciones -----------------------------------------------------------------------
 	
+	public boolean validarEstudioDTO(EstudioDTO estudio) {
+		if(estudio.getNombreTitulo().isEmpty() ||
+				estudio.getTipo().isEmpty() || 
+					estudio.getTiempo().isEmpty()) {
+			
+			return false;
+		}
+		return true;
+	}
+	public boolean validarExperienciaDTO(ExperienciaLaboralDTO exp) {
+		if(exp.getContacto().isEmpty() || exp.getCargoEmpresa().isEmpty() || exp.getTiempo().isEmpty()) {
+			return false;			
+		}
+		return true;
+	}
+	public boolean validarReferenciaFamiliarDTO(ReferenciaFamiliarDTO referencia) {
+		if(referencia.getNombres().isEmpty() || referencia.getApellidos().isEmpty() || referencia.getParentesco().isEmpty()
+				|| referencia.getTelefono().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	public boolean validarReferenciaPersonalDTO(ReferenciaPersonalDTO referencia) {
+		if(referencia.getNombres().isEmpty() || referencia.getApellidos().isEmpty() || referencia.getTelefono().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	// ------------------------------------------------------------------------------------
 }
