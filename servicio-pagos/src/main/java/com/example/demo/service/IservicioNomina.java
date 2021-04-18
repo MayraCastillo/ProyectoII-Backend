@@ -9,10 +9,13 @@ import com.example.demo.entity.RegistroHoras;
 import com.example.demo.model.EmpleadoNomina;
 
 public interface IservicioNomina {
+
 	public RegistroHoras crearRegistroHoras(RegistroHoras pRegistroHoras);
 	public Factores crearFactores(Factores pFactores);
 	public Pago_nomina crearPagoNomina(Pago_nomina pPagoNomina);
 	public Nomina crearNomina(Nomina pNomina);
+	public Nomina guardarNomina(EmpleadoNomina pEmpleadoNomina);
+	public Nomina pagarNomina(Long pIdNomina);
 	public Nomina CalcularNomina(EmpleadoNomina pEmpleadoNomina);
 	public List<Pago_nomina> listarPagosNominas();
 	public List<Nomina> listarNominas();

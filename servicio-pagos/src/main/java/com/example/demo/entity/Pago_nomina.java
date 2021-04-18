@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -33,18 +34,20 @@ public class Pago_nomina implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pago_nomina_id")
 	private Long pagoNominaId;
-
+	
+	@NotNull(message = "El valor del campo fechaInicio no puede ser nulo")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 
+	@NotNull(message = "El valor del campo fechaFin no puede ser nulo")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "fecha_fin")
 	private Date fechaFin;
 
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo detalle no puede ser vacio")
 	@Column(name = "detalle")
 	private String detalle;
 

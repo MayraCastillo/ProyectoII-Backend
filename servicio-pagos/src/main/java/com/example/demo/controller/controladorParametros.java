@@ -123,6 +123,30 @@ public class controladorParametros {
 
 		return ResponseEntity.ok(parametroEncontrado);
 	}
+	
+	@PostMapping(value = "/guardarNomina")
+	public ResponseEntity<Nomina> guardarNomina(@RequestBody EmpleadoNomina pEmpleadoNomina) 
+	{
+		Nomina nomina = servicioNomina.guardarNomina(pEmpleadoNomina);
+		if(nomina == null) 
+		{
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(nomina);
+		}
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(nomina);
+	}
+	
+	@PostMapping(value = "/pagarNomina/{pIdNomina}")
+	public ResponseEntity<Nomina> pagarNomina(@PathVariable Long pIdNomina)
+	{
+		Nomina nomina = servicioNomina.pagarNomina(pIdNomina);
+		if(nomina == null) 
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(nomina);
+		}
+	
+		return ResponseEntity.status(HttpStatus.OK).body(nomina);
+	}
 
 	@GetMapping
 	public ResponseEntity<List<ParametroLegal>> listarParametrosLegales() {

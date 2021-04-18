@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +41,13 @@ public class EmpresaController {
 	private IcontratoService contratoService;
 
 	@PostMapping("/crearTercero")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Tercero crearTercero(@RequestBody Tercero pTercero) {
-		return terceroSevice.crearTercero(pTercero);
+	public ResponseEntity<Tercero> crearTercero(@RequestBody Tercero pTercero) {
+		Tercero tercero = terceroSevice.crearTercero(pTercero);
+		if(tercero == null) 
+		{
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(tercero);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(tercero);
 	}
 	
 	@PostMapping("/crearTipoTercero")
@@ -118,6 +123,39 @@ public class EmpresaController {
 	public Contrato buscarContratoPorId(@PathVariable Long pIdContrato) {
 		return contratoService.buscarContratoPorId(pIdContrato);
 	}
+	
+	@GetMapping(value = "/buscarEmpleadoPorNumeroDocumento/{pNumeroDocumento}")
+	public ResponseEntity<Empleado> buscarEmpleadoPorNumeroDocumento(@PathVariable Long pNumeroDocumento){
+		Empleado empleado = contratoService.buscarEmpleadoPorNumeroDocumento(pNumeroDocumento);
+		if(empleado == null) 
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(empleado);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(empleado);
+	}
+	
+	@GetMapping(value = "/buscarTerceroPorNit/{pNit}")
+	public ResponseEntity<Tercero> buscarTerceroPorNIt(@PathVariable Long pNit)
+	{
+		Tercero tercero = terceroSevice.buscarTerceroPorNit(pNit);
+		if(tercero == null) 
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(tercero);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(tercero);
+	}
+	
+	@PutMapping(value = "/actualizarTercero/{pNit}")
+	public ResponseEntity<Tercero> actualizarTercero(@PathVariable Long pNit,@RequestBody Tercero pTercero)
+	{
+		pTercero.setNit(pNit);
+		Tercero tercero = terceroSevice.actualizarTercero(pTercero);
+		if(tercero == null) 
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(tercero);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(tercero);
+	}
 
 	@GetMapping("/listarTerceros")
 	public List<Tercero> listarTerceros() {
@@ -125,8 +163,13 @@ public class EmpresaController {
 	}
 	
 	@GetMapping("/listarTercerosPorTipo/{pTipoId}")
-	public List<Tercero> listarTercerosPorTipo(@PathVariable Long pTipoId) {
-		return terceroSevice.listarTercerosPorTipo(pTipoId);
+	public ResponseEntity<List<Tercero>> listarTercerosPorTipo(@PathVariable Long pTipoId) {
+		List<Tercero> terceros = terceroSevice.listarTercerosPorTipo(pTipoId);
+		if(terceros.isEmpty()) 
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(terceros);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(terceros);
 	}
 	
 	@GetMapping("/listarTercerosPorEmpleado/{pNumDocumento}")

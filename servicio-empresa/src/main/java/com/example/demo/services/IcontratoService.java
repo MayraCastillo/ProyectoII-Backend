@@ -19,7 +19,8 @@ public interface IcontratoService {
 	public Empleado_banco crearRelacionEmpBanco(Empleado_banco pEmpleadoBanco);
 	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero);
 	public Empleado editarEmpleado(Empleado pEmpleado);
-	public Contrato buscarContratoPorId(Long idContrato);
+	public Contrato buscarContratoPorId(Long pIdContrato);
+	public Empleado buscarEmpleadoPorNumeroDocumento(Long pNumeroDocumento);
 	public List<Empleado> listarEmpleados();
 	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa);
 	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado);

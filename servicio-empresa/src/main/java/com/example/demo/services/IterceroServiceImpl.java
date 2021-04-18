@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.demo.DAO.ImunicipioDAO;
 import com.example.demo.DAO.IterceroDAO;
 import com.example.demo.DAO.ItipoTerceroDAO;
@@ -12,15 +11,17 @@ import com.example.demo.entitys.Municipio;
 import com.example.demo.entitys.Tercero;
 import com.example.demo.entitys.TipoTercero;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class IterceroServiceImpl implements IterceroService {
 
-	@Autowired
-	private IterceroDAO terceroDAO;
+	private final IterceroDAO terceroDAO;
 
 	@Autowired
 	private ImunicipioDAO municipioDAO;
-	
+
 	@Autowired
 	private ItipoTerceroDAO tipoTerceroDAO;
 
@@ -28,26 +29,29 @@ public class IterceroServiceImpl implements IterceroService {
 	public Tercero crearTercero(Tercero pTercero) {
 		Tercero tercero = terceroDAO.findByNombre(pTercero.getNombre());
 		if (tercero != null) {
-			return tercero;
+			return null;
 		}
 		Municipio municipio = municipioDAO.findById(pTercero.getMunicipio().getMunicipio_id()).orElse(null);
 		pTercero.setMunicipio(municipio);
-		
+
 		TipoTercero tipoTercero = tipoTerceroDAO.findById(pTercero.getTipoTercero().getTipoTerceroId()).orElse(null);
-	    pTercero.setTipoTercero(tipoTercero);
+		pTercero.setTipoTercero(tipoTercero);
 		return terceroDAO.save(pTercero);
 	}
-	
+
 	@Override
 	public TipoTercero crearTipoTercero(TipoTercero pTipoTercero) {
 		TipoTercero tipoTercero = tipoTerceroDAO.findByAbreviacion(pTipoTercero.getAbreviacion());
-		if(tipoTercero != null) 
-		{
+		if (tipoTercero != null) {
 			return tipoTercero;
 		}
 		return tipoTerceroDAO.save(pTipoTercero);
 	}
 
+	@Override
+	public Tercero buscarTerceroPorNit(Long pNit) {
+		return terceroDAO.findByNit(pNit);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -59,15 +63,14 @@ public class IterceroServiceImpl implements IterceroService {
 	@Override
 	@Transactional
 	public Tercero actualizarTercero(Tercero pTercero) {
-		Tercero tercero = terceroDAO.findById(pTercero.getTerceroId()).orElse(null);
-		if(tercero == null) 
-		{
+		Tercero tercero = terceroDAO.findByNit(pTercero.getNit());
+		if (tercero == null) {
 			return null;
 		}
 		tercero.setCorreo(pTercero.getCorreo());
 		tercero.setNombre(pTercero.getNombre());
 		tercero.setTelefono(pTercero.getTelefono());
-		tercero.setTipoTercero(pTercero.getTipoTercero());
+		tercero.setDireccion(pTercero.getDireccion());
 		return terceroDAO.save(tercero);
 	}
 
@@ -80,6 +83,5 @@ public class IterceroServiceImpl implements IterceroService {
 	public List<Tercero> listarTercerosPorEmpleado(Long pNumeroDocumento) {
 		return terceroDAO.listarTercerosPorEmpleado(pNumeroDocumento);
 	}
-
 
 }

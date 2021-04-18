@@ -1,3 +1,4 @@
+
 INSERT INTO paises (nombre) VALUES ('Colombia');
 
 -- DEPARTAMENTOS
@@ -1172,10 +1173,15 @@ INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Servicio nacional de ap
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Institulo colombiano de bienestar familiar', 'ICBF');
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Escuela superior de administracion publica', 'ESAP');
 
-INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero salud', 'Carrera 21A', 'tecero@hotmail.com', '1234', 1);
+/*INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero salud', 'Carrera 21A', 'tecero@hotmail.com', '1234', 1);
 INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero salud 2', 'Carrera 22A', 'tecero2@hotmail.com', '1235', 1);
 INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero fondos de pensiones y cesantias', 'Carrera 23A', 'tecero3@hotmail.com', '1236', 2);
-INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero riesgos laborales', 'Carrera 24A', 'tecero4@hotmail.com', '1237', 3);
+INSERT INTO terceros (mun_id, nombre, direccion, correo, telefono, tipo_tercero_id) VALUES (1, 'tercero riesgos laborales', 'Carrera 24A', 'tecero4@hotmail.com', '1237', 3);*/
+
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (123, 1, 'tercero salud', 'Carrera 21A', 'tecero@hotmail.com', '1234', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (124, 1, 'tercero salud 2', 'Carrera 22A', 'tecero2@hotmail.com', '1235', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (125, 1, 'tercero fondos de pensiones y cesantias', 'Carrera 23A', 'tecero3@hotmail.com', '1236', 2, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (126, 1, 'tercero riesgos laborales', 'Carrera 24A', 'tecero4@hotmail.com', '1237', 3, 'ACTIVO');
 
 INSERT INTO bancos (nombre,telefono) VALUES ('BBC','310836213');
 
@@ -1184,8 +1190,11 @@ INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacim
 
 INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,1,'123456','Ahorros', NOW(), 'ACTIVO');
 
-INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (1,123,NOW(),'ACTIVO');
-INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (3,123,NOW(),'ACTIVO');
+/*INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (1,123,NOW(),'ACTIVO');
+INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (3,123,NOW(),'ACTIVO');*/
+
+INSERT INTO empleados_terceros(nit, numero_documento,fecha_vinculacion,estado) VALUES (123,123,NOW(),'ACTIVO');
+INSERT INTO empleados_terceros(nit, numero_documento,fecha_vinculacion,estado) VALUES (125,123,NOW(),'ACTIVO');
 
 
 INSERT INTO empresas (nit, nombre, telefono, direccion, frecuencia_pago) VALUES (123, 'Restaurante PRO', '3124567834', 'Trasv 9 #56 con calle 5', 'MENSUAL');
@@ -1196,9 +1205,9 @@ INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 2', 1.044);
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 3', 2.436);
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 4', 4.350);
  
-/*INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(1,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios','ACTIVO', 1000000);*/
+INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
+VALUES(1,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios','ACTIVO', 1000000);
 
  
-/*INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(2,123,124, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios', 'INACTIVO', 1000000);*/
+INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
+VALUES(2,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios', 'INACTIVO', 1000000);
