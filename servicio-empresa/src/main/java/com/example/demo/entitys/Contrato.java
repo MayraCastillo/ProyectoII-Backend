@@ -15,6 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.example.demo.models.ContratoPk;
@@ -61,14 +63,16 @@ public class Contrato implements Serializable {
 	private Date fechaFinPrueba;
 
 	@Column(name = "tipo")
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo tipo no puede ser vacio")
 	private String tipo;
 
 	@Column(name = "estado")
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo estado no puede ser vacio")
 	private String estado;
 	
 	@Column(name = "salario_base")
+	@Positive(message = "El valor del campo salarioBase no puede ser negativo")
+	@NotNull(message = "El valor del campo salarioBase no puede ser nulo")
 	private Double salarioBase;
 	
 	private static final long serialVersionUID = -6439404648221250056L;

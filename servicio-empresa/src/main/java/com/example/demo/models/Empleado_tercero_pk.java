@@ -27,7 +27,7 @@ public class Empleado_tercero_pk implements Serializable {
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "terc_id",insertable = false,updatable = false)
+	@JoinColumn(name = "nit",insertable = false,updatable = false)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Tercero tercero;
 	

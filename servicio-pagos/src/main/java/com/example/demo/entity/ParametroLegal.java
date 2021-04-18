@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class ParametroLegal {
 	
 	@NotNull(message = "El valor del parametro no puede ser nulo")
 	@Column(name = "valor")
+	@Positive(message = "El valor del parametro no puede ser vacio")
 	private Double valor;
 
 }

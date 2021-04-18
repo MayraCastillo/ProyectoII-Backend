@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -34,11 +35,13 @@ public class ContratoPk implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="numero_documento")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@NotNull(message = "El campo no empleado no puede ser nulo")
 	private Empleado empleado;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "nit")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@NotNull(message = "El campo empresa no puede ser vacio")
 	private Empresa empresa;
 	
 	@Column(name = "fecha_inicio_contrato")

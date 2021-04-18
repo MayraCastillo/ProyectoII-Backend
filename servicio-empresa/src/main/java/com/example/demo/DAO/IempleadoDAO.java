@@ -9,8 +9,9 @@ import com.example.demo.entitys.Empleado;
 
 @Repository
 public interface IempleadoDAO extends JpaRepository<Empleado, Long> {
-	public Empleado findByNombres(String pNombre);
-	public List<Empleado> findByEstado(String pNombre);
+	public List<Empleado> findByNombres(String pNombre);
+	public List<Empleado> findByEstadoIgnoreCase(String pNombre);
+	public Empleado findByNumeroDocumento(Long pNumeroDocumento);
 	
 	@Query("SELECT e FROM Empleado e INNER JOIN e.listaContratos c WHERE c.contratoPk.empresa.nit = (?1) AND c.estado = (?2)")
 	public List<Empleado> listarEmpleadosPorEstado(Long pNit, String pEstado);

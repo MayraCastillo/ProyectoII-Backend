@@ -11,6 +11,7 @@ import com.example.demo.entitys.Tercero;
 @Repository
 public interface IterceroDAO extends JpaRepository<Tercero, Long> {
 	public Tercero findByNombre(String pNombre);
+	public Tercero findByNit(Long pNIT);
 
 	@Query("SELECT t FROM Tercero t WHERE t.tipoTercero.tipoTerceroId = ?1")
 	public List<Tercero> listarTercerosPorTipo(Long pTipoId);
