@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import com.example.demo.DAO.HojasVidaDAO;
@@ -20,6 +22,8 @@ import com.example.demo.entity.HojaVida;
 
 @Service
 @RequiredArgsConstructor
+@Data
+//@AllArgsConstructor// @NoArgsConstructor @Builder
 public class ServicioHojasVidaImpl implements IntServicioHojasVida{	
 		
 	/**
