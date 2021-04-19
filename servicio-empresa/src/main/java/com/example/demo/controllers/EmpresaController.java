@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,7 @@ public class EmpresaController {
 	private IcontratoService contratoService;
 
 	@PostMapping("/crearTercero")
-	public ResponseEntity<Tercero> crearTercero(@RequestBody Tercero pTercero) {
+	public ResponseEntity<Tercero> crearTercero(@RequestBody @Valid Tercero pTercero) {
 		Tercero tercero = terceroSevice.crearTercero(pTercero);
 		if(tercero == null) 
 		{
@@ -52,30 +54,30 @@ public class EmpresaController {
 	
 	@PostMapping("/crearTipoTercero")
 	@ResponseStatus(HttpStatus.CREATED)
-	public TipoTercero crearTipoTercero(@RequestBody TipoTercero pTipoTercero) {
+	public TipoTercero crearTipoTercero(@RequestBody @Valid TipoTercero pTipoTercero) {
 		return terceroSevice.crearTipoTercero(pTipoTercero);
 	}
 
 	@PostMapping(value = "/crearPais")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Pais crearPais(@RequestBody Pais pPais) {
+	public Pais crearPais(@RequestBody @Valid Pais pPais) {
 		return ubicacionService.crearPais(pPais);
 	}
 
 	@PostMapping(value = "/crearDepartamento")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Departamento crearDepartamento(@RequestBody Departamento pDepartamento) {
+	public Departamento crearDepartamento(@RequestBody @Valid Departamento pDepartamento) {
 		return ubicacionService.crearDepartamento(pDepartamento);
 	}
 
 	@PostMapping(value = "/crearMunicipio")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Municipio crearMunicipio(@RequestBody Municipio pMunicipio) {
+	public Municipio crearMunicipio(@RequestBody @Valid Municipio pMunicipio) {
 		return ubicacionService.crearMunicipio(pMunicipio);
 	}
 
 	@PostMapping(value = "/crearEmpleado")
-	public ResponseEntity<Empleado> crearEmpleado(@RequestBody Empleado pEmpleado) {
+	public ResponseEntity<Empleado> crearEmpleado(@RequestBody @Valid Empleado pEmpleado) {
         Empleado empleado =  contratoService.crearEmpleado(pEmpleado);        
         if (empleado == null){
         	System.out.println("Error");
@@ -86,18 +88,18 @@ public class EmpresaController {
 
 	@PostMapping(value = "/crearBanco")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Banco crearBanco(@RequestBody Banco pBanco) {
+	public Banco crearBanco(@RequestBody @Valid Banco pBanco) {
 		return contratoService.crearBanco(pBanco);
 	}
 
 	@PostMapping(value = "/crearEmpresa")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empresa crearEmpresa(@RequestBody Empresa pEmpresa) {
+	public Empresa crearEmpresa(@RequestBody @Valid Empresa pEmpresa) {
 		return contratoService.crearEmpresa(pEmpresa);
 	}
 
 	@PostMapping(value = "/crearContrato")
-	public ResponseEntity<Contrato> crearContrato(@RequestBody Contrato pContrato) {
+	public ResponseEntity<Contrato> crearContrato(@RequestBody @Valid Contrato pContrato) {
         Contrato contrato =  contratoService.crearContrato(pContrato);        
         
         if (contrato == null){
@@ -109,13 +111,13 @@ public class EmpresaController {
 
 	@PostMapping(value = "/crearRelacionEmpleadosBancos")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado_banco crearRelacionEmpBanco(@RequestBody Empleado_banco pEmpleadoBanco) {
+	public Empleado_banco crearRelacionEmpBanco(@RequestBody @Valid Empleado_banco pEmpleadoBanco) {
 		return contratoService.crearRelacionEmpBanco(pEmpleadoBanco);
 	}
 	
 	@PostMapping(value = "/crearRelacionEmpleadosTerceros")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado_tercero crearRelacionEmpTerceros(@RequestBody Empleado_tercero pEmpleadoTercero) {
+	public Empleado_tercero crearRelacionEmpTerceros(@RequestBody @Valid Empleado_tercero pEmpleadoTercero) {
 		return contratoService.crearRelacionEmpTercero(pEmpleadoTercero);
 	}
 	
@@ -146,7 +148,7 @@ public class EmpresaController {
 	}
 	
 	@PutMapping(value = "/actualizarTercero/{pNit}")
-	public ResponseEntity<Tercero> actualizarTercero(@PathVariable Long pNit,@RequestBody Tercero pTercero)
+	public ResponseEntity<Tercero> actualizarTercero(@PathVariable Long pNit,@RequestBody @Valid Tercero pTercero)
 	{
 		pTercero.setNit(pNit);
 		Tercero tercero = terceroSevice.actualizarTercero(pTercero);
@@ -219,7 +221,7 @@ public class EmpresaController {
 
 	@PostMapping(value = "/editarEmpleado")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado editarEmpleado(@RequestBody Empleado pEmpleado) {
+	public Empleado editarEmpleado(@RequestBody @Valid Empleado pEmpleado) {
 		return contratoService.editarEmpleado(pEmpleado);
 	}
 

@@ -95,45 +95,21 @@ public class controladorHojasVida {
     }	
 	
 	@PostMapping
-	public ResponseEntity<HojaVidaDTO> crearHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
-		
-		if (result.hasErrors()){ 			
-			System.out.println("\nErrores en la peticion\n");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
-        }
-		
+	public ResponseEntity<HojaVidaDTO> crearHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida){
+				
         HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.registrarHojaVida(pHojaVida);       
-        
-        if (vHojaVidaEncontrada == null){
-        	System.out.println("Error al crear hoja de vida");
-        	throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED, this.formatMessage(result));
-        } 
-                       
+                     
         return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);
     }  
 	
 	@PutMapping
-	public ResponseEntity<HojaVidaDTO> actualizarHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
-		
-		if (result.hasErrors()){ 			
-			System.out.println("\nErrores en la peticion\n");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
-        }
+	public ResponseEntity<HojaVidaDTO> actualizarHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida){
 		
         HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.actualizarHojaVida(pHojaVida);       
-        
-        if (vHojaVidaEncontrada == null){
-        	System.out.println("Error, hoja de vida no encontrada");
-        	return ResponseEntity.notFound().build();
-        } 
-                       
+                    
         return ResponseEntity.status(HttpStatus.OK).body(vHojaVidaEncontrada);
     } 
-	
-	
-	
-	
-	
+		
 	@GetMapping(value="/empresas-externas")
 	public ResponseEntity<List<EmpresaExterna>> listarEmpresasExternas(){		
 		List<EmpresaExterna> empresasExternasEncontradas = miServicioEmpresasExternas.listarEmpresasExternas();

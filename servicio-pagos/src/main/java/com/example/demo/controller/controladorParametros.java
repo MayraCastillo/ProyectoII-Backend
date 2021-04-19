@@ -51,30 +51,21 @@ public class controladorParametros {
 	private IservicioNomina servicioNomina;
 
 	@PostMapping(value = "/crear-parametro")
-	public ResponseEntity<ParametroLegal> crearParametroLegal(@Valid @RequestBody ParametroLegal pParametro,
-			BindingResult result) {
-		if (result.hasErrors()) {
-			System.out.println("\nTiene errores.\n");
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
-		}
-
+	public ResponseEntity<ParametroLegal> crearParametroLegal(@Valid @RequestBody ParametroLegal pParametro) {
+		
 		ParametroLegal parametro_creado = miServicioParametrosLegales.agregarParametro(pParametro);
-
-		if (parametro_creado == null) {
-			return ResponseEntity.badRequest().build();
-		}
-
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(parametro_creado);
 	}
 
 	@PostMapping(value = "/crearRegistoHoras")
 	@ResponseStatus(HttpStatus.CREATED)
-	public RegistroHoras crearRegistroHoras(@RequestBody RegistroHoras pRegistroHoras) {
+	public RegistroHoras crearRegistroHoras(@RequestBody @Valid RegistroHoras pRegistroHoras) {
 		return servicioNomina.crearRegistroHoras(pRegistroHoras);
 	}
 	
 	@PostMapping(value = "/crearNomina")
-	public ResponseEntity<Nomina> crearNomina(@RequestBody EmpleadoNomina pEmpleadoNomina) 
+	public ResponseEntity<Nomina> crearNomina(@RequestBody @Valid EmpleadoNomina pEmpleadoNomina) 
 	{
 		Nomina nomina = servicioNomina.CalcularNomina(pEmpleadoNomina);
 		if(nomina == null) 
@@ -87,7 +78,7 @@ public class controladorParametros {
 	
 
 	@PutMapping(value = "/actualizar-parametro")
-	public ResponseEntity<ParametroLegal> actualizarParametroLegal(@RequestBody ParametroLegal pParametro) {
+	public ResponseEntity<ParametroLegal> actualizarParametroLegal(@RequestBody @Valid ParametroLegal pParametro) {
 		ParametroLegal parametro_encontrado = miServicioParametrosLegales.actualizarParametro(pParametro);
 
 		// no se pudo actualizar
