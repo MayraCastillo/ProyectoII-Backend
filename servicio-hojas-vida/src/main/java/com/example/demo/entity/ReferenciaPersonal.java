@@ -34,7 +34,7 @@ public class ReferenciaPersonal {
 	private Long referenciaId;
 	
 	@Column(name = "numero_documento")
-	@NotNull
+	//@NotNull
 	private Long numeroDocumento;
 	
 	@Column(name = "nombres")

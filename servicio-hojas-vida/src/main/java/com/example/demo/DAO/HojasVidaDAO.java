@@ -1,6 +1,7 @@
 package com.example.demo.DAO;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.HojaVida;
@@ -23,5 +24,10 @@ public interface HojasVidaDAO extends JpaRepository<HojaVida, Long> {
 	 * @return Hoja de vida encontrada
 	 */
 	public HojaVida findByCorreo(String correo);
+	
+	
+	@Query("DELETE FROM HojaVida hv where hv.numeroDocumento = ?1")
+	public void eliminarHojaVida(Long numeroDocumento);
+	
 	
 }

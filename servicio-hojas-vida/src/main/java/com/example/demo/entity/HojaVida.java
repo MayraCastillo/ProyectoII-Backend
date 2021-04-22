@@ -16,6 +16,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -88,7 +91,8 @@ public class HojaVida {
 	 * Una hoja de vida contiene referencias familiares
 	 */
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "numero_documento")
 	@Valid
 	private List<ReferenciaFamiliar> referenciasFamiliares;	
@@ -97,7 +101,8 @@ public class HojaVida {
 	 * Una hoja de vida contiene referencias personales
 	 */
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "numero_documento")
 	@Valid
 	private List<ReferenciaPersonal> referenciasPersonales;
@@ -106,7 +111,8 @@ public class HojaVida {
 	 * En una hoja de vida se agregan las experiencias laborales que se han tenido
 	 */
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "numero_documento")
 	@Valid
 	private List<ExperienciaLaboral> experienciasLaborales;
@@ -116,7 +122,8 @@ public class HojaVida {
 	 * En una hoja de vida se agregan los estudios cursados
 	 */
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "numero_documento")	
 	@Valid
 	private List<Estudio> estudios;	

@@ -50,14 +50,12 @@ public class ServicioEstudiosImpl implements IntServicioEstudios {
 		}
 	}
 
-
 	@Override
 	public void eliminarEstudio(Long pEstudioId) {
 		if(pEstudioId != null) {
 			this.miRepositorioEstudios.deleteById(pEstudioId);
 		}
 	}
-
 
 	@Override
 	public void eliminarFaltantes(List<Estudio> estudios, Long pNumeroDocumento) {
@@ -83,6 +81,12 @@ public class ServicioEstudiosImpl implements IntServicioEstudios {
 		}	
 	}
 	
+	@Override
+	public void eliminarEstudios(List<Estudio> lista) {
+		this.miRepositorioEstudios.deleteAll(lista);	
+		this.miRepositorioEstudios.flush();
+	}
+
 	
 	
 	
@@ -103,6 +107,8 @@ public class ServicioEstudiosImpl implements IntServicioEstudios {
 		}
 		return false;
 	}
+
+
 
 
 	

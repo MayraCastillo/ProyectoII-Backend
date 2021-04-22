@@ -40,7 +40,7 @@ public class Estudio {
 	private Long estudioId;
 	
 	@Column(name = "numero_documento")
-	@NotNull
+	//@NotNull
 	private Long numeroDocumento;
 	
 	@Column(name = "nombre_titulo")

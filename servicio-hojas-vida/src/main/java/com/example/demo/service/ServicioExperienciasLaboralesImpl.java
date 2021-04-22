@@ -81,6 +81,12 @@ public class ServicioExperienciasLaboralesImpl implements IntServicioExperiencia
 		}		
 	}
 	
+	@Override
+	public void eliminarExperienciasLaborales(List<ExperienciaLaboral> lista) {
+		this.miRepositorioExperienciasLaborales.deleteAll(lista);
+		this.miRepositorioExperienciasLaborales.flush();
+	}
+
 	
 	private boolean existeExperienciaLaboral(List<ExperienciaLaboral> experiencias, ExperienciaLaboral experienciaLaboral) {
 		if(experiencias == null || experienciaLaboral == null) {

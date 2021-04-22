@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import java.util.List;
+
+import org.checkerframework.checker.units.qual.h;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -122,6 +124,8 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	@Override
 	public HojaVidaDTO registrarHojaVida(HojaVidaDTO pHojaVidaDTO) {
 		
+		// TODO validar si existe ya la hv
+		
 		// Convertir hoja de vida del formato DTO a entidad
 		HojaVida hojaVidaRecibida = this.constructorHV.crearEntidadHojaVida(pHojaVidaDTO);	
 		
@@ -183,6 +187,33 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		return pHojaVidaDTO;
 	}
 
+	@Override
+	public HojaVidaDTO eliminarHojaVida(Long pNumeroDocumento) {
+		HojaVida hv = this.miRepositorioHojasVida.findById(pNumeroDocumento).orElse(null);
+		
+		if(hv != null) {
+			
+			System.out.println("\nEliminando referencias familiares");
+			this.miServicioReferenciasFamiliares.eliminarReferenciasFamiliares(hv.getReferenciasFamiliares());
+			
+			System.out.println("\nEliminando referencias personales");
+			this.miServicioReferenciasPersonales.eliminarReferenciasPersonaleses(hv.getReferenciasPersonales());
+			
+			System.out.println("\nEliminando experiencias");
+			this.miServicioExperienciasLaborales.eliminarExperienciasLaborales(hv.getExperienciasLaborales());
+			
+			System.out.println("\nEliminando estudios");
+			this.miServicioEstudios.eliminarEstudios(hv.getEstudios());
+			
+			//this.miRepositorioHojasVida.flush();
+			
+			
+			System.out.println("\nEliminando hoja de vida --> \n" + this.miRepositorioHojasVida.findById(hv.getNumeroDocumento()).orElse(null));			
+			this.miRepositorioHojasVida.deleteById(pNumeroDocumento);
+		}
+		
+		return null;
+	}
 	
 	
 	//====== Metodos privados ===========================================================================
@@ -218,6 +249,18 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		
 		return null;				
 	}
+
+	/*
+	private void eliminarReferenciasFamiliares(HojaVida pHojaVida) {
+		if(pHojaVida != null) {
+			if(pHojaVida.getReferenciasFamiliares() != null) {
+				for(ReferenciaFamiliar obj : pHojaVida.getReferenciasFamiliares()) {
+					
+				}
+			}
+		}
+	}
+	 */
 
 	
 	

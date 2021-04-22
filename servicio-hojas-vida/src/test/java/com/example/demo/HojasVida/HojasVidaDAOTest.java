@@ -431,6 +431,87 @@ class HojasVidaDAOTest {
 	}
 	
 	
+	// ELIMINAR HOJA DE VIDA
+	
+	@Test
+	public void eliminarHojaVidaExistente() {		
+		HojaVida hv = this.miRepositorioHojasVida.findById(1L).orElse(null);
+
+		
+		Assertions.assertNotNull(hv);
+		
+		this.miRepositorioHojasVida.deleteById(1L);
+		//this.miRepositorioHojasVida.eliminarHojaVida(1L);
+		
+		hv = this.miRepositorioHojasVida.findById(1L).orElse(null);
+		Assertions.assertNull(hv);
+	}
+	
+	@Test
+	public void eliminarHojaVidaNoExistente() {	
+		HojaVida hv = this.miRepositorioHojasVida.findById(9999L).orElse(null);
+		Assertions.assertNull(hv);
+		
+		this.miRepositorioHojasVida.deleteById(1L);
+		
+		hv = this.miRepositorioHojasVida.findById(9999L).orElse(null);
+		Assertions.assertNull(hv);
+	}
+	
+	@Test
+	public void agregarYEliminarHojaVida() {
+		HojaVida hv = this.agregarHV();		
+		this.agregarEstudios();
+		this.agregarExperiencias();
+		this.agregarReferenciasFamiliares();
+		this.agregarReferenciasPersonales();
+		
+		this.miRepositorioHojasVida.flush();
+		this.miRepositorioEstudios.flush();
+		this.miRepositorioExperienciasLaborales.flush();
+		this.miRepositorioReferenciasFamiliares.flush();
+		this.miRepositorioReferenciasPersonales.flush();
+		this.miRepositorioEmpresasExternas.flush();
+		this.miRepositorioInstituciones.flush();
+		
+		hv = this.miRepositorioHojasVida.findById(1000L).orElse(null);
+		Assertions.assertNotNull(hv);
+		
+		long cont1Antes = this.miRepositorioReferenciasFamiliares.count();
+		long cont2Antes = this.miRepositorioReferenciasPersonales.count();
+		long cont3Antes = this.miRepositorioExperienciasLaborales.count();
+		long cont4Antes = this.miRepositorioEstudios.count();
+		
+		// Eliminar hoja de vida agregada
+		this.miRepositorioHojasVida.deleteById(1000L);
+		this.miRepositorioHojasVida.flush();
+		this.miRepositorioEstudios.flush();
+		this.miRepositorioExperienciasLaborales.flush();
+		this.miRepositorioReferenciasFamiliares.flush();
+		this.miRepositorioReferenciasPersonales.flush();
+		this.miRepositorioEmpresasExternas.flush();
+		this.miRepositorioInstituciones.flush();
+		
+		long cont1Despues = this.miRepositorioReferenciasFamiliares.count();
+		long cont2Despues = this.miRepositorioReferenciasPersonales.count();
+		long cont3Despues = this.miRepositorioExperienciasLaborales.count();
+		long cont4Despues = this.miRepositorioEstudios.count();
+		
+		hv = this.miRepositorioHojasVida.findById(1000L).orElse(null);
+		
+		Assertions.assertNull(hv);
+		Assertions.assertEquals(cont1Antes-2, cont1Despues);
+		Assertions.assertEquals(cont2Antes-2, cont2Despues);
+		Assertions.assertEquals(cont3Antes-2, cont3Despues);
+		Assertions.assertEquals(cont4Antes-2, cont4Despues);
+	}
+	
+	
+	
+	
+	
+	
+	
 	private HojaVida agregarHV() {
 		HojaVida nuevaHV = HojaVida.builder()
 				.numeroDocumento(1000L)

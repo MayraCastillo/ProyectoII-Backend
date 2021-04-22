@@ -46,4 +46,11 @@ public interface IntServicioExperienciasLaborales {
 	 * @param experiencias
 	 */
 	public void agregarEntidades(List<ExperienciaLaboral> experiencias);
+	
+	
+	/**
+	 * Eliminar lista de experiencias laborales de una hoja de vida
+	 * @param lista Contiene los objetos a eliminar de la base de datos
+	 */
+	public void eliminarExperienciasLaborales(List<ExperienciaLaboral> lista);
 }
