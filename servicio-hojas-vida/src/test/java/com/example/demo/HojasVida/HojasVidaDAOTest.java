@@ -57,6 +57,7 @@ class HojasVidaDAOTest {
 	private InstitucionesEducativasDAO miRepositorioInstituciones;
 	
 	
+	// AGREGAR HOJA DE VIDA
 		
 	/**
 	 * Deberia agregarse sin problema
@@ -466,44 +467,15 @@ class HojasVidaDAOTest {
 		this.agregarReferenciasFamiliares();
 		this.agregarReferenciasPersonales();
 		
-		this.miRepositorioHojasVida.flush();
-		this.miRepositorioEstudios.flush();
-		this.miRepositorioExperienciasLaborales.flush();
-		this.miRepositorioReferenciasFamiliares.flush();
-		this.miRepositorioReferenciasPersonales.flush();
-		this.miRepositorioEmpresasExternas.flush();
-		this.miRepositorioInstituciones.flush();
-		
 		hv = this.miRepositorioHojasVida.findById(1000L).orElse(null);
 		Assertions.assertNotNull(hv);
-		
-		long cont1Antes = this.miRepositorioReferenciasFamiliares.count();
-		long cont2Antes = this.miRepositorioReferenciasPersonales.count();
-		long cont3Antes = this.miRepositorioExperienciasLaborales.count();
-		long cont4Antes = this.miRepositorioEstudios.count();
-		
+				
 		// Eliminar hoja de vida agregada
 		this.miRepositorioHojasVida.deleteById(1000L);
-		this.miRepositorioHojasVida.flush();
-		this.miRepositorioEstudios.flush();
-		this.miRepositorioExperienciasLaborales.flush();
-		this.miRepositorioReferenciasFamiliares.flush();
-		this.miRepositorioReferenciasPersonales.flush();
-		this.miRepositorioEmpresasExternas.flush();
-		this.miRepositorioInstituciones.flush();
-		
-		long cont1Despues = this.miRepositorioReferenciasFamiliares.count();
-		long cont2Despues = this.miRepositorioReferenciasPersonales.count();
-		long cont3Despues = this.miRepositorioExperienciasLaborales.count();
-		long cont4Despues = this.miRepositorioEstudios.count();
 		
 		hv = this.miRepositorioHojasVida.findById(1000L).orElse(null);
 		
 		Assertions.assertNull(hv);
-		Assertions.assertEquals(cont1Antes-2, cont1Despues);
-		Assertions.assertEquals(cont2Antes-2, cont2Despues);
-		Assertions.assertEquals(cont3Antes-2, cont3Despues);
-		Assertions.assertEquals(cont4Antes-2, cont4Despues);
 	}
 	
 	

@@ -371,7 +371,6 @@ public class ServicioHojasVida_RegistrarMockTest {
 		
 		return lista;
 	}
-	
 	private List<EstudioDTO> crearEstudiosDTO(){
 		List<EstudioDTO> lista = new ArrayList<EstudioDTO>();
 		

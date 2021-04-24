@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import org.checkerframework.checker.units.qual.h;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -124,7 +123,10 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	@Override
 	public HojaVidaDTO registrarHojaVida(HojaVidaDTO pHojaVidaDTO) {
 		
-		// TODO validar si existe ya la hv
+		// El id del municipio es valido?
+		if( ! this.servicioUbicacion.validarUbicacion(pHojaVidaDTO.getMunicipioId())) {
+			return null;
+		}
 		
 		// Convertir hoja de vida del formato DTO a entidad
 		HojaVida hojaVidaRecibida = this.constructorHV.crearEntidadHojaVida(pHojaVidaDTO);	
@@ -153,6 +155,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	@Override
 	public HojaVidaDTO actualizarHojaVida(HojaVidaDTO pHojaVidaDTO) {
 		
+		// El id del municipio es valido?
+		if( ! this.servicioUbicacion.validarUbicacion(pHojaVidaDTO.getMunicipioId())) {
+			return null;
+		}	
+		
 		if( ! this.miRepositorioHojasVida.existsById(pHojaVidaDTO.getNumeroDocumento())) {
 			System.out.println("La hoja de vida no existe");
 			return null;
@@ -179,7 +186,7 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		// Agregar instituciones educativas de los estudios proporcionados
 		this.miServicioEstudios.agregarInstituciones(hojaVidaRecibida.getEstudios());
 		
-		//Guardar hoja de vida en la base de datos
+		// Guardar hoja de vida en la base de datos
 		if(this.guardarHojaVidaExistente(hojaVidaRecibida) != null) {
 			System.out.println("\nDiferente de nulo\n");
 		}
@@ -192,19 +199,25 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		HojaVida hv = this.miRepositorioHojasVida.findById(pNumeroDocumento).orElse(null);
 		
 		if(hv != null) {
+			if(hv.getReferenciasFamiliares() != null) {
+				System.out.println("\nEliminando referencias familiares");
+				this.miServicioReferenciasFamiliares.eliminarReferenciasFamiliares(hv.getReferenciasFamiliares());
+			}
 			
-			System.out.println("\nEliminando referencias familiares");
-			this.miServicioReferenciasFamiliares.eliminarReferenciasFamiliares(hv.getReferenciasFamiliares());
+			if(hv.getReferenciasPersonales() != null) {
+				System.out.println("\nEliminando referencias personales");
+				this.miServicioReferenciasPersonales.eliminarReferenciasPersonaleses(hv.getReferenciasPersonales());
+			}
 			
-			System.out.println("\nEliminando referencias personales");
-			this.miServicioReferenciasPersonales.eliminarReferenciasPersonaleses(hv.getReferenciasPersonales());
+			if(hv.getExperienciasLaborales() != null) {
+				System.out.println("\nEliminando experiencias");
+				this.miServicioExperienciasLaborales.eliminarExperienciasLaborales(hv.getExperienciasLaborales());
+			}
 			
-			System.out.println("\nEliminando experiencias");
-			this.miServicioExperienciasLaborales.eliminarExperienciasLaborales(hv.getExperienciasLaborales());
-			
-			System.out.println("\nEliminando estudios");
-			this.miServicioEstudios.eliminarEstudios(hv.getEstudios());
-			
+			if(hv.getEstudios() != null) {
+				System.out.println("\nEliminando estudios");
+				this.miServicioEstudios.eliminarEstudios(hv.getEstudios());
+			}
 			//this.miRepositorioHojasVida.flush();
 			
 			
@@ -219,33 +232,28 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	//====== Metodos privados ===========================================================================
 		
 	private HojaVida guardarNuevaHojaVida(HojaVida pHojaVida) {		
-		// El id del municipio es valido?
-		if(this.servicioUbicacion.validarUbicacion(pHojaVida.getMunicipioId())) {		
 			
-			// validamos si existe en la base de datos
-			HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
 			
-			if(hojaVidaEncontrada == null) {
-				// Guardar la hoja de vida con sus atributos basicos en la BD
-				return miRepositorioHojasVida.save(pHojaVida);	
-			}
-		}
+		// validamos si existe en la base de datos
+		HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
+		
+		if(hojaVidaEncontrada == null) {
+			// Guardar la hoja de vida con sus atributos basicos en la BD
+			return miRepositorioHojasVida.save(pHojaVida);	
+		}		
 		
 		return null;				
 	}
-	private HojaVida guardarHojaVidaExistente(HojaVida pHojaVida) {		
-		// El id del municipio es valido?
-		if(this.servicioUbicacion.validarUbicacion(pHojaVida.getMunicipioId())) {		
+	private HojaVida guardarHojaVidaExistente(HojaVida pHojaVida) {				
 			
-			// validamos si existe en la base de datos
-			HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
-			
-			if(hojaVidaEncontrada != null) {
-				// Guardar la hoja de vida con sus atributos basicos en la BD
-				//return miRepositorioHojasVida.saveAndFlush(pHojaVida);
-				return miRepositorioHojasVida.save(pHojaVida);
-			}
-		}
+		// validamos si existe en la base de datos
+		HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
+		
+		if(hojaVidaEncontrada != null) {
+			// Guardar la hoja de vida con sus atributos basicos en la BD
+			//return miRepositorioHojasVida.saveAndFlush(pHojaVida);
+			return miRepositorioHojasVida.save(pHojaVida);
+		}		
 		
 		return null;				
 	}
