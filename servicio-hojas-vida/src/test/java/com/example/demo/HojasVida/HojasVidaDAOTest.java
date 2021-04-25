@@ -248,7 +248,7 @@ class HojasVidaDAOTest {
 		hv.setDireccion("Nueva direccion");
 		hv.setCorreo("sandra@gmail.com");
 		hv.setCalificacion(9.0);
-		hv.setEstadoPersona("CONTRATADO");
+		//hv.setEstadoPersona("CONTRATADO");
 		hv.setTelefono("3119856734");
 		
 		this.miRepositorioHojasVida.save(hv);
@@ -260,7 +260,7 @@ class HojasVidaDAOTest {
 		Assertions.assertEquals(hv.getDireccion(),"Nueva direccion");
 		Assertions.assertEquals(hv.getCorreo(),"sandra@gmail.com");
 		Assertions.assertEquals(hv.getCalificacion(),9.0);
-		Assertions.assertEquals(hv.getEstadoPersona(),"CONTRATADO");
+		//Assertions.assertEquals(hv.getEstadoPersona(),"CONTRATADO");
 		Assertions.assertEquals(hv.getTelefono(),"3119856734");
 	}
 	
@@ -491,9 +491,9 @@ class HojasVidaDAOTest {
 				.calificacion(8.0)
 				.correo("lupita@gmail.com")
 				.direccion("Carrera 9na")
-				.estadoPersona("PROSPECTO")
+				//.estadoPersona("PROSPECTO")
 				.municipioId(1L)
-				.nitEmpresa("1")
+				//.nitEmpresa("1")
 				.nombres("Lupita")
 				.telefono("3157856547")
 				.tipoDocumento("CEDULA")

@@ -51,8 +51,8 @@ public class ConstructorHojasVida {
 		nuevaHV.setMunicipioId(pHojaVidaDTO.getMunicipioId());
 		nuevaHV.setDireccion(pHojaVidaDTO.getDireccion());
 		nuevaHV.setCalificacion(pHojaVidaDTO.getCalificacion());
-		nuevaHV.setNitEmpresa(pHojaVidaDTO.getNitEmpresa());
-		nuevaHV.setEstadoPersona(pHojaVidaDTO.getEstadoPersona());
+		//nuevaHV.setNitEmpresa(pHojaVidaDTO.getNitEmpresa());
+		//nuevaHV.setEstadoPersona(pHojaVidaDTO.getEstadoPersona());
 		
 		//this.construirReferenciasFamiliares(nuevaHV, pHojaVidaDTO);	
 		//this.construirReferenciasPersonales(nuevaHV, pHojaVidaDTO);
@@ -201,8 +201,8 @@ public class ConstructorHojasVida {
 			nuevaHojaVidaDTO.setCalificacion(pHojaVida.getCalificacion());
 			nuevaHojaVidaDTO.setCorreo(pHojaVida.getCorreo());
 			nuevaHojaVidaDTO.setDireccion(pHojaVida.getDireccion());
-			nuevaHojaVidaDTO.setEstadoPersona(pHojaVida.getEstadoPersona());
-			nuevaHojaVidaDTO.setNitEmpresa(pHojaVida.getNitEmpresa());
+			//nuevaHojaVidaDTO.setEstadoPersona(pHojaVida.getEstadoPersona());
+			//nuevaHojaVidaDTO.setNitEmpresa(pHojaVida.getNitEmpresa());
 			nuevaHojaVidaDTO.setNombres(pHojaVida.getNombres());
 			nuevaHojaVidaDTO.setNumeroDocumento(pHojaVida.getNumeroDocumento());
 			nuevaHojaVidaDTO.setTelefono(pHojaVida.getTelefono());

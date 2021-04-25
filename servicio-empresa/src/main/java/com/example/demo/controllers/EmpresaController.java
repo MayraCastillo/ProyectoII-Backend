@@ -281,5 +281,18 @@ public class EmpresaController {
 		return contratoService.listarRelacionEmpTercero();
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping(value = "/consultarEstadoEmpleado/{pNumeroDocumento}/{pNit}")
+	public String consultarEstadoEmpleado(@PathVariable Long pNumeroDocumento, @PathVariable Long pNit) {
+		return this.contratoService.consultarEstadoEmpleado(pNumeroDocumento, pNit);
+	}
 
 }

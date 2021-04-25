@@ -33,5 +33,11 @@ public interface IcontratoService {
 	public List<Empresa> listarEmpresas();
 	public List<Empleado_banco> listarRelacionEmpBanco();
 	public List<Empleado_tercero> listarRelacionEmpTercero();
+	
+	
+	
+	
+	
+	public String consultarEstadoEmpleado(Long pNumeroDocumento, Long pNitEmpresa);
 
 }

@@ -53,9 +53,9 @@ public class ServicioHojasVida_ActualizarMockTest {
 				.calificacion(8.0)
 				.correo("lupita@gmail.com")
 				.direccion("Carrera 9na")
-				.estadoPersona("PROSPECTO")
+				//.estadoPersona("PROSPECTO")
 				.municipioId(1L)
-				.nitEmpresa("1")
+				//.nitEmpresa("1")
 				.nombres("Lupita")
 				.telefono("3157856547")
 				.tipoDocumento("CEDULA")
@@ -67,9 +67,9 @@ public class ServicioHojasVida_ActualizarMockTest {
 				.calificacion(8.0)
 				.correo("lupita @gmail.com") // correo invalido
 				.direccion("Carrera 9na")
-				.estadoPersona("PROSPECTO")
+				//.estadoPersona("PROSPECTO")
 				.municipioId(1L)
-				.nitEmpresa("1")
+				//.nitEmpresa("1")
 				.nombres("Lupita")
 				.telefono("3157856547")
 				.tipoDocumento("CEDULA")
@@ -128,7 +128,7 @@ public class ServicioHojasVida_ActualizarMockTest {
 		
 		Assertions.assertThat(nuevaHV.getNombres()).isEqualTo("Lupita");
 		Assertions.assertThat(nuevaHV.getReferenciasFamiliares().size()).isEqualTo(2);
-		Assertions.assertThat(nuevaHV.getReferenciasPersonales().get(0).getNombres()).isEqualTo("Luis");
+		Assertions.assertThat(nuevaHV.getReferenciasFamiliares().get(0).getNombres()).isEqualTo("Luis");
 	}
 	
 	@Test

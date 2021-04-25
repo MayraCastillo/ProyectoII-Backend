@@ -228,5 +228,30 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return empleadoDAO.findAll();
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public String consultarEstadoEmpleado(Long pNumeroDocumento, Long pNitEmpresa) {
+		String estado = null;
+		if(pNumeroDocumento != null && pNitEmpresa != null) {
+			Contrato contrato = contratoDAO.VerificarContrato(pNumeroDocumento, pNitEmpresa);
+			if (contrato != null) {
+				estado = contrato.getEstado();
+				
+				if (contrato.getFechaFinContrato().before(validacionFecha())) {
+					contrato.setEstado("INACTIVO");
+				}
+			}
+		}
+		return estado;
+	}
+
 
 }

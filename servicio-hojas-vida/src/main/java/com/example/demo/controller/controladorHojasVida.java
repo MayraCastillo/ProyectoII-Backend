@@ -133,9 +133,15 @@ public class controladorHojasVida {
 	
 	@DeleteMapping(value = "/{id}")
     public ResponseEntity<HojaVidaDTO> eliminarHV(@PathVariable("id") Long id){
-		miServicioHojasVida.eliminarHojaVida(id);
+		HojaVidaDTO hvEncontrada = miServicioHojasVida.eliminarHojaVida(id);
         
-        return ResponseEntity.ok(null);
+		if(hvEncontrada != null) {
+			// Eliminar correcto
+			return ResponseEntity.ok(hvEncontrada);
+		}else {
+			// la hoja de vida no existía, o no era de un prospecto
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(hvEncontrada);
+		}
     }
 	
 	@GetMapping(value = "/referencias-familiares")

@@ -68,6 +68,13 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	private IntServicioUbicacion servicioUbicacion;
 	
 	/**
+	 * Se encarga de la gestion de los servicios generales de una empresa, como el estado de un empleado
+	 * en la empresa
+	 */
+	@Autowired
+	private IntServicioEmpresa servicioEmpresa;
+	
+	/**
 	 * Abstraccion del medio de almacenamiento de datos, de las entidades mapeadas en la base de datos
 	 * Spring boot, mediante inyeccion de dependencias, logra simplificar la comunicacion con
 	 * la base de datos (en este caso, sobre las hojas de vida)
@@ -87,6 +94,10 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		// Agrega la in formacion de los municipios, proveniente del microservicio de la empresa
 		this.servicioUbicacion.agregarUbicacionAHojasVida(hojasVidaDTO);
 		
+		// Agregar el estado del dueño de la hoja de vida en la empresa especificada
+		// TODO por ahora, solo para la empresa con nit 123
+		this.agregarEstadoAHojasVidaDTO(hojasVidaDTO, "123");
+		
 		return hojasVidaDTO;
 	}
 	
@@ -99,7 +110,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 			// Agregar informacion de la ubicacion
 			if(hvEncontrada != null) {
 				hvDTOEncontrada = this.constructorHV.construirHojaVidaDTO(hvEncontrada);
-				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);				
+				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);
+				
+				// Agregar el estado del dueño de la hoja de vida en la empresa especificada
+				// TODO por ahora, solo para la empresa con nit 123
+				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "123");
 			}
 		}
 		return hvDTOEncontrada;
@@ -114,7 +129,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 			// Agregar informacion de la ubicacion
 			if(hvEncontrada != null) {
 				hvDTOEncontrada = this.constructorHV.construirHojaVidaDTO(hvEncontrada);
-				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);				
+				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);	
+				
+				// Agregar el estado del dueño de la hoja de vida en la empresa especificada
+				// TODO por ahora, solo para la empresa con nit 123
+				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "123");
 			}
 		}
 		return hvDTOEncontrada;
@@ -199,6 +218,13 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		HojaVida hv = this.miRepositorioHojasVida.findById(pNumeroDocumento).orElse(null);
 		
 		if(hv != null) {
+			// validar que no se elimine una hoja de vida de empleado que no sea prospecto
+			String estado = this.servicioEmpresa.consultarEstadoPersona(hv.getNumeroDocumento(), "123");
+			if( ! estado.equals("PROSPECTO")) {
+				System.out.println("Error al eliminar hv, la persona debe ser un prospecto para poder eliminar");
+				return null;
+			}
+			
 			if(hv.getReferenciasFamiliares() != null) {
 				System.out.println("\nEliminando referencias familiares");
 				this.miServicioReferenciasFamiliares.eliminarReferenciasFamiliares(hv.getReferenciasFamiliares());
@@ -223,6 +249,8 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 			
 			System.out.println("\nEliminando hoja de vida --> \n" + this.miRepositorioHojasVida.findById(hv.getNumeroDocumento()).orElse(null));			
 			this.miRepositorioHojasVida.deleteById(pNumeroDocumento);
+			
+			return this.constructorHV.construirHojaVidaDTO(hv);
 		}
 		
 		return null;
@@ -258,17 +286,17 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		return null;				
 	}
 
-	/*
-	private void eliminarReferenciasFamiliares(HojaVida pHojaVida) {
-		if(pHojaVida != null) {
-			if(pHojaVida.getReferenciasFamiliares() != null) {
-				for(ReferenciaFamiliar obj : pHojaVida.getReferenciasFamiliares()) {
-					
-				}
+	private void agregarEstadoAHojasVidaDTO(List<HojaVidaDTO> pHojasVida, String pNitEmpresa) {
+		if(pHojasVida != null && pNitEmpresa != null) {
+			for(HojaVidaDTO hvDTO : pHojasVida) {
+				this.agregarEstadoAHojaVidaDTO(hvDTO, pNitEmpresa);
 			}
 		}
 	}
-	 */
+	private void agregarEstadoAHojaVidaDTO(HojaVidaDTO pHojaVida, String pNitEmpresa) {
+		String estado = this.servicioEmpresa.consultarEstadoPersona(pHojaVida.getNumeroDocumento(), pNitEmpresa);
+		pHojaVida.setEstadoPersona(estado);
+	}
 
 	
 	

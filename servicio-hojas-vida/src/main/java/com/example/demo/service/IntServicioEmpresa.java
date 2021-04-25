@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+
 /**
  * Contiene la definicion de los servicios generales de la empresa
  * 
@@ -20,6 +21,7 @@ public interface IntServicioEmpresa {
 	 * @return estado : [PROSPECTO, ACTIVO, INACTIVO, PRUEBA]
 	 */
 	public String consultarEstadoPersona(Long pNumeroDocumento, String pNitEmpresa);
+	
 	
 	
 }
