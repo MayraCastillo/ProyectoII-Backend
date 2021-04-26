@@ -49,4 +49,11 @@ public interface IntServicioEstudios {
 	public void agregarInstituciones(List<Estudio> estudios);
 	
 	
+	/**
+	 * Eliminar lista de estudios de una hoja de vida
+	 * @param lista Contiene los objetos a eliminar de la base de datos
+	 */
+	public void eliminarEstudios(List<Estudio> lista);
+	
+	
 }

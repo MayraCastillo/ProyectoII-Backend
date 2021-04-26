@@ -1,4 +1,5 @@
 package com.example.demo.services;
+
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IcontratoServiceImpl implements IcontratoService {
 
-	
 	private final IempleadoDAO empleadoDAO;
 	private final IcontratoDAO contratoDAO;
 
@@ -142,13 +142,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 	public Contrato buscarContratoPorId(Long pIdContrato) {
 		return contratoDAO.findById(pIdContrato).orElse(null);
 	}
-	
+
 	@Override
 	public Empleado buscarEmpleadoPorNumeroDocumento(Long pNumeroDocumento) {
-		
+
 		return empleadoDAO.findByNumeroDocumento(pNumeroDocumento);
 	}
-
 
 	@Override
 	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa) {
@@ -174,16 +173,15 @@ public class IcontratoServiceImpl implements IcontratoService {
 		Date myDate = new Date();
 		return myDate;
 	}
-	
-	private void actualizarEstadoContratos() 
-	{
-		contratoDAO.findAll().forEach (contrato ->{
+
+	private void actualizarEstadoContratos() {
+		contratoDAO.findAll().forEach(contrato -> {
 			if (contrato.getFechaFinContrato().before(validacionFecha())) {
 				contrato.setEstado("INACTIVO");
 				contratoDAO.save(contrato);
 			}
-        });
-		
+		});
+
 	}
 
 	@Override
@@ -233,5 +231,20 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return empleado_bancoDAO.listEmpBanco(pNumeroDocumento);
 	}
 
+	@Override
+	public String consultarEstadoEmpleado(Long pNumeroDocumento, Long pNitEmpresa) {
+		String estado = null;
+		if (pNumeroDocumento != null && pNitEmpresa != null) {
+			Contrato contrato = contratoDAO.VerificarContrato(pNumeroDocumento, pNitEmpresa);
+			if (contrato != null) {
+				estado = contrato.getEstado();
+
+				if (contrato.getFechaFinContrato().before(validacionFecha())) {
+					contrato.setEstado("INACTIVO");
+				}
+			}
+		}
+		return estado;
+	}
 
 }

@@ -1,16 +1,13 @@
 package com.example.demo.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,16 +15,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.example.demo.DTO.HojaVidaDTO;
 import com.example.demo.entity.EmpresaExterna;
 import com.example.demo.entity.InstitucionEducativa;
+import com.example.demo.entity.ReferenciaFamiliar;
 import com.example.demo.service.IntServicioEmpresasExternas;
 import com.example.demo.service.IntServicioHojasVida;
 import com.example.demo.service.IntServicioInstitucionesEducativas;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.demo.service.IntServicioReferenciasFamiliares;
 
 /**
  * 
@@ -58,7 +54,10 @@ public class controladorHojasVida {
 	 * utilizando inyeccion de dependencias, automatizado por el framework con la decoracion @Autowired
 	 */
 	@Autowired
-    private IntServicioInstitucionesEducativas miServicioInstitucionesEducativas;	
+    private IntServicioInstitucionesEducativas miServicioInstitucionesEducativas;
+	
+	@Autowired
+    private IntServicioReferenciasFamiliares miServicioReferenciasFamiliares;	
 		
 	
 	
@@ -95,45 +94,21 @@ public class controladorHojasVida {
     }	
 	
 	@PostMapping
-	public ResponseEntity<HojaVidaDTO> crearHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
-		
-		if (result.hasErrors()){ 			
-			System.out.println("\nErrores en la peticion\n");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
-        }
-		
+	public ResponseEntity<HojaVidaDTO> crearHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida){
+				
         HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.registrarHojaVida(pHojaVida);       
-        
-        if (vHojaVidaEncontrada == null){
-        	System.out.println("Error al crear hoja de vida");
-        	throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED, this.formatMessage(result));
-        } 
-                       
+                     
         return ResponseEntity.status(HttpStatus.CREATED).body(vHojaVidaEncontrada);
     }  
 	
 	@PutMapping
-	public ResponseEntity<HojaVidaDTO> actualizarHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida, BindingResult result){
-		
-		if (result.hasErrors()){ 			
-			System.out.println("\nErrores en la peticion\n");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, this.formatMessage(result));
-        }
+	public ResponseEntity<HojaVidaDTO> actualizarHojaVida(@Valid @RequestBody HojaVidaDTO pHojaVida){
 		
         HojaVidaDTO vHojaVidaEncontrada =  miServicioHojasVida.actualizarHojaVida(pHojaVida);       
-        
-        if (vHojaVidaEncontrada == null){
-        	System.out.println("Error, hoja de vida no encontrada");
-        	return ResponseEntity.notFound().build();
-        } 
-                       
+                    
         return ResponseEntity.status(HttpStatus.OK).body(vHojaVidaEncontrada);
     } 
-	
-	
-	
-	
-	
+		
 	@GetMapping(value="/empresas-externas")
 	public ResponseEntity<List<EmpresaExterna>> listarEmpresasExternas(){		
 		List<EmpresaExterna> empresasExternasEncontradas = miServicioEmpresasExternas.listarEmpresasExternas();
@@ -156,11 +131,32 @@ public class controladorHojasVida {
         return ResponseEntity.ok(ieEncontradas);
 	}
 	
+	@DeleteMapping(value = "/{id}")
+    public ResponseEntity<HojaVidaDTO> eliminarHV(@PathVariable("id") Long id){
+		HojaVidaDTO hvEncontrada = miServicioHojasVida.eliminarHojaVida(id);
+        
+		if(hvEncontrada != null) {
+			// Eliminar correcto
+			return ResponseEntity.ok(hvEncontrada);
+		}else {
+			// la hoja de vida no existía, o no era de un prospecto
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(hvEncontrada);
+		}
+    }
 	
+	@GetMapping(value = "/referencias-familiares")
+	public ResponseEntity<List<ReferenciaFamiliar>> listarReferenciasFamiliares(){		
+		List<ReferenciaFamiliar> lista = miServicioReferenciasFamiliares.listarReferencias();
+		
+		// No hay hojas de vida
+        if(lista == null){
+            return ResponseEntity.noContent().build();
+        }        
+        
+        return ResponseEntity.ok(lista);
+	}
 	
-	
-	
-	
+	/*
 	private String formatMessage( BindingResult result){
 		List<Map<String,String>> errors = result.getFieldErrors().stream()
                 .map(err ->{
@@ -182,5 +178,5 @@ public class controladorHojasVida {
         }
         return jsonString;
     }
-	
+	*/
 }

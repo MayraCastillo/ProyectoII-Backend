@@ -11,5 +11,9 @@ public interface EmpresaClient {
 	
 	@GetMapping(value = "/buscarMunicipioPorId/{pMunicipioId}")
 	public MunicipioDTO buscarMunPorId(@PathVariable Long pMunicipioId);
+	
+	
+	@GetMapping(value = "/consultarEstadoEmpleado/{pNumeroDocumento}/{pNit}")
+	public String consultarEstadoEmpleado(@PathVariable Long pNumeroDocumento, @PathVariable Long pNit);
 
 }

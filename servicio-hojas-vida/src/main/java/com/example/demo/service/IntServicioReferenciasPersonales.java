@@ -41,4 +41,10 @@ public interface IntServicioReferenciasPersonales {
 	 * @param pNumeroDocumento Identificador de la hoja de vida a la que deben pertenecer los items del arreglo
 	 */
 	public void eliminarFaltantes(List<ReferenciaPersonal> referencias, Long pNumeroDocumento);
+	
+	/**
+	 * Eliminar lista de referencias personaleses de una hoja de vida
+	 * @param lista Contiene los objetos a eliminar de la base de datos
+	 */
+	public void eliminarReferenciasPersonaleses(List<ReferenciaPersonal> lista);
 }

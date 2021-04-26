@@ -59,7 +59,11 @@ public class ServicioReferenciasPersonalesImpl implements IntServicioReferencias
 		}
 	}
 	
-	
+	@Override
+	public void eliminarReferenciasPersonaleses(List<ReferenciaPersonal> lista) {
+		this.miRepositorioReferenciasPersonales.deleteAll(lista);	
+		this.miRepositorioReferenciasPersonales.flush();
+	}
 	
 	
 	private boolean existeReferencia(List<ReferenciaPersonal> referencias, ReferenciaPersonal pReferencia) {
@@ -78,6 +82,9 @@ public class ServicioReferenciasPersonalesImpl implements IntServicioReferencias
 		}
 		return false;
 	}
+
+	
+
 	
 	
 }

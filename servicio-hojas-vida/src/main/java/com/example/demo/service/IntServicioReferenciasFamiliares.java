@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.List;
 import javax.validation.Valid;
+
 import com.example.demo.entity.ReferenciaFamiliar;
 
 
@@ -14,6 +15,9 @@ import com.example.demo.entity.ReferenciaFamiliar;
 
 public interface IntServicioReferenciasFamiliares {
 
+	public List<ReferenciaFamiliar> listarReferencias();
+	
+	
 	/**
 	 * Guarda una lista de referencias familiares, cada referencia debe estar asociada a una hoja de vida
 	 * mediante el id de la hoja de vida (numero de documento).
@@ -41,4 +45,11 @@ public interface IntServicioReferenciasFamiliares {
 	 * @param pNumeroDocumento Identificador de la hoja de vida a la que deben pertenecer los items del arreglo
 	 */
 	public void eliminarFaltantes(List<ReferenciaFamiliar> referencias, Long pNumeroDocumento);
+	
+	
+	/**
+	 * Eliminar lista de referencias familiares de una hoja de vida
+	 * @param lista Contiene los objetos a eliminar de la base de datos
+	 */
+	public void eliminarReferenciasFamiliares(List<ReferenciaFamiliar> lista);
 }

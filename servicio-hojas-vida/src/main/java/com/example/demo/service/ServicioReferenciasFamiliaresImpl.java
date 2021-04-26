@@ -40,14 +40,12 @@ public class ServicioReferenciasFamiliaresImpl implements IntServicioReferencias
 		}
 	}
 
-
 	@Override
 	public void eliminarReferenciaFamiliar(Long pReferenciaId) {
 		if(pReferenciaId != null) {
 			this.miRepositorioReferenciasFamiliares.deleteById(pReferenciaId);
 		}
 	}
-
 
 	@Override
 	public void eliminarFaltantes(List<ReferenciaFamiliar> referencias, Long pNumeroDocumento) {
@@ -63,7 +61,20 @@ public class ServicioReferenciasFamiliaresImpl implements IntServicioReferencias
 		}
 	}
 	
+	@Override
+	public List<ReferenciaFamiliar> listarReferencias() {
+		return this.miRepositorioReferenciasFamiliares.findAll();
+	}
 	
+	@Override
+	public void eliminarReferenciasFamiliares(List<ReferenciaFamiliar> lista) {
+		this.miRepositorioReferenciasFamiliares.deleteAll(lista);
+		//for(ReferenciaFamiliar ref : lista) {
+		//	this.eliminarReferenciaFamiliar(ref.getReferenciaId());
+		//}
+		//this.eliminarReferenciaFamiliar(14L);		
+		this.miRepositorioReferenciasFamiliares.flush();
+	}
 	
 	
 	private boolean existeReferencia(List<ReferenciaFamiliar> referencias, ReferenciaFamiliar pReferencia) {
@@ -82,6 +93,11 @@ public class ServicioReferenciasFamiliaresImpl implements IntServicioReferencias
 		}
 		return false;
 	}
+
+
+
+
+	
 	
 		
 }

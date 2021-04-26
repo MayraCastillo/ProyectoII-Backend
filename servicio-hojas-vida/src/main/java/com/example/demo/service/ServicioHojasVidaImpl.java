@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,13 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	private IntServicioUbicacion servicioUbicacion;
 	
 	/**
+	 * Se encarga de la gestion de los servicios generales de una empresa, como el estado de un empleado
+	 * en la empresa
+	 */
+	@Autowired
+	private IntServicioEmpresa servicioEmpresa;
+	
+	/**
 	 * Abstraccion del medio de almacenamiento de datos, de las entidades mapeadas en la base de datos
 	 * Spring boot, mediante inyeccion de dependencias, logra simplificar la comunicacion con
 	 * la base de datos (en este caso, sobre las hojas de vida)
@@ -86,6 +94,10 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		// Agrega la in formacion de los municipios, proveniente del microservicio de la empresa
 		this.servicioUbicacion.agregarUbicacionAHojasVida(hojasVidaDTO);
 		
+		// Agregar el estado del dueño de la hoja de vida en la empresa especificada
+		// TODO por ahora, solo para la empresa con nit 123
+		this.agregarEstadoAHojasVidaDTO(hojasVidaDTO, "123");
+		
 		return hojasVidaDTO;
 	}
 	
@@ -98,7 +110,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 			// Agregar informacion de la ubicacion
 			if(hvEncontrada != null) {
 				hvDTOEncontrada = this.constructorHV.construirHojaVidaDTO(hvEncontrada);
-				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);				
+				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);
+				
+				// Agregar el estado del dueño de la hoja de vida en la empresa especificada
+				// TODO por ahora, solo para la empresa con nit 123
+				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "123");
 			}
 		}
 		return hvDTOEncontrada;
@@ -113,7 +129,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 			// Agregar informacion de la ubicacion
 			if(hvEncontrada != null) {
 				hvDTOEncontrada = this.constructorHV.construirHojaVidaDTO(hvEncontrada);
-				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);				
+				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);	
+				
+				// Agregar el estado del dueño de la hoja de vida en la empresa especificada
+				// TODO por ahora, solo para la empresa con nit 123
+				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "123");
 			}
 		}
 		return hvDTOEncontrada;
@@ -121,6 +141,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 
 	@Override
 	public HojaVidaDTO registrarHojaVida(HojaVidaDTO pHojaVidaDTO) {
+		
+		// El id del municipio es valido?
+		if( ! this.servicioUbicacion.validarUbicacion(pHojaVidaDTO.getMunicipioId())) {
+			return null;
+		}
 		
 		// Convertir hoja de vida del formato DTO a entidad
 		HojaVida hojaVidaRecibida = this.constructorHV.crearEntidadHojaVida(pHojaVidaDTO);	
@@ -149,6 +174,11 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 	@Override
 	public HojaVidaDTO actualizarHojaVida(HojaVidaDTO pHojaVidaDTO) {
 		
+		// El id del municipio es valido?
+		if( ! this.servicioUbicacion.validarUbicacion(pHojaVidaDTO.getMunicipioId())) {
+			return null;
+		}	
+		
 		if( ! this.miRepositorioHojasVida.existsById(pHojaVidaDTO.getNumeroDocumento())) {
 			System.out.println("La hoja de vida no existe");
 			return null;
@@ -175,7 +205,7 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		// Agregar instituciones educativas de los estudios proporcionados
 		this.miServicioEstudios.agregarInstituciones(hojaVidaRecibida.getEstudios());
 		
-		//Guardar hoja de vida en la base de datos
+		// Guardar hoja de vida en la base de datos
 		if(this.guardarHojaVidaExistente(hojaVidaRecibida) != null) {
 			System.out.println("\nDiferente de nulo\n");
 		}
@@ -183,40 +213,89 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		return pHojaVidaDTO;
 	}
 
+	@Override
+	public HojaVidaDTO eliminarHojaVida(Long pNumeroDocumento) {
+		HojaVida hv = this.miRepositorioHojasVida.findById(pNumeroDocumento).orElse(null);
+		
+		if(hv != null) {
+			// validar que no se elimine una hoja de vida de empleado que no sea prospecto
+			String estado = this.servicioEmpresa.consultarEstadoPersona(hv.getNumeroDocumento(), "123");
+			if( ! estado.equals("PROSPECTO")) {
+				System.out.println("Error al eliminar hv, la persona debe ser un prospecto para poder eliminar");
+				return null;
+			}
+			
+			if(hv.getReferenciasFamiliares() != null) {
+				System.out.println("\nEliminando referencias familiares");
+				this.miServicioReferenciasFamiliares.eliminarReferenciasFamiliares(hv.getReferenciasFamiliares());
+			}
+			
+			if(hv.getReferenciasPersonales() != null) {
+				System.out.println("\nEliminando referencias personales");
+				this.miServicioReferenciasPersonales.eliminarReferenciasPersonaleses(hv.getReferenciasPersonales());
+			}
+			
+			if(hv.getExperienciasLaborales() != null) {
+				System.out.println("\nEliminando experiencias");
+				this.miServicioExperienciasLaborales.eliminarExperienciasLaborales(hv.getExperienciasLaborales());
+			}
+			
+			if(hv.getEstudios() != null) {
+				System.out.println("\nEliminando estudios");
+				this.miServicioEstudios.eliminarEstudios(hv.getEstudios());
+			}
+			//this.miRepositorioHojasVida.flush();
+			
+			
+			System.out.println("\nEliminando hoja de vida --> \n" + this.miRepositorioHojasVida.findById(hv.getNumeroDocumento()).orElse(null));			
+			this.miRepositorioHojasVida.deleteById(pNumeroDocumento);
+			
+			return this.constructorHV.construirHojaVidaDTO(hv);
+		}
+		
+		return null;
+	}
 	
 	
 	//====== Metodos privados ===========================================================================
 		
 	private HojaVida guardarNuevaHojaVida(HojaVida pHojaVida) {		
-		// El id del municipio es valido?
-		if(this.servicioUbicacion.validarUbicacion(pHojaVida.getMunicipioId())) {		
 			
-			// validamos si existe en la base de datos
-			HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
 			
-			if(hojaVidaEncontrada == null) {
-				// Guardar la hoja de vida con sus atributos basicos en la BD
-				return miRepositorioHojasVida.save(pHojaVida);	
-			}
-		}
+		// validamos si existe en la base de datos
+		HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
+		
+		if(hojaVidaEncontrada == null) {
+			// Guardar la hoja de vida con sus atributos basicos en la BD
+			return miRepositorioHojasVida.save(pHojaVida);	
+		}		
 		
 		return null;				
 	}
-	private HojaVida guardarHojaVidaExistente(HojaVida pHojaVida) {		
-		// El id del municipio es valido?
-		if(this.servicioUbicacion.validarUbicacion(pHojaVida.getMunicipioId())) {		
+	private HojaVida guardarHojaVidaExistente(HojaVida pHojaVida) {				
 			
-			// validamos si existe en la base de datos
-			HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
-			
-			if(hojaVidaEncontrada != null) {
-				// Guardar la hoja de vida con sus atributos basicos en la BD
-				//return miRepositorioHojasVida.saveAndFlush(pHojaVida);
-				return miRepositorioHojasVida.save(pHojaVida);
-			}
-		}
+		// validamos si existe en la base de datos
+		HojaVida hojaVidaEncontrada = miRepositorioHojasVida.findById(pHojaVida.getNumeroDocumento()).orElse(null);
+		
+		if(hojaVidaEncontrada != null) {
+			// Guardar la hoja de vida con sus atributos basicos en la BD
+			//return miRepositorioHojasVida.saveAndFlush(pHojaVida);
+			return miRepositorioHojasVida.save(pHojaVida);
+		}		
 		
 		return null;				
+	}
+
+	private void agregarEstadoAHojasVidaDTO(List<HojaVidaDTO> pHojasVida, String pNitEmpresa) {
+		if(pHojasVida != null && pNitEmpresa != null) {
+			for(HojaVidaDTO hvDTO : pHojasVida) {
+				this.agregarEstadoAHojaVidaDTO(hvDTO, pNitEmpresa);
+			}
+		}
+	}
+	private void agregarEstadoAHojaVidaDTO(HojaVidaDTO pHojaVida, String pNitEmpresa) {
+		String estado = this.servicioEmpresa.consultarEstadoPersona(pHojaVida.getNumeroDocumento(), pNitEmpresa);
+		pHojaVida.setEstadoPersona(estado);
 	}
 
 	

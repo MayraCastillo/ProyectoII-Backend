@@ -32,7 +32,7 @@ public class ExperienciaLaboral {
 	private Long expId;
 	
 	@Column(name = "numero_documento")
-	@NotNull
+	//@NotNull
 	private Long numeroDocumento;
 	
 	@Column(name = "cargo")

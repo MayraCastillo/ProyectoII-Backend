@@ -62,5 +62,15 @@ public interface IntServicioHojasVida {
 	public HojaVidaDTO actualizarHojaVida(HojaVidaDTO pHojaVidaDTO);
 	
 	
+	/**
+	 * Elimina la hoja de vida en cascada, elimina la hoja de vida con sus referencias, experiencias
+	 * y estudios, solo a prospectos
+	 * 
+	 * @param pNumeroDocumento identificador de la hoja de vida
+	 * @return hoja de vida eliminada, en caso de que encuentre, null en otro caso
+	 */	 
+	public HojaVidaDTO eliminarHojaVida(Long pNumeroDocumento);
+	
+	
 	
 }

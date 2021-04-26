@@ -57,6 +57,7 @@ class HojasVidaDAOTest {
 	private InstitucionesEducativasDAO miRepositorioInstituciones;
 	
 	
+	// AGREGAR HOJA DE VIDA
 		
 	/**
 	 * Deberia agregarse sin problema
@@ -247,7 +248,7 @@ class HojasVidaDAOTest {
 		hv.setDireccion("Nueva direccion");
 		hv.setCorreo("sandra@gmail.com");
 		hv.setCalificacion(9.0);
-		hv.setEstadoPersona("CONTRATADO");
+		//hv.setEstadoPersona("CONTRATADO");
 		hv.setTelefono("3119856734");
 		
 		this.miRepositorioHojasVida.save(hv);
@@ -259,7 +260,7 @@ class HojasVidaDAOTest {
 		Assertions.assertEquals(hv.getDireccion(),"Nueva direccion");
 		Assertions.assertEquals(hv.getCorreo(),"sandra@gmail.com");
 		Assertions.assertEquals(hv.getCalificacion(),9.0);
-		Assertions.assertEquals(hv.getEstadoPersona(),"CONTRATADO");
+		//Assertions.assertEquals(hv.getEstadoPersona(),"CONTRATADO");
 		Assertions.assertEquals(hv.getTelefono(),"3119856734");
 	}
 	
@@ -431,6 +432,58 @@ class HojasVidaDAOTest {
 	}
 	
 	
+	// ELIMINAR HOJA DE VIDA
+	
+	@Test
+	public void eliminarHojaVidaExistente() {		
+		HojaVida hv = this.miRepositorioHojasVida.findById(1L).orElse(null);
+
+		
+		Assertions.assertNotNull(hv);
+		
+		this.miRepositorioHojasVida.deleteById(1L);
+		//this.miRepositorioHojasVida.eliminarHojaVida(1L);
+		
+		hv = this.miRepositorioHojasVida.findById(1L).orElse(null);
+		Assertions.assertNull(hv);
+	}
+	
+	@Test
+	public void eliminarHojaVidaNoExistente() {	
+		HojaVida hv = this.miRepositorioHojasVida.findById(9999L).orElse(null);
+		Assertions.assertNull(hv);
+		
+		this.miRepositorioHojasVida.deleteById(1L);
+		
+		hv = this.miRepositorioHojasVida.findById(9999L).orElse(null);
+		Assertions.assertNull(hv);
+	}
+	
+	@Test
+	public void agregarYEliminarHojaVida() {
+		HojaVida hv = this.agregarHV();		
+		this.agregarEstudios();
+		this.agregarExperiencias();
+		this.agregarReferenciasFamiliares();
+		this.agregarReferenciasPersonales();
+		
+		hv = this.miRepositorioHojasVida.findById(1000L).orElse(null);
+		Assertions.assertNotNull(hv);
+				
+		// Eliminar hoja de vida agregada
+		this.miRepositorioHojasVida.deleteById(1000L);
+		
+		hv = this.miRepositorioHojasVida.findById(1000L).orElse(null);
+		
+		Assertions.assertNull(hv);
+	}
+	
+	
+	
+	
+	
+	
+	
 	private HojaVida agregarHV() {
 		HojaVida nuevaHV = HojaVida.builder()
 				.numeroDocumento(1000L)
@@ -438,9 +491,9 @@ class HojasVidaDAOTest {
 				.calificacion(8.0)
 				.correo("lupita@gmail.com")
 				.direccion("Carrera 9na")
-				.estadoPersona("PROSPECTO")
+				//.estadoPersona("PROSPECTO")
 				.municipioId(1L)
-				.nitEmpresa("1")
+				//.nitEmpresa("1")
 				.nombres("Lupita")
 				.telefono("3157856547")
 				.tipoDocumento("CEDULA")
