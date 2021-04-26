@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,10 +30,11 @@ public class TarifaArl implements Serializable{
 	private Long arlId;
 	
 	@Column(name = "nivel")
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo niver no puede ser vacio")
 	private String nivel;
 	
 	@Column(name = "cotizacion")
+	@Positive(message = "El valor del campo cotizacion deber ser mayor que cero")
 	private Double cotizacion;
 	
 	private static final long serialVersionUID = -6915570980828804888L;

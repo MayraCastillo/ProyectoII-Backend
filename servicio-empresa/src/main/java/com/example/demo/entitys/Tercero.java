@@ -34,14 +34,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Tercero {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@Column(name = "terc_id")
-	//private Long terceroId;
-	
 	@Id
 	@Column(name = "nit")
-	@Positive(message = "El valor del campo nit no puede ser negativo")
+	@Positive(message = "El valor del campo nit deber ser mayor que cero")
 	private Long nit;
 	
 	@NotNull(message = "El municipio no puede ser nulo")
@@ -66,7 +61,6 @@ public class Tercero {
 	@NotEmpty(message = "El campo telefono no puede ser vacio")
 	@Column(name = "telefono")
 	@Size(min = 7,max = 10,message = "El numero de telefono deber ser mayor a 6 y menor a 11")
-	@Positive(message = "El mumero de telefono debe ser positivo")
 	private String telefono;
 
 	@NotNull(message = "El campo tipoTercero no puede ser vacio")

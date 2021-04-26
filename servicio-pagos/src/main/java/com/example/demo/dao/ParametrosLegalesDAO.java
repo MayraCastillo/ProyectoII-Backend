@@ -1,12 +1,9 @@
 package com.example.demo.dao;
 
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import com.example.demo.entity.ParametroLegal;
-
 
 @Repository
 public interface ParametrosLegalesDAO extends JpaRepository<ParametroLegal, Long>{
@@ -18,6 +15,7 @@ public interface ParametrosLegalesDAO extends JpaRepository<ParametroLegal, Long
 	 * @param nombre nombre del parametro a buscar
 	 * @return Lista de parametros con ese nombre
 	 */
-	public List<ParametroLegal> findByNombreIgnoreCase(String nombre);	
+	//public List<ParametroLegal> findByNombreIgnoreCase(String nombre);	
+	public ParametroLegal findByNombreIgnoreCase(String nombre);
 	
 }

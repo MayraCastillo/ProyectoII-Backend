@@ -2,49 +2,45 @@ package com.example.demo.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.dao.FactoresDAO;
 import com.example.demo.dao.NominaDAO;
 import com.example.demo.dao.Pago_nominaDAO;
-import com.example.demo.dao.ParametrosLegalesDAO;
 import com.example.demo.dao.RegistroHorasDAO;
+import com.example.demo.dao.SeguridadSocialDAO;
 import com.example.demo.entity.Factores;
 import com.example.demo.entity.Nomina;
 import com.example.demo.entity.Pago_nomina;
 import com.example.demo.entity.ParametroLegal;
 import com.example.demo.entity.RegistroHoras;
+import com.example.demo.entity.SeguridadSocial;
 import com.example.demo.feign_client.EmpresaClient;
 import com.example.demo.model.Contrato;
 import com.example.demo.model.EmpleadoNomina;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Service
+
 @RequiredArgsConstructor
 public class IservicioNominaImpl implements IservicioNomina {
 
-	@Autowired
-	RegistroHorasDAO registroHorasDAO;
+	final RegistroHorasDAO registroHorasDAO;
+
+	final FactoresDAO factoresDAO;
+
+	final Pago_nominaDAO pagoNominaDAO;
+
+	final NominaDAO nominaDAO;
+
+	final ServicioParametrosLegales parametrosLegales;
+
+	final EmpresaClient empresaClient;
 
 	@Autowired
-	FactoresDAO factoresDAO;
-
-	@Autowired
-	Pago_nominaDAO pagoNominaDAO;
-
-	@Autowired
-	NominaDAO nominaDAO;
-
-	@Autowired
-	ParametrosLegalesDAO parametrosLegalesDAO;
-
-	@Autowired
-	ServicioParametrosLegales parametrosLegales;
-
-	@Autowired
-	EmpresaClient empresaClient;
+	SeguridadSocialDAO seguridadSocialDAO;
 
 	@Override
 	public RegistroHoras crearRegistroHoras(RegistroHoras pRegistroHoras) {
@@ -69,65 +65,49 @@ public class IservicioNominaImpl implements IservicioNomina {
 
 	@Override
 	public Nomina CalcularNomina(EmpleadoNomina pEmpleadoNomina) {
-
 		Contrato contrato = empresaClient.buscarContratoPorId(pEmpleadoNomina.getContratoId());
-		Double basicoDevengado = redondeo(basicoDevengado(pEmpleadoNomina));
-		Integer horasTrabajadas = pEmpleadoNomina.getRegistroHoras().getHorasTrabajadas();
-		Double horasExtras = redondeo(horasExtras(pEmpleadoNomina));
-		Double auxilioTransporte = redondeo(auxilioTransporte(horasTrabajadas, basicoDevengado));
-		Double recargos = redondeo(recargos(pEmpleadoNomina));
-
-		Double comisiones = redondeo(pEmpleadoNomina.getFactoresSalariales().getComisiones());
-		Double ingresoSalarial = redondeo(otrosIngresoSalarial(pEmpleadoNomina));
-		Double ingresoNoSalarial = redondeo(otrosIngresoNoSalarial(pEmpleadoNomina));
-		Double totalDevengado = redondeo(basicoDevengado + auxilioTransporte + horasExtras + recargos + comisiones
-				+ ingresoSalarial + ingresoNoSalarial);
-		Double devengadoMenosNoSalarial = redondeo(totalDevengado - ingresoNoSalarial);
-		Double devMenosNosalMenosAuxTrans = redondeo(devengadoMenosNoSalarial - auxilioTransporte);
-		Double saludEmpleado = redondeo(saludEmpleado(devMenosNosalMenosAuxTrans));
-		Double pensionEmpleado = redondeo(pensionEmpleado(devMenosNosalMenosAuxTrans));
-		Double fondoSolPensional = redondeo(fondoSolidaridadPensional(devMenosNosalMenosAuxTrans));
-		Double totalDeducciones = redondeo(saludEmpleado + pensionEmpleado + fondoSolPensional);
-		Double netoPagado = redondeo(totalDevengado - totalDeducciones);
-
-		Nomina nomina = Nomina.builder().BasicoDevengado(basicoDevengado).contratoId(pEmpleadoNomina.getContratoId())
-				.auxilioTransporte(auxilioTransporte).pagoNomina(pEmpleadoNomina.getPagoNomina())
-				.horasExtras(horasExtras).recargos(recargos).comisiones(comisiones)
-				.otrosIngresoSalarial(ingresoSalarial).otrosIngresoNoSalarial(ingresoNoSalarial)
-				.totalDevengado(totalDevengado).devengadoMenosNoSalariales(devengadoMenosNoSalarial)
-				.devMenosNoSalMenosAuxTrans(devMenosNosalMenosAuxTrans).saludEmpleado(saludEmpleado)
-				.pensionEmpleado(pensionEmpleado).fondoSolidaridadPensional(fondoSolPensional)
-				.totalDeducciones(totalDeducciones).netoPagado(netoPagado).contrato(contrato).estado("CALCULADA")
-				.build();
-
+		Nomina nomina = Nomina.builder().BasicoDevengado(basicoDevengado(pEmpleadoNomina))
+				.auxilioTransporte(auxilioTransporte(pEmpleadoNomina)).horasExtras(horasExtras(pEmpleadoNomina))
+				.recargos(recargos(pEmpleadoNomina)).comisiones(comisiones(pEmpleadoNomina))
+				.otrosIngresoSalarial(otrosIngresoSalarial(pEmpleadoNomina))
+				.otrosIngresoNoSalarial(otrosIngresoNoSalarial(pEmpleadoNomina))
+				.totalDevengado(totalDevengado(pEmpleadoNomina))
+				.devengadoMenosNoSalariales(devengadoMenosNoSalariales(pEmpleadoNomina))
+				.devMenosNoSalMenosAuxTrans(devMenosNoSalMenosAuxTrans(pEmpleadoNomina))
+				.saludEmpleado(saludEmpleado(pEmpleadoNomina)).pensionEmpleado(pensionEmpleado(pEmpleadoNomina))
+				.fondoSolidaridadPensional(fondoSolidaridadPensional(pEmpleadoNomina))
+				.totalDeducciones(totalDeducciones(pEmpleadoNomina)).netoPagado(netoPagado(pEmpleadoNomina))
+				.estado("CALCULADA").contrato(contrato).contratoId(pEmpleadoNomina.getContratoId())
+				.pagoNomina(pEmpleadoNomina.getPagoNomina()).build();
 		return nomina;
 	}
 
-	private Double basicoDevengado(EmpleadoNomina pEmpleadoNomina) {
+	public Double basicoDevengado(EmpleadoNomina pEmpleadoNomina) {
 		Integer horasTrabajadas = pEmpleadoNomina.getRegistroHoras().getHorasTrabajadas();
 		Double salarioBase = pEmpleadoNomina.getSalarioBase();
-		Double basicoDevengado = (salarioBase / 240) * horasTrabajadas;
-		return basicoDevengado;
+		return redondeo((salarioBase / 240) * horasTrabajadas);
 	}
 
-	private Double salarioMinimo() {
+	public Double salarioMinimo() {
 		ParametroLegal parametroLegal = parametrosLegales.buscarParametroPorNombre("SALARIO MINIMO");
 		Double salarioMinimo = parametroLegal.getValor();
-		return salarioMinimo;
+		return redondeo(salarioMinimo);
 	}
 
-	private Double auxilioTransporte(Integer pHorasTrabajadas, Double pBasicoDevengado) {
+	public Double auxilioTransporte(EmpleadoNomina pEmpleadoNomina) {
 		Double auxilioTransporte = 0.0;
+		Integer horasTrabajadas = pEmpleadoNomina.getRegistroHoras().getHorasTrabajadas();
 		Double salarioMinimo = salarioMinimo();
 		ParametroLegal parametroLegal = parametrosLegales.buscarParametroPorNombre("AUXILIO DE TRANSPORTE");
-		Double valorAuxTransporte = parametroLegal.getValor();
-		if (pBasicoDevengado <= 2 * salarioMinimo) {
-			auxilioTransporte = (valorAuxTransporte / 240) * pHorasTrabajadas;
+		Double valorAuxilioTransporte = parametroLegal.getValor();
+		Double basicoDevengado = basicoDevengado(pEmpleadoNomina);
+		if (basicoDevengado <= 2 * salarioMinimo) {
+			auxilioTransporte = (valorAuxilioTransporte / 240) * horasTrabajadas;
 		}
-		return auxilioTransporte;
+		return redondeo(auxilioTransporte);
 	}
 
-	private Double horasExtras(EmpleadoNomina pEmpleadoNomina) {
+	public Double horasExtras(EmpleadoNomina pEmpleadoNomina) {
 		RegistroHoras registroHoras = pEmpleadoNomina.getRegistroHoras();
 		ParametroLegal PorcentajeExtDiurnaOrdinaria = parametrosLegales.buscarParametroPorId(5L);
 		ParametroLegal PorcentajeExtNoturnaOrdinaria = parametrosLegales.buscarParametroPorId(6L);
@@ -143,63 +123,92 @@ public class IservicioNominaImpl implements IservicioNomina {
 		Double noturnoDomFestiva = (basicoDevengado(pEmpleadoNomina) / 240)
 				* registroHoras.getExtrasDominicalFestivoNoturno() * PorcentajeExtNoturDomOfestiva.getValor();
 		Double horasExtras = diurnaOrdinaria + noturnaOrdinaria + diurnaDomFestiva + noturnoDomFestiva;
-
-		return horasExtras;
+		return redondeo(horasExtras);
 	}
 
-	private Double redondeo(Double pValor) {
-		return Math.round(pValor * Math.pow(10, 0)) / Math.pow(10, 0);
-	}
-
-	private Double fondoSolidaridadPensional(Double pDevMenosNosalMenosAuxTrans) {
-		Double salarioMinimo = salarioMinimo();
-		Double fondoSolPensional = 0.0;
-		if (pDevMenosNosalMenosAuxTrans >= 4 * salarioMinimo) {
-			fondoSolPensional = pDevMenosNosalMenosAuxTrans * 0.01;
-		}
-		return fondoSolPensional;
-	}
-
-	private Double saludEmpleado(Double pDevMenosNosalMenosAuxTrans) {
-		ParametroLegal parametroLegal = parametrosLegales.buscarParametroPorId(3L);
-		Double saludEmpleado = pDevMenosNosalMenosAuxTrans * parametroLegal.getValor();
-		return saludEmpleado;
-	}
-
-	private Double pensionEmpleado(Double pDevMenosNosalMenosAuxTrans) {
-		ParametroLegal parametroLegal = parametrosLegales.buscarParametroPorId(4L);
-		Double pensionEmpleado = pDevMenosNosalMenosAuxTrans * parametroLegal.getValor();
-		return pensionEmpleado;
-	}
-
-	private Double otrosIngresoSalarial(EmpleadoNomina pEmpleadoNomina) {
-		Factores factores = pEmpleadoNomina.getFactoresSalariales();
-		Double ingresoSalarial = factores.getAuxilioExtra() + factores.getBonificaciones() + factores.getViaticos()
-				+ factores.getOtros();
-		return ingresoSalarial;
-	}
-
-	private Double otrosIngresoNoSalarial(EmpleadoNomina pEmpleadoNomina) {
-
-		Factores factores = pEmpleadoNomina.getFactoresNoSalariales();
-		Double ingresoNoSalarial = factores.getAuxilioExtra() + factores.getBonificaciones() + factores.getViaticos()
-				+ factores.getOtros() + factores.getComisiones();
-		return ingresoNoSalarial;
-	}
-
-	private Double recargos(EmpleadoNomina pEmpleadoNomina) {
+	public Double recargos(EmpleadoNomina pEmpleadoNomina) {
+		Double recargos = 0.0;
 		RegistroHoras registroHoras = pEmpleadoNomina.getRegistroHoras();
-		ParametroLegal parametroLegal = parametrosLegales.buscarParametroPorId(9L);
-		ParametroLegal parametroLegal1 = parametrosLegales.buscarParametroPorId(10L);
-		ParametroLegal parametroLegal2 = parametrosLegales.buscarParametroPorId(11L);
-		Double recargoNoturno = (basicoDevengado(pEmpleadoNomina) / 240) * registroHoras.getRecargoNoturno()
-				* parametroLegal.getValor();
-		Double recDiurnoDomFestivo = (basicoDevengado(pEmpleadoNomina) / 240)
-				* registroHoras.getRecargoDiurnoDominicalFestivo() * parametroLegal1.getValor();
-		Double recNoturnoDomFestivo = (basicoDevengado(pEmpleadoNomina) / 240)
-				* registroHoras.getRecargoNoturnoDominicalFestivo() * parametroLegal2.getValor();
-		Double recargos = recargoNoturno + recDiurnoDomFestivo + recNoturnoDomFestivo;
-		return recargos;
+		ParametroLegal pRecargoNoturno = parametrosLegales.buscarParametroPorId(9L);
+		ParametroLegal pRecargoDiurDomOfestivo = parametrosLegales.buscarParametroPorId(10L);
+		ParametroLegal pRecagoNoturDomOfestivo = parametrosLegales.buscarParametroPorId(11L);
+
+		Double recargoNoturno = ((basicoDevengado(pEmpleadoNomina) / 240) * registroHoras.getRecargoNoturno()
+				* pRecargoNoturno.getValor());
+		Double recargoDiurDomOfestivo = ((basicoDevengado(pEmpleadoNomina) / 240)
+				* registroHoras.getRecargoDiurnoDominicalFestivo() * pRecargoDiurDomOfestivo.getValor());
+		Double recargoNoturDomOfestivo = ((basicoDevengado(pEmpleadoNomina) / 240)
+				* registroHoras.getRecargoNoturnoDominicalFestivo() * pRecagoNoturDomOfestivo.getValor());
+		recargos = recargoNoturno + recargoDiurDomOfestivo + recargoNoturDomOfestivo;
+		return redondeo(recargos);
+	}
+
+	public Double comisiones(EmpleadoNomina pEmpleadoNomina) {
+		return redondeo(pEmpleadoNomina.getFactoresSalariales().getComisiones());
+	}
+
+	public Double otrosIngresoSalarial(EmpleadoNomina pEmpleadoNomina) {
+		Double ingresoSalarial = 0.0;
+		Factores factoresSalariales = pEmpleadoNomina.getFactoresSalariales();
+		ingresoSalarial = factoresSalariales.getAuxilioExtra() + factoresSalariales.getBonificaciones()
+				+ factoresSalariales.getComisiones() + factoresSalariales.getOtros() + factoresSalariales.getViaticos();
+		return redondeo(ingresoSalarial);
+	}
+
+	public Double otrosIngresoNoSalarial(EmpleadoNomina pEmpleadoNomina) {
+		Double ingresoNoSalarial = 0.0;
+		Factores factoresNoSalariales = pEmpleadoNomina.getFactoresSalariales();
+		ingresoNoSalarial = factoresNoSalariales.getAuxilioExtra() + factoresNoSalariales.getBonificaciones()
+				+ factoresNoSalariales.getComisiones() + factoresNoSalariales.getOtros()
+				+ factoresNoSalariales.getViaticos();
+		return redondeo(ingresoNoSalarial);
+	}
+
+	public Double totalDevengado(EmpleadoNomina pEmpleadoNomina) {
+		return redondeo(basicoDevengado(pEmpleadoNomina) + auxilioTransporte(pEmpleadoNomina)
+				+ horasExtras(pEmpleadoNomina) + recargos(pEmpleadoNomina) + comisiones(pEmpleadoNomina)
+				+ otrosIngresoSalarial(pEmpleadoNomina) + otrosIngresoNoSalarial(pEmpleadoNomina));
+	}
+
+	public Double devengadoMenosNoSalariales(EmpleadoNomina pEmpleadoNomina) {
+		return redondeo(totalDevengado(pEmpleadoNomina) - otrosIngresoNoSalarial(pEmpleadoNomina));
+	}
+
+	public Double devMenosNoSalMenosAuxTrans(EmpleadoNomina pEmpleadoNomina) {
+		return redondeo(totalDevengado(pEmpleadoNomina) - otrosIngresoNoSalarial(pEmpleadoNomina)
+				- auxilioTransporte(pEmpleadoNomina));
+	}
+
+	public Double saludEmpleado(EmpleadoNomina pEmpleadoNomina) {
+		ParametroLegal porcentajeSaludEmpleado = parametrosLegales.buscarParametroPorId(3L);
+		return redondeo(devMenosNoSalMenosAuxTrans(pEmpleadoNomina) * porcentajeSaludEmpleado.getValor());
+	}
+
+	public Double pensionEmpleado(EmpleadoNomina pEmpleadoNomina) {
+		ParametroLegal porcentajePensionEmpleado = parametrosLegales.buscarParametroPorId(4L);
+		return redondeo(devMenosNoSalMenosAuxTrans(pEmpleadoNomina) * porcentajePensionEmpleado.getValor());
+	}
+
+	public Double fondoSolidaridadPensional(EmpleadoNomina pEmpleadoNomina) {
+		Double fondoSolPensional = 0.0;
+		Double salarioMinimo = salarioMinimo();
+		if (devMenosNoSalMenosAuxTrans(pEmpleadoNomina) >= 4 * salarioMinimo) {
+			fondoSolPensional = devMenosNoSalMenosAuxTrans(pEmpleadoNomina) * 0.01;
+		}
+		return redondeo(fondoSolPensional);
+	}
+
+	public Double totalDeducciones(EmpleadoNomina pEmpleadoNomina) {
+		return redondeo(saludEmpleado(pEmpleadoNomina) + pensionEmpleado(pEmpleadoNomina)
+				+ fondoSolidaridadPensional(pEmpleadoNomina));
+	}
+
+	public Double netoPagado(EmpleadoNomina pEmpleadoNomina) {
+		return redondeo(totalDevengado(pEmpleadoNomina) - totalDeducciones(pEmpleadoNomina));
+	}
+
+	public Double redondeo(Double pValor) {
+		return Math.round(pValor * Math.pow(10, 0)) / Math.pow(10, 0);
 	}
 
 	@Override
@@ -209,24 +218,22 @@ public class IservicioNominaImpl implements IservicioNomina {
 		if (Vnomina != null) {
 			return null;
 		}
-		Pago_nomina pagoNomina = pagoNominaDAO.buscarPorPerido(pEmpleadoNomina.getPagoNomina().getFechaInicio(),
+		Pago_nomina pagoNomina = pagoNominaDAO.buscarPorPeriodo(pEmpleadoNomina.getPagoNomina().getFechaInicio(),
 				pEmpleadoNomina.getPagoNomina().getFechaFin());
 		if (pagoNomina == null) {
 			pagoNomina = crearPagoNomina(pEmpleadoNomina.getPagoNomina());
 		}
-
-		RegistroHoras registroHoras = crearRegistroHoras(pEmpleadoNomina.getRegistroHoras());
-		Factores factoresSalariales = crearFactores(pEmpleadoNomina.getFactoresSalariales());
-		Factores factoresNoSalariales = crearFactores(pEmpleadoNomina.getFactoresNoSalariales());
-
-		Contrato contrato = empresaClient.buscarContratoPorId(pEmpleadoNomina.getContratoId());
-		registroHoras.setContrato(contrato);
-		factoresSalariales.setContrato(contrato);
-		factoresNoSalariales.setContrato(contrato);
+		crearRegistroHoras(pEmpleadoNomina.getRegistroHoras());
+		crearFactores(pEmpleadoNomina.getFactoresSalariales());
+		crearFactores(pEmpleadoNomina.getFactoresNoSalariales());
 
 		Nomina nomina = CalcularNomina(pEmpleadoNomina);
 		nomina.setEstado("GUARDADA");
 		nomina.setPagoNomina(pagoNomina);
+		SeguridadSocial seguridadSocial = SeguridadSocial.builder()
+				.ARL(nomina.getContrato().getTarifaArl().getCotizacion() * nomina.getDevMenosNoSalMenosAuxTrans())
+				.nomina(nomina).build();
+		seguridadSocialDAO.save(seguridadSocial);
 		return crearNomina(nomina);
 	}
 
@@ -273,6 +280,29 @@ public class IservicioNominaImpl implements IservicioNomina {
 			return regHoras;
 		}).collect(Collectors.toList());
 		return listaRegistrosNom;
+	}
+
+	@Override
+	public SeguridadSocial crearSeguridadSocial(SeguridadSocial pSeguridadSocial) {
+		return seguridadSocialDAO.save(pSeguridadSocial);
+	}
+
+	@Override
+	public List<SeguridadSocial> ListaSeguridadSocial() {
+		List<SeguridadSocial> listaSeguridadSocial = seguridadSocialDAO.findAll().stream().map(seguridadSocial -> {
+			Contrato contrato = empresaClient.buscarContratoPorId(seguridadSocial.getNomina().getContratoId());
+			seguridadSocial.getNomina().setContrato(contrato);
+			return seguridadSocial;
+		}).collect(Collectors.toList());
+		return listaSeguridadSocial;
+	}
+
+	@Override
+	public SeguridadSocial buscarSeguridadSocial(Long pContratoId) {
+		SeguridadSocial seguridadSocial = seguridadSocialDAO.obtenerSeguridadSocialEmpleado(pContratoId);
+		Contrato contrato = empresaClient.buscarContratoPorId(seguridadSocial.getNomina().getContratoId());
+		seguridadSocial.getNomina().setContrato(contrato);
+		return seguridadSocial;
 	}
 
 }

@@ -32,7 +32,7 @@ public class ParametroLegal {
 	
 	@NotNull(message = "El valor del parametro no puede ser nulo")
 	@Column(name = "valor")
-	@Positive(message = "El valor del parametro no puede ser vacio")
+	@Positive(message = "El valor del parametro no puede ser mayor que cero")
 	private Double valor;
 
 }

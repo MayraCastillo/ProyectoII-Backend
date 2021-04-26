@@ -31,10 +31,11 @@ public class TipoTercero implements Serializable {
 	private Long tipoTerceroId;
 	
 	@Column(name = "nombre",unique = true)
+	@NotEmpty(message = "El valor del campo nombre no puede ser vacio")
 	private String nombre;
 	
 	@Column(name = "abreviacion",unique = true)
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo abreviacion no puede ser vacio")
 	private String abreviacion;
 
 }

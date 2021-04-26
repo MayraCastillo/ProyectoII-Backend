@@ -21,6 +21,7 @@ public interface IcontratoService {
 	public Empleado editarEmpleado(Empleado pEmpleado);
 	public Contrato buscarContratoPorId(Long pIdContrato);
 	public Empleado buscarEmpleadoPorNumeroDocumento(Long pNumeroDocumento);
+	public List<Empleado_banco> buscarRelacionEmpleadoBanco(Long pNumeroDocumento);
 	public List<Empleado> listarEmpleados();
 	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa);
 	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado);

@@ -42,15 +42,9 @@ public class ServicioParametrosLegalesImpl implements ServicioParametrosLegales{
 
 	@Override
 	public ParametroLegal buscarParametroPorNombre(String pNombre) {
-		List<ParametroLegal> parametros = null;
-		
-		if(pNombre != null) {
-			parametros = this.miRepositorioParametrosLegales.findByNombreIgnoreCase(pNombre); 
-			if(parametros != null) {
-				if(parametros.size() > 0) {
-					return parametros.get(0);
-				}
-			}
+		ParametroLegal parametroLegal = miRepositorioParametrosLegales.findByNombreIgnoreCase(pNombre);
+		if(parametroLegal != null) {
+			return parametroLegal;
 		}
 		return null;
 	}
@@ -63,7 +57,7 @@ public class ServicioParametrosLegalesImpl implements ServicioParametrosLegales{
 		if(pParametro.getNombre() == null || pParametro.getValor() == null) {
 			return null;
 		}
-		if(this.miRepositorioParametrosLegales.findByNombreIgnoreCase(pParametro.getNombre()).size() > 0) {
+		if(this.miRepositorioParametrosLegales.findByNombreIgnoreCase(pParametro.getNombre()) != null) {
 			return null;
 		}
 			

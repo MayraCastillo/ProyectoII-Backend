@@ -23,6 +23,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +40,7 @@ import lombok.NoArgsConstructor;
 public class Empleado implements Serializable {
 	@Id
 	@Column(name = "numero_documento")
-	@Positive(message = "El valor del campo numeroDocumento no puede ser negativo")
+	@Positive(message = "El valor del campo numeroDocumento debe ser mayor que cero")
 	private Long numeroDocumento;
 
 	@NotNull(message = "El campo municipio no puede ser nulo")
@@ -46,7 +48,11 @@ public class Empleado implements Serializable {
 	@JoinColumn(name = "mun_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Municipio municipio;
-
+	
+	@OneToMany(mappedBy = "empleado_banco_pk.empleado")
+	@JsonManagedReference
+	private List<Empleado_banco> listaBancos;
+	
 	@OneToMany(mappedBy = "contratoPk.empleado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Contrato> listaContratos;
@@ -70,7 +76,6 @@ public class Empleado implements Serializable {
 
 	@Column(name = "telefono")
 	@NotEmpty(message = "El campo telefono no puede ser vacio")
-	@Positive(message = "El valor del campo telefono no puede ser negativo")
 	@Size(min = 7,max = 10,message = "El numero de telefono deber ser mayor a 6 y menor a 11")
 	private String telefono;
 

@@ -1183,12 +1183,14 @@ INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_ter
 INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (125, 1, 'tercero fondos de pensiones y cesantias', 'Carrera 23A', 'tecero3@hotmail.com', '1236', 2, 'ACTIVO');
 INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (126, 1, 'tercero riesgos laborales', 'Carrera 24A', 'tecero4@hotmail.com', '1237', 3, 'ACTIVO');
 
-INSERT INTO bancos (nombre,telefono) VALUES ('BBC','310836213');
+INSERT INTO bancos (nombre,telefono) VALUES ('BBC','3108362213');
+INSERT INTO bancos (nombre,telefono) VALUES ('BANCO DE BOGOTA','3108365179');
 
 INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (123, 1, 'Ruben', 'Dorado', NOW(), 'CEDULA', '123456789', 'calle 5', 'ACTIVO', 'ruben@unicauca.edu.co');
 INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (124, 1, 'Hector', 'meneses', NOW(), 'CEDULA', '124456789', 'calle 4', 'INACTIVO', 'hector@unicauca.edu.co');
 
 INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,1,'123456','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,2,'1234','Ahorros', NOW(), 'ACTIVO');
 
 /*INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (1,123,NOW(),'ACTIVO');
 INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (3,123,NOW(),'ACTIVO');*/

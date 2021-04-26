@@ -134,6 +134,16 @@ public class EmpresaController {
 		return ResponseEntity.status(HttpStatus.OK).body(empleado);
 	}
 	
+	@GetMapping(value = "/buscarRelacionEmpleadoBanco/{pNumeroDocumento}")
+	public ResponseEntity<List<Empleado_banco>> buscarRelacionEmpleadoBanco(@PathVariable Long pNumeroDocumento){
+		List<Empleado_banco> listEmpleadoBanco = contratoService.buscarRelacionEmpleadoBanco(pNumeroDocumento);
+		if(listEmpleadoBanco == null) 
+		{
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listEmpleadoBanco);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listEmpleadoBanco);
+	}
+	
 	@GetMapping(value = "/buscarTerceroPorNit/{pNit}")
 	public ResponseEntity<Tercero> buscarTerceroPorNIt(@PathVariable Long pNit)
 	{

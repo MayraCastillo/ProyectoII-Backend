@@ -9,6 +9,6 @@ import com.example.demo.entity.Pago_nomina;
 
 public interface Pago_nominaDAO extends JpaRepository<Pago_nomina, Long> {
 	@Query("SELECT p FROM Pago_nomina p WHERE p.fechaInicio = ?1 AND p.fechaFin = ?2")
-	public Pago_nomina buscarPorPerido(Date pFechaInicio,Date pFechaFin);
+	public Pago_nomina buscarPorPeriodo(Date pFechaInicio,Date pFechaFin);
 
 }

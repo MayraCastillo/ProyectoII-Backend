@@ -26,8 +26,9 @@ public class Pais implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pais_id")
 	private Long paisId;	
+	
 	@Column(name = "nombre",unique = true)
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo nombre no puede ser vacio")
 	private String nombre;
 	private static final long serialVersionUID = -4245499977814899810L;
 

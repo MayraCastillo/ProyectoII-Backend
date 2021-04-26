@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -44,6 +45,7 @@ public class Departamento implements Serializable {
 	private String nombre;
 
 	@Column(name = "codigo",unique = true)
+	@Min(value = 0, message = "El valor del campo codigo no puede ser negativo")
 	private Integer codigo;
 	
 	private static final long serialVersionUID = -926757130904575015L;

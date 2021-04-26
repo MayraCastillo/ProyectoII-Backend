@@ -34,17 +34,18 @@ public class Municipio implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long municipio_id;
 
-	@NotNull(message = "El departamento no puede ser vacio")
+	@NotNull(message = "El valor del campo departamento no puede ser nulo")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JoinColumn(name = "dep_id")
 	private Departamento departamento;
 
 	@Column(name = "codigo")
+	@NotNull(message = "El valor del campo codigo no puede ser nulo")
 	private Integer codigo;
 
 	@Column(name = "nombre")
-	@NotEmpty
+	@NotEmpty(message = "El valor del campo nombre no puede ser vacio")
 	private String nombre;
 
 	private static final long serialVersionUID = -2869925820934122617L;

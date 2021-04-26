@@ -8,9 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
-
 import com.example.demo.entitys.Banco;
 import com.example.demo.entitys.Empleado;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class Empleado_banco_pk implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="numero_documento",insertable = false, updatable = false)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler" })
+	@JsonBackReference
 	private Empleado empleado;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

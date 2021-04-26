@@ -27,7 +27,7 @@ public class IterceroServiceImpl implements IterceroService {
 
 	@Override
 	public Tercero crearTercero(Tercero pTercero) {
-		Tercero tercero = terceroDAO.findByNombre(pTercero.getNombre());
+		Tercero tercero = terceroDAO.findByNit(pTercero.getNit());
 		if (tercero != null) {
 			return null;
 		}
@@ -36,6 +36,7 @@ public class IterceroServiceImpl implements IterceroService {
 
 		TipoTercero tipoTercero = tipoTerceroDAO.findById(pTercero.getTipoTercero().getTipoTerceroId()).orElse(null);
 		pTercero.setTipoTercero(tipoTercero);
+		pTercero.setEstado("ACTIVO");
 		return terceroDAO.save(pTercero);
 	}
 
@@ -71,6 +72,7 @@ public class IterceroServiceImpl implements IterceroService {
 		tercero.setNombre(pTercero.getNombre());
 		tercero.setTelefono(pTercero.getTelefono());
 		tercero.setDireccion(pTercero.getDireccion());
+		tercero.setEstado(pTercero.getEstado());
 		return terceroDAO.save(tercero);
 	}
 

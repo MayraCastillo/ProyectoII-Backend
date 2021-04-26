@@ -228,5 +228,10 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return empleadoDAO.findAll();
 	}
 
+	@Override
+	public List<Empleado_banco> buscarRelacionEmpleadoBanco(Long pNumeroDocumento) {
+		return empleado_bancoDAO.listEmpBanco(pNumeroDocumento);
+	}
+
 
 }
