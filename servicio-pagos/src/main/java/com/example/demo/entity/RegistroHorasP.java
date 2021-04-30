@@ -1,21 +1,15 @@
 package com.example.demo.entity;
 
-import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import com.example.demo.model.Contrato;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,30 +20,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "registros_horas")
-public class RegistroHoras implements Serializable {
+@Table(name = "registro_horas")
+public class RegistroHorasP {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "reg_horas_id")
 	private Long registroHorasId;
 	
-	@Column(name = "contrato_id")
-	@NotNull(message = "El valor del campo contratoId no puede ser nulo")
-	private Long contratoId;
-	
-	@NotNull(message = "El valor del campo fechaInicio no puede ser nulo")
-	@Column(name = "fecha_inicio")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date fechaInicio;
-	
-	
-	@NotNull(message = "El valor del campo fechaFin no puede ser nulo")
-	@Column(name = "fecha_fin")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date fechaFin;
+	@OneToOne(mappedBy = "registroHoras")
+	@JsonBackReference
+	private DetalleNomina detalleNomina;
 	
 	@NotNull(message = "El valor del campo horasTrabajadas no puede ser nulo")
 	@Column(name = "hotas_trabajas")
@@ -90,10 +71,4 @@ public class RegistroHoras implements Serializable {
 	@Column(name = "rec_noturno_dom_festivo")
 	@Min(value = 0, message = "El valor del campo recargoNoturnoDominicalFestivo no puede ser negativo")
 	private Integer recargoNoturnoDominicalFestivo;
-
-	@Transient
-	private Contrato contrato;
-	
-	private static final long serialVersionUID = 7233669275440910113L;
-
 }

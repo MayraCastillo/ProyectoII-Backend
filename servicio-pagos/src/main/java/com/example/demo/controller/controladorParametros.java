@@ -1,12 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import com.example.demo.entity.Factores;
-import com.example.demo.entity.Nomina;
-import com.example.demo.entity.Pago_nomina;
+import com.example.demo.entity.DetalleNomina;
+import com.example.demo.entity.FactoresSalariales;
 import com.example.demo.entity.ParametroLegal;
-import com.example.demo.entity.RegistroHoras;
-import com.example.demo.entity.SeguridadSocial;
-import com.example.demo.model.EmpleadoNomina;
-import com.example.demo.service.IservicioNomina;
+import com.example.demo.model.EmpleadoNominaP;
+import com.example.demo.service.IservicioNominaP;
 import com.example.demo.service.ServicioParametrosLegales;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,9 +43,9 @@ public class controladorParametros {
 
 	@Autowired
 	private ServicioParametrosLegales miServicioParametrosLegales;
-
+	
 	@Autowired
-	private IservicioNomina servicioNomina;
+	private IservicioNominaP servicioNominaP;
 
 	@PostMapping(value = "/crear-parametro")
 	public ResponseEntity<ParametroLegal> crearParametroLegal(@Valid @RequestBody ParametroLegal pParametro) {
@@ -58,18 +54,12 @@ public class controladorParametros {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(parametro_creado);
 	}
-
-	@PostMapping(value = "/crearRegistoHoras")
-	@ResponseStatus(HttpStatus.CREATED)
-	public RegistroHoras crearRegistroHoras(@RequestBody @Valid RegistroHoras pRegistroHoras) {
-		return servicioNomina.crearRegistroHoras(pRegistroHoras);
-	}
-
-	@PostMapping(value = "/crearNomina")
-	public ResponseEntity<Nomina> crearNomina(@RequestBody @Valid EmpleadoNomina pEmpleadoNomina) 
+	
+	@PostMapping(value = "/generarDetalleNomina")
+	public ResponseEntity<DetalleNomina> generarNomina(@RequestBody @Valid EmpleadoNominaP pEmpleadoNomina) 
 	{
 
-		Nomina nomina = servicioNomina.CalcularNomina(pEmpleadoNomina);
+		DetalleNomina nomina = servicioNominaP.generarDetalleNomina(pEmpleadoNomina);
 		if (nomina == null) {
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(nomina);
 		}
@@ -98,16 +88,17 @@ public class controladorParametros {
 		return ResponseEntity.ok(parametro);
 	}
 	
-	@GetMapping(value = "/obtenerSeguridadSocialEmpleado/{pNominaId}")
-	public ResponseEntity<SeguridadSocial> SeguridadSocialEmpleado(@PathVariable Long pNominaId)
+	@GetMapping(value = "/pagarDetalleNominaEmpleado/{pContratoId}/{pNominaId}")
+	public ResponseEntity<DetalleNomina> PagarDetalleNominaEmpleado(@PathVariable Long pContratoId, @PathVariable Long pNominaId)
 	{
-		SeguridadSocial seguridadSocial = servicioNomina.buscarSeguridadSocial(pNominaId);
-		if(seguridadSocial == null) 
+		DetalleNomina detalleNomina = servicioNominaP.pagarDetalleNominaEmpleado(pContratoId, pNominaId);
+		if(detalleNomina == null) 
 		{
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(seguridadSocial);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(detalleNomina);
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(seguridadSocial);
+		return ResponseEntity.status(HttpStatus.OK).body(detalleNomina);
 	}
+	
 
 	@GetMapping(value = "/buscar-por-nombre")
 	public ResponseEntity<ParametroLegal> buscarParametroPorNombre(@RequestBody ParametroLegal parametro) {
@@ -124,25 +115,15 @@ public class controladorParametros {
 
 		return ResponseEntity.ok(parametroEncontrado);
 	}
-
-	@PostMapping(value = "/guardarNomina")
-	public ResponseEntity<Nomina> guardarNomina(@RequestBody EmpleadoNomina pEmpleadoNomina) {
-		Nomina nomina = servicioNomina.guardarNomina(pEmpleadoNomina);
-		if (nomina == null) {
-			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(nomina);
+	
+	@PostMapping(value = "/guardarDetalleNomina")
+	public ResponseEntity<DetalleNomina> guardarDeatalleNomina(@RequestBody DetalleNomina pDetalleNomina) {
+		DetalleNomina detalleNomina = servicioNominaP.guardarDetalleNomina(pDetalleNomina);
+		if (detalleNomina == null) {
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(detalleNomina);
 		}
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(nomina);
-	}
-
-	@PostMapping(value = "/pagarNomina/{pIdNomina}")
-	public ResponseEntity<Nomina> pagarNomina(@PathVariable Long pIdNomina) {
-		Nomina nomina = servicioNomina.pagarNomina(pIdNomina);
-		if (nomina == null) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(nomina);
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(nomina);
+		return ResponseEntity.status(HttpStatus.CREATED).body(detalleNomina);
 	}
 
 	@GetMapping
@@ -156,36 +137,37 @@ public class controladorParametros {
 
 		return ResponseEntity.ok(parametrosEncontrados);
 	}
-
-	@GetMapping(value = "/listarPeriodosPagoNomina")
-	public List<Pago_nomina> listarPeriodosPagoNomina() {
-		return servicioNomina.listarPagosNominas();
-	}
-
-	@GetMapping(value = "/listarNominas")
-	public List<Nomina> listarNominas() {
-		return servicioNomina.listarNominas();
-	}
-
-	@GetMapping(value = "/listarFactores")
-	public List<Factores> listarFactores() {
-		return servicioNomina.listarFactores();
-	}
-
-	@GetMapping(value = "/listarRegistroHoras")
-	public List<RegistroHoras> listarRegistrosHoras() {
-		return servicioNomina.ListarRegistroHoras();
+	
+	@GetMapping(value = "/listarDetallesNominas")
+	public ResponseEntity<List<DetalleNomina>> listarDetallesNominas()
+	{
+		List<DetalleNomina> listarDetallesNominas = servicioNominaP.listarDetallesNominas();
+		if(listarDetallesNominas.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listarDetallesNominas);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listarDetallesNominas);
 	}
 	
-	@GetMapping(value = "/listarSeguridadSocial")
-	public ResponseEntity<List<SeguridadSocial>> listarSeguridadSocial()
+	@GetMapping(value = "/listarFactoresSalariales")
+	public ResponseEntity<List<FactoresSalariales>> listarFactoresSalariales()
 	{
-		List<SeguridadSocial> listarSeguridadSocial = servicioNomina.ListaSeguridadSocial();
-		if(listarSeguridadSocial.size()==0){
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listarSeguridadSocial);
+		List<FactoresSalariales> listFacSalariales = servicioNominaP.listarFactoresSalariales();
+		if(listFacSalariales.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listFacSalariales);
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(listarSeguridadSocial);
+		return ResponseEntity.status(HttpStatus.OK).body(listFacSalariales);
 	}
+	
+	@GetMapping(value = "/listarDetallesNominaPorPeriodo")
+	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorPeriodo(@RequestParam String pFechaInicio, @RequestParam String pFechaFin)
+	{
+		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetallesNominaPorPeriodo(pFechaInicio, pFechaFin);
+		if(listDetNomPorPerido.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
 
 	private String formatMessage(BindingResult result) {
 		List<Map<String, String>> errors = result.getFieldErrors().stream().map(err -> {

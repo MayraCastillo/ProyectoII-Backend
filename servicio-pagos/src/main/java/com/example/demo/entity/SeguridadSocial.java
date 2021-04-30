@@ -25,10 +25,10 @@ public class SeguridadSocial {
 	@Column(name = "seg_social_id")
 	private Long seguridaSocialId;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "nominaId")
+	//@OneToOne(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "nominaId")
 	// @NotNull(message = "El valor de la nomina no puede ser nulo")
-	private Nomina nomina;
+	//private Nomina nomina;
 
 	@Column(name = "EPS")
 	@Min(value = 0, message = "El valor del campo EPS no puede ser negativo")
@@ -63,7 +63,7 @@ public class SeguridadSocial {
 	public Double redondeo(Double pValor) {
 		return Math.round(pValor * Math.pow(10, 0)) / Math.pow(10, 0);
 	}
-
+/*
 	public Double getEPS() {
 		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.085);
 	}
@@ -86,6 +86,6 @@ public class SeguridadSocial {
 
 	public Double getCCF() {
 		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.04);
-	}
+	}*/
 
 }

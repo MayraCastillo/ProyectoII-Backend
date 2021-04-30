@@ -11,26 +11,15 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.example.demo.dao.FactoresDAO;
-import com.example.demo.dao.NominaDAO;
-import com.example.demo.dao.Pago_nominaDAO;
-import com.example.demo.dao.RegistroHorasDAO;
-import com.example.demo.entity.Factores;
-import com.example.demo.entity.Nomina;
-import com.example.demo.entity.Pago_nomina;
 import com.example.demo.entity.ParametroLegal;
-import com.example.demo.entity.RegistroHoras;
 import com.example.demo.feign_client.EmpresaClient;
 import com.example.demo.model.Contrato;
-import com.example.demo.model.EmpleadoNomina;
-import com.example.demo.service.IservicioNomina;
-import com.example.demo.service.IservicioNominaImpl;
 import com.example.demo.service.ServicioParametrosLegales;
 
 @SpringBootTest
 public class NominaServiceMockTest {
 
-	@Mock
+	/*@Mock
 	private NominaDAO nominaDao;
 
 	@Mock

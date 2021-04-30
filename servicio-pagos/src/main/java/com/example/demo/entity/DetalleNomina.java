@@ -1,23 +1,18 @@
 package com.example.demo.entity;
 
-import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import com.example.demo.model.Contrato;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.demo.model.DetalleNominaPk;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,34 +23,34 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "nominas")
-public class Nomina implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "nomina_id")
-	private Long nominaId;
+@Table(name = "detalle_nominas")
+public class DetalleNomina {
+
+	@EmbeddedId
+	private DetalleNominaPk detalleNominaPk;
 	
-	@OneToOne(mappedBy = "nomina")
-	@JsonBackReference
-	private SeguridadSocial seguridadSocial;
-
-	@Column(name = "contrato_id")
-	@NotNull(message = "El valor del campo contratoId no puede ser nulo")
-	private Long contratoId;
-
 	@Transient
 	private Contrato contrato;
-
-	@NotNull(message = "El valor del campo pagoNomina no puede ser nulo")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pago_nomina_id")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private Pago_nomina pagoNomina;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fac_sal_id")
+	@JsonManagedReference
+	private FactoresSalariales factoresSalariales;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fac_no_sal_id")
+	@JsonManagedReference
+	private FactoresNoSalariales factoresNoSalariales;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "reg_horas_id")
+	@JsonManagedReference
+	private RegistroHorasP registroHoras;
 
 	@Column(name = "basico_devengado")
 	@Min(value = 0, message = "El valor del campo BasicoDevengado no puede ser negativo")
 	private Double BasicoDevengado;
-
+	
 	@Column(name = "auxilio_transporte")
 	@Min(value = 0, message = "El valor del campo auxilioTransporte no puede ser negativo")
 	private Double auxilioTransporte;
@@ -115,7 +110,5 @@ public class Nomina implements Serializable {
 	@Column(name = "estado")
 	@NotEmpty(message = "El campo estado no puede ser vacio")
 	private String estado;
-
-	private static final long serialVersionUID = -3184154142559365272L;
 
 }
