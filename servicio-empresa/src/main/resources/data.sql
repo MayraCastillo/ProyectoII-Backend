@@ -1212,4 +1212,4 @@ VALUES(1,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios','ACT
 
  
 INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(2,123,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios', 'INACTIVO', 1000000);
+VALUES(2,124,123, NOW(), 1 , NOW(), NOW(), NOW(), 'prestacion de servicios', 'INACTIVO', 1000000);
