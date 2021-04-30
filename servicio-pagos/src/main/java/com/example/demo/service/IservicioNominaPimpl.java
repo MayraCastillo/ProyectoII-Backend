@@ -200,20 +200,19 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 	public DetalleNomina guardarDetalleNomina(DetalleNomina pDetalleNomina) {
 		Date fechaInicio = pDetalleNomina.getDetalleNominaPk().getNomina().getFechaInicio();
 		Date fechaFin = pDetalleNomina.getDetalleNominaPk().getNomina().getFechaFin();
-		NominaP validarnomina = nominaDao.validaNomina(fechaInicio, fechaFin);
 		NominaP nomina = nominaDao.validarPeriodoNomina(this.empleadoNomina.getContratoId(),
 				this.empleadoNomina.getNomina().getFechaFin());
 		if (nomina != null) {
 			return null;
 		}
+		NominaP validarNomina = nominaDao.validaNomina(fechaInicio, fechaFin);
 		
-		if(validarnomina != null) 
-		{
+		if(validarNomina == null) {
 			nomina = nominaDao.save(this.empleadoNomina.getNomina());
+			nomina.setEstado("GUARDADA");
 		}
+		
 		Contrato contrato = empresaClient.buscarContratoPorId(this.empleadoNomina.getContratoId());
-		nomina.setEstado("GUARDADA");
-
 		FactoresSalariales facSalariales = factoresSalarialesDao.save(this.empleadoNomina.getFactoresSalariales());
 		FactoresNoSalariales facNoSalariales = factoresNOsalarialesDao
 				.save(this.empleadoNomina.getFactoresNoSalariales());
@@ -222,6 +221,7 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		pDetalleNomina.setFactoresSalariales(facSalariales);
 		pDetalleNomina.setFactoresNoSalariales(facNoSalariales);
 		pDetalleNomina.setRegistroHoras(registroHoras);
+		pDetalleNomina.getDetalleNominaPk().setNomina(nomina);
 		DetalleNomina detalleNomina = detalleNominaDao.save(pDetalleNomina);
 		detalleNomina.setContrato(contrato);
 		return detalleNomina;
