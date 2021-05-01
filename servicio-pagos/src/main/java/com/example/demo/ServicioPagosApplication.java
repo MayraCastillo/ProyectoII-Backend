@@ -19,9 +19,10 @@ public class ServicioPagosApplication {
 		SpringApplication.run(ServicioPagosApplication.class, args);
 	}
 	
+	
 	@PostConstruct
     void started() {
       TimeZone.setDefault(TimeZone.getTimeZone("UTC-5"));
     }
-
+	
 }

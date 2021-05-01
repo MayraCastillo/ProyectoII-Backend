@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -199,15 +198,21 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 
 	@Override
 	public DetalleNomina guardarDetalleNomina(DetalleNomina pDetalleNomina) {
-		NominaP nomina = nominaDao.validarPeriodoNomina(this.empleadoNomina.getContratoId(),
+		Date fechaInicio = pDetalleNomina.getDetalleNominaPk().getNomina().getFechaInicio();
+		Date fechaFin = pDetalleNomina.getDetalleNominaPk().getNomina().getFechaFin();
+		NominaP validarNomina  = nominaDao.validarPeriodoNomina(this.empleadoNomina.getContratoId(),
 				this.empleadoNomina.getNomina().getFechaFin());
-		if (nomina != null) {
+		if (validarNomina != null) {
 			return null;
 		}
+		validarNomina = nominaDao.validaNomina(fechaInicio, fechaFin);
+		
+		if(validarNomina == null) {
+			validarNomina = nominaDao.save(this.empleadoNomina.getNomina());
+			validarNomina.setEstado("GUARDADA");
+		}
+		
 		Contrato contrato = empresaClient.buscarContratoPorId(this.empleadoNomina.getContratoId());
-		nomina = nominaDao.save(this.empleadoNomina.getNomina());
-		nomina.setEstado("GUARDADA");
-
 		FactoresSalariales facSalariales = factoresSalarialesDao.save(this.empleadoNomina.getFactoresSalariales());
 		FactoresNoSalariales facNoSalariales = factoresNOsalarialesDao
 				.save(this.empleadoNomina.getFactoresNoSalariales());
@@ -216,7 +221,7 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		pDetalleNomina.setFactoresSalariales(facSalariales);
 		pDetalleNomina.setFactoresNoSalariales(facNoSalariales);
 		pDetalleNomina.setRegistroHoras(registroHoras);
-		pDetalleNomina.getDetalleNominaPk().setNomina(nomina);
+		pDetalleNomina.getDetalleNominaPk().setNomina(validarNomina);
 		DetalleNomina detalleNomina = detalleNominaDao.save(pDetalleNomina);
 		detalleNomina.setContrato(contrato);
 		return detalleNomina;
@@ -276,8 +281,9 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 	@Override
 	public List<DetalleNomina> listarDetallesNominaPorPeriodo(String pFechaInicio, String pFechaFin) {
 		Date fechaInicio = ParseFecha(pFechaInicio);
-		Date fechaFin = ParseFecha(pFechaFin);		
-		return detalleNominaDao.ListarDetallesNomPorPeriodo(fechaInicio, fechaFin);
+		Date fechaFin = ParseFecha(pFechaFin);
+		List<DetalleNomina> listaDetalles = detalleNominaDao.ListarDetallesNomPorPeriodo(fechaInicio, fechaFin);
+		return listaDetalles;
 	}
 	
     private Date ParseFecha(String fecha)
@@ -293,7 +299,7 @@ public class IservicioNominaPimpl implements IservicioNominaP {
         }
         return fechaDate;
     }
-
+    
 	@Override
 	public DetalleNomina pagarDetalleNominaEmpleado(Long pContratoId, Long pNominaId) {
 		DetalleNomina detalleNomina = detalleNominaDao.buscarDetalleNomina(pContratoId, pContratoId);

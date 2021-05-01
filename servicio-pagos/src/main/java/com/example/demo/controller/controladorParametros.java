@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.DetalleNomina;
 import com.example.demo.entity.FactoresSalariales;
+import com.example.demo.entity.NominaP;
 import com.example.demo.entity.ParametroLegal;
 import com.example.demo.model.EmpleadoNominaP;
 import com.example.demo.service.IservicioNominaP;
@@ -166,6 +165,16 @@ public class controladorParametros {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
+	@GetMapping(value = "/listarNominas")
+	public ResponseEntity<List<NominaP>> listarNominas()
+	{
+		List<NominaP> listaNominas = servicioNominaP.listarPeridoNominas();
+		if(listaNominas.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listaNominas);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listaNominas);
 	}
 	
 
