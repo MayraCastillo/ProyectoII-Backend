@@ -21,6 +21,7 @@ import com.example.demo.entity.DetalleNomina;
 import com.example.demo.entity.FactoresSalariales;
 import com.example.demo.entity.NominaP;
 import com.example.demo.entity.ParametroLegal;
+import com.example.demo.entity.SeguridadSocial;
 import com.example.demo.model.EmpleadoNominaP;
 import com.example.demo.service.IservicioNominaP;
 import com.example.demo.service.ServicioParametrosLegales;
@@ -175,6 +176,16 @@ public class controladorParametros {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listaNominas);
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(listaNominas);
+	}
+	
+	@GetMapping(value = "/listarSeguridadSocial")
+	public ResponseEntity<List<SeguridadSocial>> listarSeguridadSocial()
+	{
+		List<SeguridadSocial> listaSeguridadSocial = servicioNominaP.ListaSeguridadSocial();
+		if(listaSeguridadSocial.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listaSeguridadSocial);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listaSeguridadSocial);
 	}
 	
 

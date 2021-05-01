@@ -1,38 +1,42 @@
 package com.example.demo;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Date;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import com.example.demo.dao.DetalleNominaDAO;
+import com.example.demo.dao.FactoresNoSalarialesDAO;
+import com.example.demo.dao.FactoresSalarialesDAO;
+import com.example.demo.dao.NominaPDAO;
+import com.example.demo.dao.RegistroHorasPDAO;
+import com.example.demo.entity.FactoresNoSalariales;
+import com.example.demo.entity.FactoresSalariales;
+import com.example.demo.entity.NominaP;
 import com.example.demo.entity.ParametroLegal;
+import com.example.demo.entity.RegistroHorasP;
 import com.example.demo.feign_client.EmpresaClient;
 import com.example.demo.model.Contrato;
+import com.example.demo.model.EmpleadoNominaP;
 import com.example.demo.service.ServicioParametrosLegales;
 
 @SpringBootTest
 public class NominaServiceMockTest {
 
-	/*@Mock
-	private NominaDAO nominaDao;
+	@Mock
+	private DetalleNominaDAO detalleNominaDao;
 
 	@Mock
-	private Pago_nominaDAO pagoNominaDao;
+	private NominaPDAO nominaDao;
 
 	@Mock
-	private RegistroHorasDAO registroHorasDao;
+	private RegistroHorasPDAO registroHorasDao;
 
 	@Mock
-	private FactoresDAO factoresDao;
+	private FactoresSalarialesDAO factoresSalarialesDao;
 
-	@Autowired
-	private IservicioNomina servicioNominaImpl;
+	@Mock
+	private FactoresNoSalarialesDAO factoresNoSalarialesDao;
 
 	@Autowired
 	ServicioParametrosLegales parametrosLegales;
@@ -46,38 +50,54 @@ public class NominaServiceMockTest {
 		return contrato;
 	}
 
-	public RegistroHoras crearRegistroHoras() {
-		RegistroHoras registroHoras = RegistroHoras.builder().contratoId(1L).fechaInicio(new Date())
-				.fechaFin(new Date()).horasTrabajadas(240).extrasDiurnoOrdinaro(3).extrasNoturnoOrdinario(0)
-				.extrasDominicalFestivoDiurno(0).extrasDominicalFestivoNoturno(0).recargoNoturno(1)
-				.recargoDiurnoDominicalFestivo(0).recargoNoturnoDominicalFestivo(0).build();
+	public RegistroHorasP crearRegistroHoras() {
+		RegistroHorasP registroHoras = RegistroHorasP.builder()
+				.horasTrabajadas(240)
+				.extrasDiurnoOrdinaro(3)
+				.extrasNoturnoOrdinario(0)
+				.extrasDominicalFestivoDiurno(0)
+				.extrasDominicalFestivoNoturno(0)
+				.recargoNoturno(1)
+				.recargoDiurnoDominicalFestivo(0)
+				.recargoNoturnoDominicalFestivo(0).build();
 		return registroHoras;
 	}
 
-	public Pago_nomina crearPagoNomina() {
-		Pago_nomina pagoNomina = Pago_nomina.builder().fechaInicio(new Date()).fechaFin(new Date())
-				.detalle("Detalle Nomina").build();
+	public NominaP crearNomina() {
+		NominaP pagoNomina = NominaP.builder()
+				.fechaInicio(new Date())
+				.fechaFin(new Date())
+				.detalle("Detalle Nomina")
+				.estado("Generada").build();
 		return pagoNomina;
 	}
 
-	public Factores crearFactoresSalariales() {
-		Factores factorSalarial = Factores.builder().contratoId(1L).comisiones(80000.0).bonificaciones(10000.0)
-				.auxilioExtra(10000.0).viaticos(10000.0).otros(10000.0).tipo("SALARIAL").build();
+	public FactoresSalariales crearFactoresSalariales() {
+		FactoresSalariales factorSalarial = FactoresSalariales.builder()
+				.comisiones(80000.0)
+				.bonificaciones(10000.0)
+				.auxilioExtra(10000.0)
+				.viaticos(10000.0)
+				.otros(10000.0).build();
 		return factorSalarial;
 	}
 
-	public Factores crearFactoresNoSalariales() {
-		Factores factorSalarial = Factores.builder().contratoId(1L).comisiones(60000.0).bonificaciones(20000.0)
-				.auxilioExtra(20000.0).viaticos(20000.0).otros(20000.0).tipo("NO SALARIAL").build();
+	public FactoresNoSalariales crearFactoresNoSalariales() {
+		FactoresNoSalariales factorSalarial = FactoresNoSalariales.builder()
+				.comisiones(60000.0)
+				.bonificaciones(20000.0)
+				.auxilioExtra(20000.0)
+				.viaticos(20000.0)
+				.otros(20000.0).build();
 		return factorSalarial;
 	}
 
-	public EmpleadoNomina crearEmpleadoNomina() {
+	public EmpleadoNominaP crearEmpleadoNomina() {
 		Contrato contrato = crearContrato();
-		EmpleadoNomina empleadoNomina = EmpleadoNomina.builder().salarioBase(contrato.getSalarioBase())
+		EmpleadoNominaP empleadoNomina = EmpleadoNominaP.builder().salarioBase(contrato.getSalarioBase())
 				.contratoId(contrato.getContratoId()).registroHoras(crearRegistroHoras())
 				.factoresSalariales(crearFactoresSalariales()).factoresNoSalariales(crearFactoresNoSalariales())
-				.pagoNomina(crearPagoNomina()).build();
+				.nomina(crearNomina()).build();
 		return empleadoNomina;
 	}
 
@@ -86,7 +106,7 @@ public class NominaServiceMockTest {
 	}
 
 	public Double calcularBasicoDevengadoPrueba() {
-		EmpleadoNomina empleadoNomina = crearEmpleadoNomina();
+		EmpleadoNominaP empleadoNomina = crearEmpleadoNomina();
 		Integer horasTrabajadas = empleadoNomina.getRegistroHoras().getHorasTrabajadas();
 		Double salarioBase = empleadoNomina.getSalarioBase();
 		Double basicoDevengado = redondeo((salarioBase / 240) * horasTrabajadas);
@@ -111,8 +131,8 @@ public class NominaServiceMockTest {
 	}
 
 	public Double calcularHorasExtrasPrueba() {
-		EmpleadoNomina EmpleadoNomina = crearEmpleadoNomina();
-		RegistroHoras registroHoras = EmpleadoNomina.getRegistroHoras();
+		EmpleadoNominaP EmpleadoNomina = crearEmpleadoNomina();
+		RegistroHorasP registroHoras = EmpleadoNomina.getRegistroHoras();
 		ParametroLegal PorcentajeExtDiurnaOrdinaria = parametrosLegales.buscarParametroPorId(5L);
 		ParametroLegal PorcentajeExtNoturnaOrdinaria = parametrosLegales.buscarParametroPorId(6L);
 		ParametroLegal PorcentajeExtDiurDomOfestiva = parametrosLegales.buscarParametroPorId(7L);
@@ -133,8 +153,8 @@ public class NominaServiceMockTest {
 
 	public Double calcularRecargosPrueba() {
 		Double recargos = 0.0;
-		EmpleadoNomina empleadoNomina = crearEmpleadoNomina();
-		RegistroHoras registroHoras = empleadoNomina.getRegistroHoras();
+		EmpleadoNominaP empleadoNomina = crearEmpleadoNomina();
+		RegistroHorasP registroHoras = empleadoNomina.getRegistroHoras();
 		ParametroLegal pRecargoNoturno = parametrosLegales.buscarParametroPorId(9L);
 		ParametroLegal pRecargoDiurDomOfestivo = parametrosLegales.buscarParametroPorId(10L);
 		ParametroLegal pRecagoNoturDomOfestivo = parametrosLegales.buscarParametroPorId(11L);
@@ -151,14 +171,14 @@ public class NominaServiceMockTest {
 	}
 
 	public Double obtenerComisionesPrueba() {
-		EmpleadoNomina empleadoNomina = crearEmpleadoNomina();
+		EmpleadoNominaP empleadoNomina = crearEmpleadoNomina();
 		return empleadoNomina.getFactoresSalariales().getComisiones();
 	}
 
 	public Double ingresoSalarialPrueba() {
 		Double ingresoSalarial = 0.0;
-		EmpleadoNomina empleadoNomina = crearEmpleadoNomina();
-		Factores factoresSalariales = empleadoNomina.getFactoresSalariales();
+		EmpleadoNominaP empleadoNomina = crearEmpleadoNomina();
+		FactoresSalariales factoresSalariales = empleadoNomina.getFactoresSalariales();
 		ingresoSalarial = redondeo(factoresSalariales.getAuxilioExtra() + factoresSalariales.getBonificaciones()
 				+ factoresSalariales.getComisiones() + factoresSalariales.getOtros()
 				+ factoresSalariales.getViaticos());
@@ -167,8 +187,8 @@ public class NominaServiceMockTest {
 
 	public Double ingresoNoSalarialPrueba() {
 		Double ingresoNoSalarial = 0.0;
-		EmpleadoNomina empleadoNomina = crearEmpleadoNomina();
-		Factores factoresNoSalariales = empleadoNomina.getFactoresSalariales();
+		EmpleadoNominaP empleadoNomina = crearEmpleadoNomina();
+		FactoresNoSalariales factoresNoSalariales = empleadoNomina.getFactoresNoSalariales();
 		ingresoNoSalarial = redondeo(factoresNoSalariales.getAuxilioExtra() + factoresNoSalariales.getBonificaciones()
 				+ factoresNoSalariales.getComisiones() + factoresNoSalariales.getOtros()
 				+ factoresNoSalariales.getViaticos());
@@ -253,12 +273,12 @@ public class NominaServiceMockTest {
 
 	@Test
 	public void ingresoNoSalarial() {
-		assertThat(ingresoNoSalarialPrueba()).isEqualTo(120000.0);
+		assertThat(ingresoNoSalarialPrueba()).isEqualTo(140000.0);
 	}
 
 	@Test
 	public void calcularTotalDevengado() {
-		assertThat(calcularTotalDevengadoPrueba()).isEqualTo(1443537.0);
+		assertThat(calcularTotalDevengadoPrueba()).isEqualTo(1463537.0);
 	}
 
 	@Test
@@ -294,7 +314,7 @@ public class NominaServiceMockTest {
 
 	@Test
 	public void calcularNetoPagado() {
-		assertThat(calcularNetoPagadoPrueba()).isEqualTo(1346171.0);
+		assertThat(calcularNetoPagadoPrueba()).isEqualTo(1366171.0);
 	}
 
 	/*

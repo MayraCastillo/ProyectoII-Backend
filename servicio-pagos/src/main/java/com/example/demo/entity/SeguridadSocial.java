@@ -7,8 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Min;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,10 +27,10 @@ public class SeguridadSocial {
 	@Column(name = "seg_social_id")
 	private Long seguridaSocialId;
 
-	//@OneToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "nominaId")
-	// @NotNull(message = "El valor de la nomina no puede ser nulo")
-	//private Nomina nomina;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumns({ @JoinColumn(name = "contrato_id"), @JoinColumn(name = "nomina_id") })
+	@JsonBackReference
+	private DetalleNomina detalleNomina;
 
 	@Column(name = "EPS")
 	@Min(value = 0, message = "El valor del campo EPS no puede ser negativo")
@@ -63,13 +65,13 @@ public class SeguridadSocial {
 	public Double redondeo(Double pValor) {
 		return Math.round(pValor * Math.pow(10, 0)) / Math.pow(10, 0);
 	}
-/*
+
 	public Double getEPS() {
-		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.085);
+		return redondeo(this.detalleNomina.getDevMenosNoSalMenosAuxTrans() * 0.085);
 	}
 
 	public Double getAFP() {
-		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.12);
+		return redondeo(this.detalleNomina.getDevMenosNoSalMenosAuxTrans() * 0.12);
 	}
 
 	public Double getARL() {
@@ -77,15 +79,15 @@ public class SeguridadSocial {
 	}
 
 	public Double getSENA() {
-		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.02);
+		return redondeo(this.detalleNomina.getDevMenosNoSalMenosAuxTrans() * 0.02);
 	}
 
 	public Double getICBF() {
-		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.03);
+		return redondeo(this.detalleNomina.getDevMenosNoSalMenosAuxTrans() * 0.03);
 	}
 
 	public Double getCCF() {
-		return redondeo(this.nomina.getDevMenosNoSalMenosAuxTrans() * 0.04);
-	}*/
+		return redondeo(this.detalleNomina.getDevMenosNoSalMenosAuxTrans() * 0.04);
+	}
 
 }
