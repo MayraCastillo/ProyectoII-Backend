@@ -38,17 +38,17 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8099/eureka/
+      defaultZone: http://ec2-3-143-222-212.us-east-2.compute.amazonaws.com/eureka/
 
-Feign:
-  hystrix:
-    enabled: true
-    dashboard:
-      proxy-stream-allow-list: "*"
+#Feign:
+#  hystrix:
+#    enabled: true
+#    dashboard:
+#      proxy-stream-allow-list: "*"
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-      base-path: /
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#      base-path: /
