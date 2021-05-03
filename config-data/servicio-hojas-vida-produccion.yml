@@ -39,3 +39,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://ec2-3-143-222-212.us-east-2.compute.amazonaws.com/eureka/
+
+feign:
+  client:
+    url: http://ec2-3-142-91-151.us-east-2.compute.amazonaws.com/
