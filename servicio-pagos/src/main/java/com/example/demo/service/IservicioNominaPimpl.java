@@ -299,7 +299,13 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 	public List<DetalleNomina> listarDetallesNominaPorPeriodo(String pFechaInicio, String pFechaFin) {
 		Date fechaInicio = ParseFecha(pFechaInicio);
 		Date fechaFin = ParseFecha(pFechaFin);
-		List<DetalleNomina> listaDetalles = detalleNominaDao.ListarDetallesNomPorPeriodo(fechaInicio, fechaFin);
+		List<DetalleNomina> listaDetalles = 
+				detalleNominaDao.ListarDetallesNomPorPeriodo(fechaInicio, fechaFin).stream()
+				.map(detalleNomina ->{
+					Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+					detalleNomina.setContrato(contrato);
+					return detalleNomina;
+				}).collect(Collectors.toList());
 		return listaDetalles;
 	}
 

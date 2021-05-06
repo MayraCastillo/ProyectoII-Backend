@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +50,7 @@ public class Empleado implements Serializable {
 	private Municipio municipio;
 	
 	@OneToMany(mappedBy = "empleado_banco_pk.empleado")
-	@JsonManagedReference
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private List<Empleado_banco> listaBancos;
 	
 	@OneToMany(mappedBy = "contratoPk.empleado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -91,7 +91,6 @@ public class Empleado implements Serializable {
 	@Email(message = "Formato email inconrrecto")
 	@NotEmpty(message = "El campo correo no puede ser vacio")
 	private String correo;
-
+	
 	private static final long serialVersionUID = -52362901760841182L;
-
 }
