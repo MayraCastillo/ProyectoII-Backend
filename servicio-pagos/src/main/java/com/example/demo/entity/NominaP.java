@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +36,7 @@ public class NominaP implements Serializable {
 	private Long nominaId;
 
 	@OneToMany(mappedBy = "detalleNominaPk.nomina")
-	@JsonIgnore
+	@JsonBackReference
 	private List<DetalleNomina> listaDetalleNomina;
 
 	@NotNull(message = "El valor del campo fechaInicio no puede ser nulo")

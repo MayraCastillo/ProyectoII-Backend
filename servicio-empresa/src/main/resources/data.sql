@@ -1191,6 +1191,8 @@ INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacim
 
 INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,1,'123456','Ahorros', NOW(), 'ACTIVO');
 INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,2,'1234','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (124,1,'156','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (124,2,'14','Ahorros', NOW(), 'ACTIVO');
 
 /*INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (1,123,NOW(),'ACTIVO');
 INSERT INTO empleados_terceros(terc_id,numero_documento,fecha_vinculacion,estado) VALUES (3,123,NOW(),'ACTIVO');*/
