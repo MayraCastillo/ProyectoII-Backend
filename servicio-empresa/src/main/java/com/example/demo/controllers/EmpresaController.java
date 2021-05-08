@@ -110,14 +110,22 @@ public class EmpresaController {
 
 	@PostMapping(value = "/crearRelacionEmpleadosBancos")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado_banco crearRelacionEmpBanco(@RequestBody @Valid Empleado_banco pEmpleadoBanco) {
-		return contratoService.crearRelacionEmpBanco(pEmpleadoBanco);
+	public ResponseEntity<Empleado_banco> crearRelacionEmpBanco(@RequestBody @Valid Empleado_banco pEmpleadoBanco) {
+		Empleado_banco empleadoBanco = contratoService.crearRelacionEmpBanco(pEmpleadoBanco);
+		if(empleadoBanco == null) 
+		{
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(empleadoBanco);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(empleadoBanco);
 	}
 	
 	@PostMapping(value = "/crearRelacionEmpleadosTerceros")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Empleado_tercero crearRelacionEmpTerceros(@RequestBody @Valid Empleado_tercero pEmpleadoTercero) {
-		return contratoService.crearRelacionEmpTercero(pEmpleadoTercero);
+	public ResponseEntity<Empleado_tercero> crearRelacionEmpTerceros(@RequestBody @Valid Empleado_tercero pEmpleadoTercero) {
+		Empleado_tercero empleadoTercero = contratoService.crearRelacionEmpTercero(pEmpleadoTercero);
+		if(empleadoTercero == null) {
+			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(empleadoTercero);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(empleadoTercero);
 	}
 	
 	@GetMapping(value = "/buscarContratoPorId/{pIdContrato}")
@@ -208,15 +216,17 @@ public class EmpresaController {
 		return contratoService.listarEmpleados();
 	}
 
+	/*
 	@GetMapping("/listarEmpleadosPorEmpresa/{pNitEmpresa}")
 	public List<Empleado> listarEmpleadosPorEmpresa(@PathVariable Long pNitEmpresa ) {
 		return contratoService.listarEmpleadosPorEmpresa(pNitEmpresa);
-	}
+	}*/
 
+	/*
 	@GetMapping("/listarEmpleadosPorEstadoQuery/{pNit}/{pEstado}")
 	public List<Empleado> listarEmpleadosPorEstado(@PathVariable Long pNit, @PathVariable String pEstado) {
 		return contratoService.listarEmpleadosQuery(pNit, pEstado);
-	}
+	}*/
 
 	@GetMapping("/listarEmpleadosPorEstado/{pEstado}")
 	public List<Empleado> listarEmpleadosPorEstado(@PathVariable String pEstado) {
@@ -239,10 +249,11 @@ public class EmpresaController {
 		return ubicacionService.buscarDepartamento(pIdDepartamento);
 	}
 
+	/*
 	@GetMapping("/listarContratos")
 	public List<Contrato> listarContratos() {
 		return contratoService.listarContratos();
-	}
+	}*/
 	
 	@GetMapping("/listarContratosPorEstado/{pNitEmpresa}")
 	public List<Contrato> listarContratosPorEstado(@PathVariable Long pNitEmpresa ) {

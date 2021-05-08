@@ -23,11 +23,11 @@ public interface IcontratoService {
 	public Empleado buscarEmpleadoPorNumeroDocumento(Long pNumeroDocumento);
 	public List<Empleado_banco> buscarRelacionEmpleadoBanco(Long pNumeroDocumento);
 	public List<Empleado> listarEmpleados();
-	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa);
-	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado);
+	//public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa);
+	//public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado);
 	public List<Empleado> listarEmpleadosPorEstado(String pEstado);
 	public List<Banco> listarBancos();
-	public List<Contrato> listarContratos();
+	//public List<Contrato> listarContratos();
 	public List<Contrato> listarContratosPorEstados(Long PNitEmpresa);
 	public List<TipoTercero> listarTipoTeceros();
 	public List<TarifaArl> listarTarifasArl();

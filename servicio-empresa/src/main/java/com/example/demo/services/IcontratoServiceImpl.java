@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,13 +83,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public Empleado_tercero crearRelacionEmpTercero(Empleado_tercero pEmpleadoTercero) {
-		Tercero tercero = terceroDAO.findById(pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getNit())
-				.orElse(null);
+		Tercero tercero = terceroDAO.findByNit(pEmpleadoTercero.getEmpleadoTeceroPk().getTercero().getNit());
 		Empleado_tercero empleadoTercero = empleado_terceroDAO.validacionEmpleadoTercero(
 				tercero.getTipoTercero().getAbreviacion(),
 				pEmpleadoTercero.getEmpleadoTeceroPk().getEmpleado().getNumeroDocumento());
 		if (empleadoTercero != null) {
-			return empleadoTercero;
+			return null;
 		}
 		pEmpleadoTercero.setEstado("ACTIVO");
 		return empleado_terceroDAO.save(pEmpleadoTercero);
@@ -96,13 +96,16 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public Contrato crearContrato(Contrato pContrato) {
+		actualizarEstadoContratos();
 		Long numeroDocumento = pContrato.getContratoPk().getEmpleado().getNumeroDocumento();
 		Long nit = pContrato.getContratoPk().getEmpresa().getNit();
+		Date periodoContrato = pContrato.getContratoPk().getFechaInicioContrato();
 		Contrato contrato = contratoDAO.VerificarContrato(numeroDocumento, nit);
-		if (contrato != null) {
+		Contrato contrato1 = contratoDAO.VerificarPeriodoContrato(numeroDocumento, nit, periodoContrato);
+		if (contrato != null || contrato1 != null) {
 			return null;
 		}
-		pContrato.setEstado("ACTIVO");
+		pContrato.setEstado("EN PRUEBA");
 		return contratoDAO.save(pContrato);
 	}
 
@@ -117,6 +120,12 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public Empleado_banco crearRelacionEmpBanco(Empleado_banco pEmpleadoBanco) {
+		Empleado_banco empleadoBanco = empleado_bancoDAO.validarRelacionEmpleadoBanco(
+				pEmpleadoBanco.getEmpleado_banco_pk().getBanco().getBancoId(),
+				pEmpleadoBanco.getEmpleado_banco_pk().getEmpleado().getNumeroDocumento());
+		if (empleadoBanco != null) {
+			return null;
+		}
 		pEmpleadoBanco.setEstado("ACTIVO");
 		return empleado_bancoDAO.save(pEmpleadoBanco);
 	}
@@ -140,6 +149,7 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public Contrato buscarContratoPorId(Long pIdContrato) {
+
 		return contratoDAO.findById(pIdContrato).orElse(null);
 	}
 
@@ -149,10 +159,10 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return empleadoDAO.findByNumeroDocumento(pNumeroDocumento);
 	}
 
-	@Override
-	public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa) {
-		return empleadoDAO.listarEmpleadosPorEmpresa(pNitEmpresa);
-	}
+	/*
+	 * @Override public List<Empleado> listarEmpleadosPorEmpresa(Long pNitEmpresa) {
+	 * return empleadoDAO.listarEmpleadosPorEmpresa(pNitEmpresa); }
+	 */
 
 	@Override
 	public List<Empleado> listarEmpleadosPorEstado(String pEstado) {
@@ -164,18 +174,28 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return bancoDAO.findAll();
 	}
 
-	@Override
-	public List<Contrato> listarContratos() {
-		return contratoDAO.findAll();
-	}
-
 	private Date validacionFecha() {
 		Date myDate = new Date();
 		return myDate;
 	}
 
+	public LocalDate convertToLocalDateViaSqlDate(Date dateToConvert) {
+		return new java.sql.Date(dateToConvert.getTime()).toLocalDate();
+	}
+
+	private boolean validarPeriodoPrueba(Contrato pContrato) {
+		int diasPruebaTranscurridos = (int)((pContrato.getFechaFinPrueba().getTime()-pContrato.getFechaIncioPrueba().getTime())/86400000);
+		int diasContratoTranscurridos = (int)((validacionFecha().getTime()-pContrato.getFechaIncioPrueba().getTime())/86400000);
+		return diasContratoTranscurridos > diasPruebaTranscurridos;
+	}
+	
+
 	private void actualizarEstadoContratos() {
 		contratoDAO.findAll().forEach(contrato -> {
+
+			if (validarPeriodoPrueba(contrato)) {
+				contrato.setEstado("ACTIVO");
+			}
 			if (contrato.getFechaFinContrato().before(validacionFecha())) {
 				contrato.setEstado("INACTIVO");
 				contratoDAO.save(contrato);
@@ -206,10 +226,10 @@ public class IcontratoServiceImpl implements IcontratoService {
 		return empresaDAO.findAll();
 	}
 
-	@Override
-	public List<Empleado> listarEmpleadosQuery(Long pNit, String pEstado) {
-		return empleadoDAO.listarEmpleadosPorEstado(pNit, pEstado);
-	}
+	/*
+	 * @Override public List<Empleado> listarEmpleadosQuery(Long pNit, String
+	 * pEstado) { return empleadoDAO.listarEmpleadosPorEstado(pNit, pEstado); }
+	 */
 
 	@Override
 	public List<Empleado_banco> listarRelacionEmpBanco() {
