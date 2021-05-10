@@ -168,13 +168,7 @@ public class IcontratoServiceImpl implements IcontratoService {
 	@Override
 	public Contrato buscarContratoPorId(Long pIdContrato) {
 		Contrato contrato = contratoDAO.findById(pIdContrato).orElse(null);
-		if (validarPeriodoPrueba(contrato) && !contrato.getEstado().equalsIgnoreCase("INACTIVO")) {
-			contrato.setEstado("ACTIVO");
-		}
-		if (contrato.getFechaFinContrato().before(validacionFecha())) {
-			contrato.setEstado("INACTIVO");
-		}
-		contratoDAO.save(contrato);
+		this.actualizarEstadoContrato(contrato);
 		return contrato;
 	}
 
@@ -217,17 +211,24 @@ public class IcontratoServiceImpl implements IcontratoService {
 	}
 
 	private void actualizarEstadoContratos() {
-		contratoDAO.findAll().forEach(contrato -> {
-
-			if (validarPeriodoPrueba(contrato) && !contrato.getEstado().equalsIgnoreCase("INACTIVO")) {
-				contrato.setEstado("ACTIVO");
-			}
-			if (contrato.getFechaFinContrato().before(validacionFecha())) {
-				contrato.setEstado("INACTIVO");
-			}
-			contratoDAO.save(contrato);
+		this.actualizarEstadoContratos(contratoDAO.findAll());
+	}
+	
+	private void actualizarEstadoContratos(List<Contrato> pContratos) {
+		pContratos.forEach(contrato -> {
+			this.actualizarEstadoContrato(contrato);
 		});
 
+	}
+	
+	private void actualizarEstadoContrato(Contrato pContrato) {
+		if (validarPeriodoPrueba(pContrato) && !pContrato.getEstado().equalsIgnoreCase("INACTIVO")) {
+			pContrato.setEstado("ACTIVO");
+		}
+		if (pContrato.getFechaFinContrato().before(validacionFecha())) {
+			pContrato.setEstado("INACTIVO");
+		}
+		contratoDAO.save(pContrato);
 	}
 
 	@Override
@@ -285,18 +286,23 @@ public class IcontratoServiceImpl implements IcontratoService {
 
 	@Override
 	public String consultarEstadoEmpleado(Long pNumeroDocumento, Long pNitEmpresa) {
-		String estado = null;
-		if (pNumeroDocumento != null && pNitEmpresa != null) {
-			Contrato contrato = contratoDAO.VerificarContrato(pNumeroDocumento, pNitEmpresa);
-			if (contrato != null) {
-				estado = contrato.getEstado();
-
-				if (contrato.getFechaFinContrato().before(validacionFecha())) {
-					contrato.setEstado("INACTIVO");
-				}
-			}
+		List<Contrato> contratos = this.contratoDAO.listarContratosEmpleado(pNumeroDocumento, pNitEmpresa);
+		
+		if(contratos.size() > 0) {
+			this.actualizarEstadoContratos(contratos);
+			return this.buscarEstadoContratoMasReciente(contratos);
 		}
-		return estado;
+		
+		return null;
+	}
+	
+	private String buscarEstadoContratoMasReciente(List<Contrato> pContratos) {
+		for (Contrato contrato : pContratos) {
+			if(contrato.getEstado().equals("ACTIVO") || contrato.getEstado().equals("EN PRUEBA")){
+				return contrato.getEstado();
+			}
+		};
+		return "INACTIVO";
 	}
 
 	@Override

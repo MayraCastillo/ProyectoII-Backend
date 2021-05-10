@@ -1181,10 +1181,10 @@ INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_ter
 INSERT INTO bancos (nombre,telefono) VALUES ('BBC','3108362213');
 INSERT INTO bancos (nombre,telefono) VALUES ('BANCO DE BOGOTA','3108365179');
 
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (123, 1, 'Ruben', 'Dorado', NOW(), 'CEDULA', '123456785', 'calle 3', 'ACTIVO', 'ruben@unicauca.edu.co');
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (124, 1, 'Hector', 'Meneses', NOW(), 'CEDULA', '124456786', 'calle 4', 'ACTIVO', 'hector@unicauca.edu.co');
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (125, 1, 'Mayra', 'Castillo', NOW(), 'CEDULA', '123456787', 'calle 5', 'ACTIVO', 'mayra@unicauca.edu.co');
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (126, 1, 'Cristian', 'Lopez', NOW(), 'CEDULA', '124456788', 'calle 6', 'ACTIVO', 'cristian@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (123, 396, 'Ruben', 'Dorado', NOW(), 'CEDULA', '123456785', 'calle 3', 'ACTIVO', 'ruben@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (124, 381, 'Hector', 'Meneses', NOW(), 'CEDULA', '124456786', 'calle 4', 'ACTIVO', 'hector@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (125, 640, 'Mayra', 'Castillo', NOW(), 'CEDULA', '123456787', 'calle 5', 'ACTIVO', 'mayra@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (126, 381, 'Cristian', 'Lopez', NOW(), 'CEDULA', '124456788', 'calle 6', 'ACTIVO', 'cristian@unicauca.edu.co');
 
 INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,1,'123456','Ahorros', NOW(), 'ACTIVO');
 INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,2,'1234','Ahorros', NOW(), 'ACTIVO');
