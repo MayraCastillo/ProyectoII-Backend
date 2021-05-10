@@ -56,14 +56,14 @@ public class ContratoServiceMockTest {
 		Mockito.when(contratoDao.VerificarContrato(documento, nit)).thenReturn(contrato);
 		Mockito.when(contratoDao.findAll()).thenReturn(contratos);
 		Mockito.when(contratoDao.save(contrato)).thenReturn(contrato);
-		Mockito.when(contratoDao.listarContratosPorEstado(nit)).thenReturn(contratos);
+		Mockito.when(contratoDao.listarContratos(nit)).thenReturn(contratos);
 	}
 
 	@Test
 	public void whenValidGetNit_thenListContratos() {
 		Contrato contrato = contratoDao.findById(1L).orElse(null);
 		Long nit = contrato.getContratoPk().getEmpresa().getNit();
-		List<Contrato> contratos = contratoServiceImpl.listarContratosPorEstados(nit);
+		List<Contrato> contratos = contratoServiceImpl.listarContratos(nit);
 		assertThat(contratos.get(0).getEstado()).isEqualTo("INACTIVO");
 	}
 

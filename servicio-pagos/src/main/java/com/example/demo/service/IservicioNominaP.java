@@ -21,5 +21,6 @@ public interface IservicioNominaP {
 	public List<FactoresNoSalariales> listarFactoresNoSalariales();
 	public List<RegistroHorasP> ListarRegistroHoras();
 	public List<DetalleNomina> listarDetallesNominaPorPeriodo(String pFechaInicio, String pFechaFin);
+	public List<DetalleNomina> listarDetallesNominaPorEstado(String pFechaInicio, String pFechaFin, String pEstado);
 	public List<SeguridadSocial> ListaSeguridadSocial();
 }

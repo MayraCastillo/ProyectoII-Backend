@@ -18,6 +18,8 @@ public interface IcontratoDAO extends JpaRepository<Contrato,Long> {
 	public Contrato VerificarPeriodoContrato(Long pDocumentoEmpleado, Long pNit, Date pFechaInicio);
 	
 	@Query("SELECT c FROM Contrato c WHERE c.contratoPk.empresa.nit = ?1")
-	public List<Contrato> listarContratosPorEstado(Long pNitEmpresa);
+	public List<Contrato> listarContratos(Long pNitEmpresa);
+	
+	public List<Contrato> findByEstado(String pEstado);
 
 }

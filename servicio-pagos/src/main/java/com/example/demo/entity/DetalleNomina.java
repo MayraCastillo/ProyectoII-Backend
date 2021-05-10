@@ -12,6 +12,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import com.example.demo.model.Contrato;
 import com.example.demo.model.DetalleNominaPk;
+import com.example.demo.model.Nomina;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,9 @@ public class DetalleNomina {
 
 	@EmbeddedId
 	private DetalleNominaPk detalleNominaPk;
+	
+	@Transient
+	private Nomina nomina;
 	
 	@Transient
 	private Contrato contrato;

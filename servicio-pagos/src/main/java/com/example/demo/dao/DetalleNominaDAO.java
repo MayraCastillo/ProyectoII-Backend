@@ -12,7 +12,10 @@ import com.example.demo.model.DetalleNominaPk;
 public interface DetalleNominaDAO extends JpaRepository<DetalleNomina, DetalleNominaPk> {
 	@Query("SELECT d FROM DetalleNomina d WHERE d.detalleNominaPk.nomina.fechaInicio = ?1 AND d.detalleNominaPk.nomina.fechaFin = ?2")
 	public List<DetalleNomina> ListarDetallesNomPorPeriodo(Date pFechaInicio, Date pFechaFin);
+	
 	@Query("SELECT n FROM DetalleNomina n WHERE n.detalleNominaPk.contratoId = ?1 AND n.detalleNominaPk.nomina.nominaId = ?2")
 	public DetalleNomina buscarDetalleNomina(Long pContratoId, Long pNominaId);
 
+	@Query("SELECT d FROM DetalleNomina d WHERE d.detalleNominaPk.nomina.fechaInicio = ?1 AND d.detalleNominaPk.nomina.fechaFin = ?2 AND d.estado = ?3")
+	public List<DetalleNomina> listarDetallesNomPorEstado(Date pFechaInicio, Date pFechaFin, String pEstado);
 }

@@ -24,6 +24,7 @@ import com.example.demo.feign_client.EmpresaClient;
 import com.example.demo.model.Contrato;
 import com.example.demo.model.DetalleNominaPk;
 import com.example.demo.model.EmpleadoNominaP;
+import com.example.demo.model.Nomina;
 
 @Service
 public class IservicioNominaPimpl implements IservicioNominaP {
@@ -72,8 +73,18 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 				.totalDeducciones(totalDeducciones()).netoPagado(netoPagado()).estado("POR PAGAR")
 				.factoresSalariales(pEmpleadoNomina.getFactoresSalariales())
 				.factoresNoSalariales(pEmpleadoNomina.getFactoresNoSalariales())
-				.registroHoras(pEmpleadoNomina.getRegistroHoras()).build();
+				.registroHoras(pEmpleadoNomina.getRegistroHoras())
+				.nomina(fijarValoresNominaDTO(pEmpleadoNomina.getNomina())).build();
 		return detalleNomina;
+	}
+	
+	public Nomina fijarValoresNominaDTO(NominaP pNomina) 
+	{
+		Nomina nominaDTO = Nomina.builder()
+				.fechaInicio(pNomina.getFechaInicio())
+				.fechaFin(pNomina.getFechaFin())
+				.detalle(pNomina.getDetalle()).build();
+		return nominaDTO;
 	}
 
 	public Double basicoDevengado() {
@@ -209,6 +220,7 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 			return null;
 		}
 		NominaP nomina = crearNomina(validarPeriodoNominaEmpleado());
+		pDetalleNomina.setNomina(fijarValoresNominaDTO(nomina));
 		pDetalleNomina.getDetalleNominaPk().setNomina(nomina);
 		pDetalleNomina.setSeguridadSocial(generarSeguridadSocial(pDetalleNomina));
 		DetalleNomina detalleNomina = detalleNominaDao.save(pDetalleNomina);
@@ -246,7 +258,15 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 
 	@Override
 	public List<NominaP> listarPeridoNominas() {
-		return nominaDao.findAll();
+		List<NominaP> listaNominas = nominaDao
+				.findAll().stream().map(nominas ->{
+					nominas.getListaDetalleNomina().forEach(detalleNomina ->{
+						Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+						detalleNomina.setContrato(contrato);
+					});
+					return nominas;
+				}).collect(Collectors.toList());
+		return listaNominas;
 	}
 
 	@Override
@@ -308,6 +328,22 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 				}).collect(Collectors.toList());
 		return listaDetalles;
 	}
+	
+	@Override
+	public List<DetalleNomina> listarDetallesNominaPorEstado(String pFechaInicio, String pFechaFin, String pEstado) {
+		Date fechaInicio = ParseFecha(pFechaInicio);
+		Date fechaFin = ParseFecha(pFechaFin);
+		List<DetalleNomina> listaDetalles = 
+				detalleNominaDao.listarDetallesNomPorEstado(fechaInicio, fechaFin, pEstado).stream()
+				.map(detalleNomina ->{
+					Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+					detalleNomina.setContrato(contrato);
+					return detalleNomina;
+				}).collect(Collectors.toList());
+		return listaDetalles;
+		
+	}
+
 
 	private Date ParseFecha(String fecha) {
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -347,5 +383,6 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		}).collect(Collectors.toList());
 		return listaSeguridadSocial;
 	}
+
 
 }

@@ -73,7 +73,7 @@ public class ContratoRepositoryMockTest {
 		Contrato contrato = crearContrato();
 		contratoDao.save(contrato);
 		entityManager.flush();
-		List<Contrato> contratos = contratoDao.listarContratosPorEstado(contrato.getContratoPk().getEmpresa().getNit()); 
+		List<Contrato> contratos = contratoDao.listarContratos(contrato.getContratoPk().getEmpresa().getNit()); 
 	    assertThat(contratos.size()).isEqualTo(3);
 	}
 

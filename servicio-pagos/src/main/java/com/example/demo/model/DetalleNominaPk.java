@@ -9,8 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import com.example.demo.entity.NominaP;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,7 +29,8 @@ public class DetalleNominaPk implements Serializable
 	@NotNull(message = "El valor del campo pagoNomina no puede ser nulo")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "nomina_id")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonBackReference
 	private NominaP nomina;
 	private static final long serialVersionUID = -5650517956133017833L;
 

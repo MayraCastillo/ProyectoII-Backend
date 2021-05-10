@@ -148,9 +148,34 @@ public class IcontratoServiceImpl implements IcontratoService {
 	}
 
 	@Override
-	public Contrato buscarContratoPorId(Long pIdContrato) {
+	public Empleado inhabilitarEmpleado(Long pNumeroDocumento) {
+		Empleado empleado = empleadoDAO.findByNumeroDocumento(pNumeroDocumento);
+		if(empleado!= null) {
+			empleado.setEstado("INACTIVO");
+		}
+		return empleadoDAO.save(empleado);
+	}
+	
+	@Override
+	public Empleado habilitarEmpleado(Long pNumeroDocumento) {
+		Empleado empleado = empleadoDAO.findByNumeroDocumento(pNumeroDocumento);
+		if(empleado!= null) {
+			empleado.setEstado("ACTIVO");
+		}
+		return empleadoDAO.save(empleado);
+	}
 
-		return contratoDAO.findById(pIdContrato).orElse(null);
+	@Override
+	public Contrato buscarContratoPorId(Long pIdContrato) {
+		Contrato contrato = contratoDAO.findById(pIdContrato).orElse(null);
+		if (validarPeriodoPrueba(contrato) && !contrato.getEstado().equalsIgnoreCase("INACTIVO")) {
+			contrato.setEstado("ACTIVO");
+		}
+		if (contrato.getFechaFinContrato().before(validacionFecha())) {
+			contrato.setEstado("INACTIVO");
+		}
+		contratoDAO.save(contrato);
+		return contrato;
 	}
 
 	@Override
@@ -184,30 +209,37 @@ public class IcontratoServiceImpl implements IcontratoService {
 	}
 
 	private boolean validarPeriodoPrueba(Contrato pContrato) {
-		int diasPruebaTranscurridos = (int)((pContrato.getFechaFinPrueba().getTime()-pContrato.getFechaIncioPrueba().getTime())/86400000);
-		int diasContratoTranscurridos = (int)((validacionFecha().getTime()-pContrato.getFechaIncioPrueba().getTime())/86400000);
+		int diasPruebaTranscurridos = (int) ((pContrato.getFechaFinPrueba().getTime()
+				- pContrato.getFechaIncioPrueba().getTime()) / 86400000);
+		int diasContratoTranscurridos = (int) ((validacionFecha().getTime() - pContrato.getFechaIncioPrueba().getTime())
+				/ 86400000);
 		return diasContratoTranscurridos > diasPruebaTranscurridos;
 	}
-	
 
 	private void actualizarEstadoContratos() {
 		contratoDAO.findAll().forEach(contrato -> {
 
-			if (validarPeriodoPrueba(contrato)) {
+			if (validarPeriodoPrueba(contrato) && !contrato.getEstado().equalsIgnoreCase("INACTIVO")) {
 				contrato.setEstado("ACTIVO");
 			}
 			if (contrato.getFechaFinContrato().before(validacionFecha())) {
 				contrato.setEstado("INACTIVO");
-				contratoDAO.save(contrato);
 			}
+			contratoDAO.save(contrato);
 		});
 
 	}
 
 	@Override
-	public List<Contrato> listarContratosPorEstados(Long pNitEmpresa) {
+	public List<Contrato> listarContratos(Long pNitEmpresa) {
 		actualizarEstadoContratos();
-		return contratoDAO.listarContratosPorEstado(pNitEmpresa);
+		return contratoDAO.listarContratos(pNitEmpresa);
+	}
+	
+	@Override
+	public List<Contrato> listarContratosPorEstado(String pEstado) {
+		actualizarEstadoContratos();
+		return contratoDAO.findByEstado(pEstado);
 	}
 
 	@Override
@@ -265,6 +297,15 @@ public class IcontratoServiceImpl implements IcontratoService {
 			}
 		}
 		return estado;
+	}
+
+	@Override
+	public Contrato finalizarContrato(Long pContratoId) {
+		Contrato contrato = contratoDAO.findById(pContratoId).orElse(null);
+		if(contrato!=null) {
+			contrato.setEstado("INACTIVO");
+		}
+		return contratoDAO.save(contrato);
 	}
 
 }

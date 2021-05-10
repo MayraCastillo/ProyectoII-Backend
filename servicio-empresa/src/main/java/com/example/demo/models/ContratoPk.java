@@ -17,6 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.example.demo.entitys.Empleado;
 import com.example.demo.entitys.Empresa;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ public class ContratoPk implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="numero_documento")
+	//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@NotNull(message = "El campo no empleado no puede ser nulo")
 	private Empleado empleado;

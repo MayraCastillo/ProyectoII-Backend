@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import javax.ws.rs.POST;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +90,7 @@ public class controladorParametros {
 		return ResponseEntity.ok(parametro);
 	}
 	
-	@GetMapping(value = "/pagarDetalleNominaEmpleado/{pContratoId}/{pNominaId}")
+	@PostMapping(value = "/pagarDetalleNominaEmpleado/{pContratoId}/{pNominaId}")
 	public ResponseEntity<DetalleNomina> PagarDetalleNominaEmpleado(@PathVariable Long pContratoId, @PathVariable Long pNominaId)
 	{
 		DetalleNomina detalleNomina = servicioNominaP.pagarDetalleNominaEmpleado(pContratoId, pNominaId);
@@ -162,6 +164,16 @@ public class controladorParametros {
 	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorPeriodo(@RequestParam String pFechaInicio, @RequestParam String pFechaFin)
 	{
 		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetallesNominaPorPeriodo(pFechaInicio, pFechaFin);
+		if(listDetNomPorPerido.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
+	@GetMapping(value = "/listarDetallesNominaPorEstado/{pEstado}")
+	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorEstado(@RequestParam String pFechaInicio, @RequestParam String pFechaFin,@PathVariable String pEstado)
+	{
+		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetallesNominaPorEstado(pFechaInicio, pFechaFin, pEstado);
 		if(listDetNomPorPerido.size()==0){
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
 		}
