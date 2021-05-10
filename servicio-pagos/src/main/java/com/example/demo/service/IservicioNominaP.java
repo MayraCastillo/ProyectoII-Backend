@@ -15,6 +15,7 @@ public interface IservicioNominaP {
 	public DetalleNomina generarDetalleNomina(EmpleadoNominaP pEmpleadoNomina);
 	public DetalleNomina guardarDetalleNomina(DetalleNomina pDetalleNomina);
 	public DetalleNomina pagarDetalleNominaEmpleado(Long pContratoId, Long pNominaId);
+	public DetalleNomina buscarDetalleNomina(Long pContratoId, Long pNominaId);
 	public List<NominaP>listarPeridoNominas();
 	public List<DetalleNomina> listarDetallesNominas();
 	public List<FactoresSalariales> listarFactoresSalariales();

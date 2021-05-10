@@ -101,6 +101,16 @@ public class controladorParametros {
 		return ResponseEntity.status(HttpStatus.OK).body(detalleNomina);
 	}
 	
+	@GetMapping(value = "/buscarDetalleNomina/{pContratoId}/{pNominaId}")
+	public ResponseEntity<DetalleNomina> buscarDetalleNomina(@PathVariable Long pContratoId, @PathVariable Long pNominaId)
+	{
+		DetalleNomina detalleNomina = servicioNominaP.buscarDetalleNomina(pContratoId, pNominaId);
+		if(detalleNomina == null) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(detalleNomina);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(detalleNomina);
+	}
+	
 
 	@GetMapping(value = "/buscar-por-nombre")
 	public ResponseEntity<ParametroLegal> buscarParametroPorNombre(@RequestBody ParametroLegal parametro) {
