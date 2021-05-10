@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.ws.rs.POST;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +27,6 @@ import com.example.demo.service.IservicioNominaP;
 import com.example.demo.service.ServicioParametrosLegales;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-/**
- * Este controlador recibe las peticiones REST que corresponden a la gestion de
- * parametros legales
- * 
- * @author Ruben
- *
- */
 
 @RestController
 @RequestMapping(value = "/parametros")
@@ -180,10 +169,50 @@ public class controladorParametros {
 		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
 	}
 	
+	@GetMapping(value = "/listarDetallesNominaPorContrato/{pContratoId}")
+	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorContrato(@PathVariable Long pContratoId)
+	{
+		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetallesNominaPorContrato(pContratoId);
+		if(listDetNomPorPerido.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
+	@GetMapping(value = "/listarDetallesNominaPorContratoYestado/{pContratoId}/{pEstado}")
+	public ResponseEntity<List<DetalleNomina>> listarDetNominaPorContratoYestado(@PathVariable Long pContratoId,@PathVariable String pEstado)
+	{
+		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetNominaPorContratoYestado(pContratoId, pEstado);
+		if(listDetNomPorPerido.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
 	@GetMapping(value = "/listarDetallesNominaPorEstado/{pEstado}")
 	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorEstado(@RequestParam String pFechaInicio, @RequestParam String pFechaFin,@PathVariable String pEstado)
 	{
 		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetallesNominaPorEstado(pFechaInicio, pFechaFin, pEstado);
+		if(listDetNomPorPerido.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
+	@GetMapping(value = "/listarDetallesNominaPorIdNomina/{pNominaId}")
+	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorIdNomina(@PathVariable Long pNominaId)
+	{
+		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listarDetalleNominaPorIdNomina(pNominaId);
+		if(listDetNomPorPerido.size()==0){
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(listDetNomPorPerido);
+	}
+	
+	@GetMapping(value = "/listarDetallesNominaPorIdNominaYestado/{pNominaId}/{pEstado}")
+	public ResponseEntity<List<DetalleNomina>> listarDetallesNominaPorIdNominaYestado(@PathVariable Long pNominaId,@PathVariable String pEstado)
+	{
+		List<DetalleNomina> listDetNomPorPerido = servicioNominaP.listDetNominaPorIdNominaYestado(pNominaId, pEstado);
 		if(listDetNomPorPerido.size()==0){
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listDetNomPorPerido);
 		}

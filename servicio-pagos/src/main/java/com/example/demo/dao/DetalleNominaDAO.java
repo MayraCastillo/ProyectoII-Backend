@@ -21,4 +21,15 @@ public interface DetalleNominaDAO extends JpaRepository<DetalleNomina, DetalleNo
 	
 	@Query("SELECT d FROM DetalleNomina d WHERE d.detalleNominaPk.contratoId = ?1 ORDER BY d.detalleNominaPk.nomina.nominaId DESC")
 	public List<DetalleNomina> listarDetallesNomPorContrato(Long pContratoId);
+	
+	@Query("SELECT d FROM DetalleNomina d WHERE d.detalleNominaPk.contratoId = ?1 AND d.estado = ?2 ORDER BY d.detalleNominaPk.nomina.nominaId DESC")
+	public List<DetalleNomina> listDetNominaPorContratoYestado(Long pContratoId, String pEstado);
+	
+	@Query("SELECT d FROM DetalleNomina d WHERE d.detalleNominaPk.nomina.nominaId = ?1 ORDER BY d.detalleNominaPk.nomina.nominaId DESC")
+	public List<DetalleNomina> listDetNominaPorIdNomina(Long pNominaId);
+	
+	@Query("SELECT d FROM DetalleNomina d WHERE d.detalleNominaPk.nomina.nominaId = ?1 AND d.estado = ?2 ORDER BY d.detalleNominaPk.nomina.nominaId DESC")
+	public List<DetalleNomina> listDetNominaPorIdNominaYestado(Long pNominaId, String pEstado);
+	
+	
 }

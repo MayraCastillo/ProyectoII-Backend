@@ -336,6 +336,19 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 	}
 	
 	@Override
+	public List<DetalleNomina> listarDetallesNominaPorContrato(Long pContratoId) {
+		List<DetalleNomina> listaDetalleNomina = detalleNominaDao.listarDetallesNomPorContrato(pContratoId).stream()
+				.map(detalleNomina ->{
+					Nomina nomina = fijarValoresNominaDTO(detalleNomina.getDetalleNominaPk().getNomina());
+					Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+					detalleNomina.setContrato(contrato);
+					detalleNomina.setNomina(nomina);
+					return detalleNomina;
+				}).collect(Collectors.toList());
+		return listaDetalleNomina;
+	}
+	
+	@Override
 	public List<DetalleNomina> listarDetallesNominaPorEstado(String pFechaInicio, String pFechaFin, String pEstado) {
 		Date fechaInicio = ParseFecha(pFechaInicio);
 		Date fechaFin = ParseFecha(pFechaFin);
@@ -351,7 +364,51 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		return listaDetalles;
 		
 	}
+	
+	@Override
+	public List<DetalleNomina> listarDetNominaPorContratoYestado(Long pContratoID, String pEstado) {
+		List<DetalleNomina> listaDetalles = 
+				detalleNominaDao.listDetNominaPorContratoYestado(pContratoID, pEstado).stream()
+				.map(detalleNomina ->{
+					Nomina nomina = fijarValoresNominaDTO(detalleNomina.getDetalleNominaPk().getNomina());
+					Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+					detalleNomina.setContrato(contrato);
+					detalleNomina.setNomina(nomina);
+					return detalleNomina;
+				}).collect(Collectors.toList());
+		
+		return listaDetalles;
+	}
+	
+	@Override
+	public List<DetalleNomina> listarDetalleNominaPorIdNomina(Long pNominaId) {
+		List<DetalleNomina> listaDetalles = 
+				detalleNominaDao.listDetNominaPorIdNomina(pNominaId).stream()
+				.map(detalleNomina ->{
+					Nomina nomina = fijarValoresNominaDTO(detalleNomina.getDetalleNominaPk().getNomina());
+					Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+					detalleNomina.setContrato(contrato);
+					detalleNomina.setNomina(nomina);
+					return detalleNomina;
+				}).collect(Collectors.toList());
+		
+		return listaDetalles;
+	}
 
+	@Override
+	public List<DetalleNomina> listDetNominaPorIdNominaYestado(Long pNominaId, String pEstado) {
+		List<DetalleNomina> listaDetalles = 
+				detalleNominaDao.listDetNominaPorIdNominaYestado(pNominaId, pEstado).stream()
+				.map(detalleNomina ->{
+					Nomina nomina = fijarValoresNominaDTO(detalleNomina.getDetalleNominaPk().getNomina());
+					Contrato contrato = empresaClient.buscarContratoPorId(detalleNomina.getDetalleNominaPk().getContratoId());
+					detalleNomina.setContrato(contrato);
+					detalleNomina.setNomina(nomina);
+					return detalleNomina;
+				}).collect(Collectors.toList());
+		
+		return listaDetalles;
+	}
 
 	private Date ParseFecha(String fecha) {
 		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -406,6 +463,5 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		
 		return detalleNomina;
 	}
-
 
 }
