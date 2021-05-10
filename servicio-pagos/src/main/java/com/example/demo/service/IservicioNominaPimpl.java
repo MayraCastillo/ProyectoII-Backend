@@ -11,6 +11,7 @@ import com.example.demo.dao.FactoresNoSalarialesDAO;
 import com.example.demo.dao.FactoresSalarialesDAO;
 import com.example.demo.dao.NominaPDAO;
 import com.example.demo.dao.ParametrosLegalesDAO;
+import com.example.demo.dao.PrestacionesSocialesDAO;
 import com.example.demo.dao.RegistroHorasPDAO;
 import com.example.demo.dao.SeguridadSocialDAO;
 import com.example.demo.entity.DetalleNomina;
@@ -18,6 +19,7 @@ import com.example.demo.entity.FactoresNoSalariales;
 import com.example.demo.entity.FactoresSalariales;
 import com.example.demo.entity.NominaP;
 import com.example.demo.entity.ParametroLegal;
+import com.example.demo.entity.PrestacionesSociales;
 import com.example.demo.entity.RegistroHorasP;
 import com.example.demo.entity.SeguridadSocial;
 import com.example.demo.feign_client.EmpresaClient;
@@ -51,6 +53,9 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 
 	@Autowired
 	private SeguridadSocialDAO seguridadSocialDao;
+	
+	@Autowired
+	private PrestacionesSocialesDAO prestacionesDao;
 
 	@Autowired
 	private EmpresaClient empresaClient;
@@ -223,6 +228,7 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		pDetalleNomina.setNomina(fijarValoresNominaDTO(nomina));
 		pDetalleNomina.getDetalleNominaPk().setNomina(nomina);
 		pDetalleNomina.setSeguridadSocial(generarSeguridadSocial(pDetalleNomina));
+		pDetalleNomina.setPrestacionesSociales(generarPrestacionesSociales(pDetalleNomina));
 		DetalleNomina detalleNomina = detalleNominaDao.save(pDetalleNomina);
 		detalleNomina.setContrato(pDetalleNomina.getContrato());
 		return detalleNomina;
@@ -252,8 +258,13 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 		Double arl = pDetalleNomina.getContrato().getTarifaArl().getCotizacion()
 				* pDetalleNomina.getDevMenosNoSalMenosAuxTrans();
 		SeguridadSocial seguridadSocial = SeguridadSocial.builder()
-				.detalleNomina(pDetalleNomina).ARL(arl).build();
+				.detalleNomina(pDetalleNomina).estado("POR PAGAR").ARL(arl).build();
 		return seguridadSocialDao.save(seguridadSocial);
+	}
+	private PrestacionesSociales generarPrestacionesSociales(DetalleNomina pDetalleNomina) {
+		PrestacionesSociales prestacionesSociales = PrestacionesSociales.builder()
+				.detalleNomina(pDetalleNomina).estado("POR PAGAR").build();
+		return prestacionesDao.save(prestacionesSociales);
 	}
 
 	@Override

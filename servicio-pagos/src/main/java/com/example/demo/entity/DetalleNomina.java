@@ -54,6 +54,10 @@ public class DetalleNomina {
 	@OneToOne(mappedBy = "detalleNomina")
 	@JsonManagedReference
 	private SeguridadSocial seguridadSocial;
+	
+	@OneToOne(mappedBy = "detalleNomina")
+	@JsonManagedReference
+	private PrestacionesSociales prestacionesSociales;
 
 	@Column(name = "basico_devengado")
 	@Min(value = 0, message = "El valor del campo BasicoDevengado no puede ser negativo")

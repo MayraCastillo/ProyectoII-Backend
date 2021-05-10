@@ -34,35 +34,32 @@ public class SeguridadSocial {
 
 	@Column(name = "EPS")
 	@Min(value = 0, message = "El valor del campo EPS no puede ser negativo")
-	// @NotNull(message = "El valor del campo EPS no puede ser nulo")
 	private Double EPS;
 
 	@Column(name = "AFP")
 	@Min(value = 0, message = "El valor del campo AFP no puede ser negativo")
-	// @NotNull(message = "El valor del campo AFP no puede ser nulo")
 	private Double AFP;
 
 	@Column(name = "ARL")
 	@Min(value = 0, message = "El valor del campo ARL no puede ser negativo")
-	// @NotNull(message = "El valor del campo ARL no puede ser nulo")
 	private Double ARL;
 
 	@Column(name = "SENA")
 	@Min(value = 0, message = "El valor del campo SENA no puede ser negativo")
-	// @NotNull(message = "El valor del campo SENA no puede ser nulo")
 	private Double SENA;
 
 	@Column(name = "ICBF")
 	@Min(value = 0, message = "El valor del campo ICBF no puede ser negativo")
-	// @NotNull(message = "El valor del campo ICBF no puede ser nulo")
 	private Double ICBF;
 
 	@Column(name = "CCF")
 	@Min(value = 0, message = "El valor del campo CCF no puede ser negativo")
-	// @NotNull(message = "El valor del campo CCF no puede ser nulo")
 	private Double CCF;
 
-	public Double redondeo(Double pValor) {
+	@Column(name = "estado")
+	private String estado;
+
+	private Double redondeo(Double pValor) {
 		return Math.round(pValor * Math.pow(10, 0)) / Math.pow(10, 0);
 	}
 
