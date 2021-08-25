@@ -39,7 +39,7 @@ public class Tercero {
 	@Positive(message = "El valor del campo nit deber ser mayor que cero")
 	private Long nit;
 	
-	@NotNull(message = "El municipio no puede ser nulo")
+	//@NotNull(message = "El municipio no puede ser nulo")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@JoinColumn(name = "mun_id")
@@ -63,7 +63,7 @@ public class Tercero {
 	@Size(min = 7,max = 10,message = "El numero de telefono deber ser mayor a 6 y menor a 11")
 	private String telefono;
 
-	@NotNull(message = "El campo tipoTercero no puede ser vacio")
+	//@NotNull(message = "El campo tipoTercero no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tipo_tercero_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
