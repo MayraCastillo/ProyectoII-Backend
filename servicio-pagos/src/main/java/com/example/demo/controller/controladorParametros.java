@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,7 +120,7 @@ public class controladorParametros {
 	}
 	
 	@PostMapping(value = "/guardarDetalleNomina")
-	public ResponseEntity<DetalleNomina> guardarDeatalleNomina(@RequestBody EmpleadoNominaP empleadoNomina) {
+	public ResponseEntity<DetalleNomina> guardarDeatalleNomina(@RequestBody @Valid EmpleadoNominaP empleadoNomina) {
 		DetalleNomina detalleNomina = servicioNominaP.guardarDetalleNomina(empleadoNomina);
 		if (detalleNomina == null) {
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(detalleNomina);

@@ -219,7 +219,7 @@ public class IservicioNominaPimpl implements IservicioNominaP {
 
 	@Override
 	public DetalleNomina guardarDetalleNomina(EmpleadoNominaP empleadoNomina) {
-		DetalleNomina detalleNomina = this.generarDetalleNomina(null);
+		DetalleNomina detalleNomina = this.generarDetalleNomina(empleadoNomina);
 
 		if (validarExistenciaNomina(empleadoNomina)) {
 			return null;
