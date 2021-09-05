@@ -13,7 +13,7 @@ import com.example.demo.model.EmpleadoNominaP;
 public interface IservicioNominaP {
 	public NominaP crearNomina(NominaP pNomina);
 	public DetalleNomina generarDetalleNomina(EmpleadoNominaP pEmpleadoNomina);
-	public DetalleNomina guardarDetalleNomina(DetalleNomina pDetalleNomina);
+	public DetalleNomina guardarDetalleNomina(EmpleadoNominaP empleadoNomina);
 	public DetalleNomina pagarDetalleNominaEmpleado(Long pContratoId, Long pNominaId);
 	public DetalleNomina buscarDetalleNomina(Long pContratoId, Long pNominaId);
 	public List<NominaP>listarPeridoNominas();

@@ -118,8 +118,8 @@ public class controladorParametros {
 	}
 	
 	@PostMapping(value = "/guardarDetalleNomina")
-	public ResponseEntity<DetalleNomina> guardarDeatalleNomina(@RequestBody DetalleNomina pDetalleNomina) {
-		DetalleNomina detalleNomina = servicioNominaP.guardarDetalleNomina(pDetalleNomina);
+	public ResponseEntity<DetalleNomina> guardarDeatalleNomina(@RequestBody EmpleadoNominaP empleadoNomina) {
+		DetalleNomina detalleNomina = servicioNominaP.guardarDetalleNomina(empleadoNomina);
 		if (detalleNomina == null) {
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(detalleNomina);
 		}
