@@ -95,8 +95,8 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		this.servicioUbicacion.agregarUbicacionAHojasVida(hojasVidaDTO);
 		
 		// Agregar el estado del dueño de la hoja de vida en la empresa especificada
-		// TODO por ahora, solo para la empresa con nit 123
-		this.agregarEstadoAHojasVidaDTO(hojasVidaDTO, "123");
+		// TODO por ahora, solo para la empresa con nit 302228024
+		this.agregarEstadoAHojasVidaDTO(hojasVidaDTO, "302228024");
 		
 		return hojasVidaDTO;
 	}
@@ -113,8 +113,8 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);
 				
 				// Agregar el estado del dueño de la hoja de vida en la empresa especificada
-				// TODO por ahora, solo para la empresa con nit 123
-				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "123");
+				// TODO por ahora, solo para la empresa con nit 302228024
+				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "302228024");
 			}
 		}
 		return hvDTOEncontrada;
@@ -132,8 +132,8 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 				this.servicioUbicacion.agregarUbicacionAHojaVida(hvDTOEncontrada);	
 				
 				// Agregar el estado del dueño de la hoja de vida en la empresa especificada
-				// TODO por ahora, solo para la empresa con nit 123
-				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "123");
+				// TODO por ahora, solo para la empresa con nit 302228024
+				this.agregarEstadoAHojaVidaDTO(hvDTOEncontrada, "302228024");
 			}
 		}
 		return hvDTOEncontrada;
@@ -219,7 +219,7 @@ public class ServicioHojasVidaImpl implements IntServicioHojasVida{
 		
 		if(hv != null) {
 			// validar que no se elimine una hoja de vida de empleado que no sea prospecto
-			String estado = this.servicioEmpresa.consultarEstadoPersona(hv.getNumeroDocumento(), "123");
+			String estado = this.servicioEmpresa.consultarEstadoPersona(hv.getNumeroDocumento(), "302228024");
 			if( ! estado.equals("PROSPECTO")) {
 				System.out.println("Error al eliminar hv, la persona debe ser un prospecto para poder eliminar");
 				return null;

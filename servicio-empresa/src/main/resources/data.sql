@@ -1165,6 +1165,7 @@ VALUES
 (1125, 33, 760, 'SAN JOSE DE OCUNE'),
 (1126, 33, 773, 'CUMARIBO');
 
+
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Empresa de salud', 'EPS');
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Administradora de fondos de pensiones y de cesantías', 'AFP');
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Administradora de riesgos laborales', 'ARL');
@@ -1173,30 +1174,58 @@ INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Servicio nacional de ap
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Institulo colombiano de bienestar familiar', 'ICBF');
 INSERT INTO tipo_terceros (nombre, abreviacion) VALUES ('Escuela superior de administracion publica', 'ESAP');
 
-INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (123, 1, 'tercero salud', 'Carrera 21A', 'tecero@hotmail.com', '1234', 1, 'ACTIVO');
-INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (124, 1, 'tercero salud 2', 'Carrera 22A', 'tecero2@hotmail.com', '1235', 1, 'ACTIVO');
-INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (125, 1, 'tercero fondos de pensiones y cesantias', 'Carrera 23A', 'tecero3@hotmail.com', '1236', 2, 'ACTIVO');
-INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (126, 1, 'tercero riesgos laborales', 'Carrera 24A', 'tecero4@hotmail.com', '1237', 3, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (123, 1, 'Alian Salud EPS', 'Carrera 21A', 'tecero@hotmail.com', '1234', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (124, 1, 'Salud Total S.A', 'Carrera 22A', 'tecero2@hotmail.com', '1235', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (125, 1, 'Cafesalud EPS', 'Carrera 23A', 'tecero3@hotmail.com', '1236', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (126, 1, 'E.P.S Sanitas', 'Carrera 24A', 'tecero4@hotmail.com', '1237', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (127, 1, 'Coomeva EPS', 'Carrera 25A', 'tecero5@hotmail.com', '1238', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (128, 1, 'Cruz Blanca S.A', 'Carrera 26A', 'tecero6@hotmail.com', '1239', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (129, 1, 'Saludvida S.A EPS', 'Carrera 27A', 'tecero7@hotmail.com', '1240', 1, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (130, 1, 'Nueva EPS', 'Carrera 28A', 'tecero8@hotmail.com', '1241', 1, 'ACTIVO');
+
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (131, 1, 'Protección', 'Carrera 29A', 'tecero9@hotmail.com', '1242', 2, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (132, 1, 'Porvenir', 'Carrera 30A', 'tecero10@hotmail.com', '1243', 2, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (133, 1, 'Colfondos', 'Carrera 21A', 'tecero11@hotmail.com', '1244', 2, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (134, 1, 'Caja de Auxilios y de Prestaciones ACDAC', 'Carrera 32A', 'tecero12@hotmail.com', '1245', 2, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (135, 1, 'Fondo de Previsión Social del Congreso', 'Carrera 33A', 'tecero13@hotmail.com', '1246', 2, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (136, 1, 'Pensiones de Antioquia', 'Carrera 34A', 'tecero14@hotmail.com', '1247', 2, 'ACTIVO');
+
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (137, 1, 'A.R.L Seguros de Vida Colpatria S.A', 'Carrera 35A', 'tecero15@hotmail.com', '1248', 3, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (138, 1, 'ARL Sura', 'Carrera 36A', 'tecero16@hotmail.com', '1249', 3, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (139, 1, 'Seguros de Vida Aurora', 'Carrera 37A', 'tecero17@hotmail.com', '1250', 3, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (140, 1, 'Colmena Riesgos Profesionales', 'Carrera 38A', 'tecero18@hotmail.com', '1251', 3, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (141, 1, 'La Equidad Seguros de Vida', 'Carrera 39A', 'tecero19@hotmail.com', '1252', 3, 'ACTIVO');
+
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (142, 1, 'Camacol', 'Carrera 40A', 'tecero20@hotmail.com', '1253', 4, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (143, 1, 'Comfaboy', 'Carrera 41A', 'tecero21@hotmail.com', '1254', 4, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (144, 1, 'CCF de Caldas', 'Carrera 42A', 'tecero22@hotmail.com', '1255', 4, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (145, 1, 'Comfacauca', 'Carrera 43A', 'tecero23@hotmail.com', '1256', 4, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (146, 1, 'Cafam', 'Carrera 44A', 'tecero24@hotmail.com', '1257', 4, 'ACTIVO');
+
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (147, 1, 'Servicio Nacional de Aprendizaje SENA', 'Carrera 45A', 'tecero25@hotmail.com', '1258', 5, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (148, 1, 'Instituto Colombiano de Bienestar Familiar', 'Carrera 46A', 'tecero26@hotmail.com', '1259', 6, 'ACTIVO');
+INSERT INTO terceros (nit, mun_id, nombre, direccion, correo, telefono, tipo_tercero_id, estado) VALUES (149, 1, 'Escuela Superior de Administración Pública', 'Carrera 47A', 'tecero27@hotmail.com', '1260', 7, 'ACTIVO');
+
 
 INSERT INTO bancos (nombre,telefono) VALUES ('BBC','3108362213');
 INSERT INTO bancos (nombre,telefono) VALUES ('BANCO DE BOGOTA','3108365179');
 
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (123, 396, 'Ruben', 'Dorado', NOW(), 'CEDULA', '123456785', 'calle 3', 'ACTIVO', 'ruben@unicauca.edu.co');
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (124, 381, 'Hector', 'Meneses', NOW(), 'CEDULA', '124456786', 'calle 4', 'ACTIVO', 'hector@unicauca.edu.co');
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (125, 640, 'Mayra', 'Castillo', NOW(), 'CEDULA', '123456787', 'calle 5', 'ACTIVO', 'mayra@unicauca.edu.co');
-INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (126, 381, 'Cristian', 'Lopez', NOW(), 'CEDULA', '124456788', 'calle 6', 'ACTIVO', 'cristian@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (1083347592, 396, 'Ruben', 'Dorado', NOW(), 'CEDULA', '123456785', 'calle 3', 'ACTIVO', 'ruben@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (1082483783, 381, 'Hector', 'Meneses', NOW(), 'CEDULA', '124456786', 'calle 4', 'ACTIVO', 'hector@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado,  correo) VALUES (1083921948, 640, 'Mayra', 'Castillo', NOW(), 'CEDULA', '123456787', 'calle 5', 'ACTIVO', 'mayra@unicauca.edu.co');
+INSERT INTO empleados (numero_documento, mun_id, nombres, apellidos, fecha_nacimiento, tipo_documento, telefono, direccion, estado, correo) VALUES (1083123564, 381, 'Cristian', 'Lopez', NOW(), 'CEDULA', '124456788', 'calle 6', 'ACTIVO', 'cristian@unicauca.edu.co');
 
-INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,1,'123456','Ahorros', NOW(), 'ACTIVO');
-INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (123,2,'1234','Ahorros', NOW(), 'ACTIVO');
-INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (124,1,'156','Ahorros', NOW(), 'ACTIVO');
-INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (124,2,'14','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (1083347592,1,'123456','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (1083347592,2,'1234','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (1082483783,1,'156','Ahorros', NOW(), 'ACTIVO');
+INSERT INTO empleados_bancos(numero_documento,banco_id,numero_cuenta,tipo_cuenta,fecha, estado) VALUES (1082483783,2,'14','Ahorros', NOW(), 'ACTIVO');
 
-INSERT INTO empleados_terceros(nit, numero_documento,fecha_vinculacion,estado) VALUES (123,123,NOW(),'ACTIVO');
-INSERT INTO empleados_terceros(nit, numero_documento,fecha_vinculacion,estado) VALUES (125,123,NOW(),'ACTIVO');
+INSERT INTO empleados_terceros(nit, numero_documento,fecha_vinculacion,estado) VALUES (123,1083347592,NOW(),'ACTIVO');
+INSERT INTO empleados_terceros(nit, numero_documento,fecha_vinculacion,estado) VALUES (125,1083347592,NOW(),'ACTIVO');
 
 
-INSERT INTO empresas (nit, nombre, telefono, direccion, frecuencia_pago) VALUES (123, 'Restaurante PRO', '3124567834', 'Trasv 9 #56 con calle 5', 'MENSUAL');
-INSERT INTO empresas (nit, nombre, telefono, direccion, frecuencia_pago) VALUES (124, 'Seguros SA', '3124567833', 'Trasv 9 #54 con calle 5', 'MENSUAL');
+INSERT INTO empresas (nit, nombre, telefono, direccion, frecuencia_pago) VALUES (302228024, 'Restaurante PRO', '3124567834', 'Trasv 9 #56 con calle 5', 'MENSUAL');
+INSERT INTO empresas (nit, nombre, telefono, direccion, frecuencia_pago) VALUES (876543201, 'Seguros SA', '3124567833', 'Trasv 9 #54 con calle 5', 'MENSUAL');
 
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 1', 0.522);
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 2', 1.044);
@@ -1204,10 +1233,10 @@ INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 3', 2.436);
 INSERT INTO tarifas_arl (nivel, cotizacion) VALUES ('Riesgo 4', 4.350);
  
 INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(1,123,123, '2021-01-07', 1 , '2021-05-07', '2021-01-08', '2021-02-08', 'prestacion de servicios','EN PRUEBA', 1000000);
+VALUES(1,1083347592,302228024, '2021-01-07', 1 , '2021-12-07', '2021-01-08', '2021-02-08', 'prestacion de servicios','ACTIVO', 1000000);
 
 INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(2,124,123, '2021-02-01', 1 , '2021-06-01', '2021-02-01', '2021-03-01', 'prestacion de servicios', 'EN PRUEBA', 1000000);
+VALUES(2,1082483783,302228024, '2021-02-01', 1 , '2021-11-01', '2021-02-01', '2021-03-01', 'prestacion de servicios', 'ACTIVO', 1000000);
 
 INSERT INTO contratos (contrato_id, numero_documento, nit, fecha_inicio_contrato, arl_id, fecha_fin_contrato, fecha_inicio_prueba, fecha_fin_prueba, tipo, estado, salario_base)
-VALUES(3,125,123, '2021-05-01', 1 , '2021-08-01', '2021-05-01', '2021-06-01', 'prestacion de servicios', 'EN PRUEBA', 1000000);
+VALUES(3,1083921948,302228024, '2021-05-01', 1 , '2021-10-20', '2021-05-01', '2021-06-01', 'prestacion de servicios', 'ACTIVO', 1000000);
